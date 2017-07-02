@@ -199,6 +199,10 @@ module.exports = {
                   ],
                   flexbox: 'no-2009',
                 }),
+                /* enable css @imports like Sass/Less */
+                require('postcss-import'),
+                /* enable nested css selectors like Sass/Less */
+                require('postcss-nested'),
               ],
             },
           },
