@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 
-import './MovieItem.css';
+import './Movie.css';
 
-import {FormatList} from '../FormatList';
+import {FormatList} from '../../Format';
 
-class MovieItem extends Component {
+class Movie extends Component {
   render() {
     let movie = this.props.movie;
     return (
@@ -25,4 +25,4 @@ class MovieItem extends Component {
   }
 }
 
-export default MovieItem;
+export default Movie;

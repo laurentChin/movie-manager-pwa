@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import { MovieList } from './Components/MovieList';
+import { MovieList } from './Movie';
 import { Movies } from './Fixtures';
 
 class App extends Component {

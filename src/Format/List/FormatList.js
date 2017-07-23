@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './FormatList.css';
 
-import { Format } from '../Format';
+import { Format } from '../';
 
 class FormatList extends Component {
   render() {
