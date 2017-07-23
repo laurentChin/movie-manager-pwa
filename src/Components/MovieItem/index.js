@@ -1,3 +1,3 @@
-import MovieItem from './MovieItem';
+import MovieItem from '../MovieItem/MovieItem';
 
 export { MovieItem };
