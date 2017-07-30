@@ -7,11 +7,6 @@ import './App.css';
 import { MovieList } from './Movie';
 
 class App extends Component {
-
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchMovies());
