@@ -2,7 +2,7 @@ import { REQUEST_MOVIES, RECEIVE_MOVIES } from './ActionTypes';
 
 const initialState = {
   isFetching: false,
-  movies: []
+  items: []
 };
 
 const movies = ( state = initialState, action ) => {
@@ -16,7 +16,7 @@ const movies = ( state = initialState, action ) => {
       return {
         ...state,
         isFetching: false,
-        movies: action.movies
+        items: action.movies
       }
     default:
       return state;
