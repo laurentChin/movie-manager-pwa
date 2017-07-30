@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import { FormattedDate } from 'react-intl';
 
 import './Movie.css';
 
@@ -15,7 +16,7 @@ class Movie extends Component {
           <small>{movie.originalTitle}</small>
           <section className="infos">
             <span className="duration">{movie.duration}</span>
-            <span className="theater-release-Date">{movie.theaterReleaseDate}</span>
+            <FormattedDate className="theater-release-Date" value={new Date(movie.theaterReleaseDate * 1000)}/>
             <FormatList formats={movie.formats}/>
           </section>
           <p>{movie.synopsis}</p>
