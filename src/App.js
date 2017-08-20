@@ -1,38 +1,24 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchMovies } from './Movie/Actions';
+
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom';
 
 import './App.css';
 
-import { MovieList } from './Movie';
+import Home from "./Home";
 
 class App extends Component {
-  componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchMovies());
-  }
-
   render() {
     return (
-      <div className="App">
-        {!this.props.isFetching
-          && this.props.movies.length > 0
-          && <MovieList movies={this.props.movies} />}
-      </div>
+      <Router>
+        <div>
+          <Route exact path="/" component={Home}/>
+        </div>
+      </Router>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  const {isFetching, items: movies} = state.movies || {
-    isFetching: true,
-    movies: []
-  };
-
-  return {
-    isFetching,
-    movies
-  }
-}
-
-export default connect(mapStateToProps)(App);
+export default App;
