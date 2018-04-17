@@ -12,11 +12,12 @@ class Home extends Component {
   }
 
   render() {
+    const movies = this.props.movies || [];
     return (
       <div>
         {!this.props.isFetching
-        && this.props.movies.length > 0
-        && <MovieList movies={this.props.movies} />}
+        && movies.length > 0
+        && <MovieList movies={movies} />}
       </div>
     )
   }
