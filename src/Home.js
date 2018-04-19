@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { fetchMovies } from './Movie/Actions';
 import MovieList from "./Movie/List/MovieList";
+import { withAuth } from "./Auth";
 
 class Home extends Component {
 
@@ -35,4 +36,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(withAuth(Home));

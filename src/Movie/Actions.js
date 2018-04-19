@@ -1,5 +1,7 @@
 import { REQUEST_MOVIES, RECEIVE_MOVIES } from './ActionTypes';
 
+import api from '../core/Api';
+
 export const requestAll = () => {
   return {
     type: REQUEST_MOVIES
@@ -17,11 +19,7 @@ export const fetchMovies = () => {
   return (dispatch) => {
     dispatch(requestAll());
 
-    return fetch('http://localhost:5000/movies')
-      .then(
-        response => response.json(),
-        console.error
-      )
+    return api.fetchMovies()
       .then(
         json => dispatch(receiveAll(json))
       )

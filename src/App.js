@@ -5,20 +5,37 @@ import {
   Route
 } from 'react-router-dom';
 
+import {connect} from "react-redux";
+
 import './App.css';
 
 import Home from "./Home";
+import { Auth, AuthContext } from "./Auth";
 
 class App extends Component {
+  componentDidMount() {
+    if (!this.props.isAuthenticated && !/^\/login/.test(window.location.pathname)) {
+      window.location.replace('/login');
+    }
+  }
+
   render() {
     return (
       <Router>
-        <div>
+        <AuthContext.Provider>
           <Route exact path="/" component={Home}/>
-        </div>
+          <Route path="/login" component={Auth}/>
+        </AuthContext.Provider>
       </Router>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  const {isAuthenticated} = state.auth;
+  return {
+    isAuthenticated
+  }
+}
+
+export default connect(mapStateToProps)(App);

@@ -1,0 +1,14 @@
+.login-options-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .facebook-login-btn {
+        background-color: #3b5998;
+        color: #fff;
+        padding: 5px;
+        border-radius: 4px;
+    }
+}
