@@ -5,7 +5,7 @@ const initialState = {
   items: []
 };
 
-const movies = ( state = initialState, action ) => {
+const movieReducer = ( state = initialState, action ) => {
   switch (action.type) {
     case REQUEST_MOVIES:
       return {
@@ -23,4 +23,4 @@ const movies = ( state = initialState, action ) => {
   }
 }
 
-export default movies;
+export default movieReducer;
