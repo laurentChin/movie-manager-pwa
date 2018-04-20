@@ -11,14 +11,14 @@ class Movie extends Component {
     let movie = this.props.movie;
     return (
       <div className="movie-item">
-        <img src={movie.cover} alt={movie.title}/>
+        {movie.cover && <img src={movie.cover} alt={movie.title}/>}
         <section className="movie-item__content">
           <h3>{movie.title}</h3>
-          <small>{movie.originalTitle}</small>
+          {movie.originalTitle && <small>{movie.originalTitle}</small>}
           <section className="infos">
-            <Duration className="duration" value={movie.duration} />
-            <FormattedDate className="theater-release-Date" value={new Date(movie.theaterReleaseDate * 1000)}/>
-            <FormatList formats={movie.formats}/>
+            {movie.duration && <Duration className="duration" value={movie.duration} />}
+            <FormattedDate className="theater-release-Date" value={new Date(movie.releaseDate)}/>
+            {movie.formats && <FormatList formats={movie.formats}/>}
           </section>
           <p>{movie.synopsis}</p>
         </section>
