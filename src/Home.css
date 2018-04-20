@@ -1,0 +1,44 @@
+.home-container {
+    display: grid;
+    grid-template-areas:
+            "count add"
+            "movies movies";
+    max-width: 100vw;
+    overflow: hidden;
+    .movie-count, .add-movie-btn {
+        height: 40px;
+    }
+
+    .movie-count {
+        grid-area: count;
+    }
+
+    .add-movie-btn {
+        grid-area: add;
+        text-align: right;
+    }
+
+    .movie-list {
+        grid-area: movies;
+    }
+
+    @media screen and (max-width: 400px) {
+        display: flex;
+        flex-direction: column;
+        padding: 40px 0;
+
+        .movie-count, .add-movie-btn {
+            position: fixed;
+        }
+
+        .movie-count {
+            top: 0;
+            left: 0;
+        }
+
+        .add-movie-btn {
+            bottom: 0;
+            right: 0;
+        }
+    }
+}

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {Link} from 'react-router-dom';
+
+import './Home.css';
 
 import { fetchMovies } from './Movie/Actions';
 import MovieList from "./Movie/List/MovieList";
@@ -15,10 +18,12 @@ class Home extends Component {
   render() {
     const movies = this.props.movies || [];
     return (
-      <div>
+      <div className="home-container">
+        <span className="movie-count">You own {movies.length} movies</span>
         {!this.props.isFetching
         && movies.length > 0
         && <MovieList movies={movies} />}
+        <Link to="/movies/create" className="add-movie-btn">Add</Link>
       </div>
     )
   }
