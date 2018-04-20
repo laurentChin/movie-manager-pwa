@@ -11,6 +11,7 @@ import './App.css';
 
 import Home from "./Home";
 import { Auth, AuthContext } from "./Auth";
+import { FormPage } from "./Movie";
 
 class App extends Component {
   componentDidMount() {
@@ -24,6 +25,7 @@ class App extends Component {
       <Router>
         <AuthContext.Provider>
           <Route exact path="/" component={Home}/>
+          <Route exact path="/movies/create" component={FormPage}/>
           <Route path="/login" component={Auth}/>
         </AuthContext.Provider>
       </Router>

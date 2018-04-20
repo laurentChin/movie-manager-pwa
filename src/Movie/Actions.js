@@ -1,4 +1,10 @@
-import { REQUEST_MOVIES, RECEIVE_MOVIES } from './ActionTypes';
+import {
+  REQUEST_MOVIES,
+  RECEIVE_MOVIES,
+  MOVIE_CREATION_PENDING,
+  MOVIE_CREATION_SUCCESS,
+  MOVIE_CREATION_FAILURE
+} from './ActionTypes';
 
 import api from '../core/Api';
 
@@ -26,8 +32,31 @@ const fetchMovies = () => {
   }
 }
 
+const createMovie = (movie) => {
+  return (dispatch) => {
+    dispatch({
+      type: MOVIE_CREATION_PENDING
+    });
+
+    return api.createMovie(movie)
+      .then(
+        json => dispatch({
+          type: MOVIE_CREATION_SUCCESS,
+          movie: json
+        })
+      )
+      .catch(e => {
+        dispatch({
+          type: MOVIE_CREATION_FAILURE,
+          error: e
+        })
+      })
+  }
+}
+
 export {
   requestAll,
   receiveAll,
-  fetchMovies
+  fetchMovies,
+  createMovie
 }

@@ -11,11 +11,21 @@ async function fetchMovies() {
   return jsonResponse;
 }
 
+async function createMovie(movie) {
+  const createMovieResponse = await fetch(`${apiBaseUrl}/movies`, {
+    ...createAuthoptions(),
+    method: 'POST',
+    body: JSON.stringify(movie)
+  });
+  return await createMovieResponse.json();
+}
+
 function createAuthoptions() {
   const options = {};
 
   options.headers = new Headers({
-    Authorization: `Bearer ${localStorage.getItem('jwt')}`
+    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+    'Content-Type': 'application/json'
   });
 
   return options;
@@ -23,5 +33,6 @@ function createAuthoptions() {
 
 export default {
   facebookLogin,
-  fetchMovies
+  fetchMovies,
+  createMovie
 }

@@ -20,7 +20,8 @@ export const facebookLogin = (code) => {
         // makes sure the jwt item is empty at login failure
         localStorage.removeItem('jwt');
         dispatch({
-          type: FACEBOOK_LOGIN_REQUEST_FAILURE
+          type: FACEBOOK_LOGIN_REQUEST_FAILURE,
+          error: e
         })
       });
   }
