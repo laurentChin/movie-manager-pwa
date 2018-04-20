@@ -2,20 +2,20 @@ import { REQUEST_MOVIES, RECEIVE_MOVIES } from './ActionTypes';
 
 import api from '../core/Api';
 
-export const requestAll = () => {
+const requestAll = () => {
   return {
     type: REQUEST_MOVIES
   }
 }
 
-export const receiveAll = (movies) => {
+const receiveAll = (movies) => {
   return {
     type: RECEIVE_MOVIES,
     movies
   }
 }
 
-export const fetchMovies = () => {
+const fetchMovies = () => {
   return (dispatch) => {
     dispatch(requestAll());
 
@@ -24,4 +24,10 @@ export const fetchMovies = () => {
         json => dispatch(receiveAll(json))
       )
   }
+}
+
+export {
+  requestAll,
+  receiveAll,
+  fetchMovies
 }
