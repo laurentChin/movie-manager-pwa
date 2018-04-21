@@ -18,7 +18,7 @@ class Movie extends Component {
           <section className="infos">
             {movie.duration && <Duration className="duration" value={movie.duration} />}
             <FormattedDate className="theater-release-Date" value={new Date(movie.releaseDate)}/>
-            {movie.formats && <FormatList formats={movie.formats}/>}
+            {movie.Formats && <FormatList formats={movie.Formats}/>}
           </section>
           <p>{movie.synopsis}</p>
         </section>
