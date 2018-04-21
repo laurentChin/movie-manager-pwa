@@ -20,6 +20,12 @@ async function createMovie(movie) {
   return await createMovieResponse.json();
 }
 
+async function fetchFormats() {
+  const fetchFormatsResponse = await fetch(`${apiBaseUrl}/formats`, createAuthoptions());
+  const jsonResponse = await fetchFormatsResponse.json();
+  return jsonResponse;
+}
+
 function createAuthoptions() {
   const options = {};
 
@@ -34,5 +40,6 @@ function createAuthoptions() {
 export default {
   facebookLogin,
   fetchMovies,
-  createMovie
+  createMovie,
+  fetchFormats
 }
