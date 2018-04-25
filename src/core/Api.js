@@ -11,6 +11,12 @@ async function fetchMovies() {
   return jsonResponse;
 }
 
+async function fetchMovie(id) {
+  const fetchMovieResponse = await fetch(`${apiBaseUrl}/movies/${id}`, createAuthoptions());
+  const jsonResponse = await fetchMovieResponse.json();
+  return jsonResponse;
+}
+
 async function createMovie(movie) {
   const createMovieResponse = await fetch(`${apiBaseUrl}/movies`, {
     ...createAuthoptions(),
@@ -18,6 +24,15 @@ async function createMovie(movie) {
     body: JSON.stringify(movie)
   });
   return await createMovieResponse.json();
+}
+
+async function updateMovie(id, payload) {
+  const updateMovieResponse = await fetch(`${apiBaseUrl}/movies/${id}`, {
+    ...createAuthoptions(),
+    method: 'PATCH',
+    body: JSON.stringify(payload)
+  });
+  return await updateMovieResponse.json();
 }
 
 async function fetchFormats() {
@@ -40,6 +55,8 @@ function createAuthoptions() {
 export default {
   facebookLogin,
   fetchMovies,
+  fetchMovie,
   createMovie,
+  updateMovie,
   fetchFormats
 }

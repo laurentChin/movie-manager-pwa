@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import { FormattedDate } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import './Movie.css';
 
@@ -21,6 +22,7 @@ class Movie extends Component {
             {movie.formats && <FormatList formats={movie.formats}/>}
           </section>
           <p>{movie.synopsis}</p>
+          <Link to={`/movies/${movie.id}/update`}>Edit</Link>
         </section>
       </div>
     )

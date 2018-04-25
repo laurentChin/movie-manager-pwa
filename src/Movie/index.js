@@ -1,9 +1,13 @@
 import { MovieList } from './List';
 import { Movie } from './Item';
-import FormPage from './FormPage';
+import CreationPage from './CreationPage';
+import UpdatePage from './UpdatePage';
+import MovieRouter from './MovieRouter';
 
 export {
   MovieList,
   Movie,
-  FormPage
+  CreationPage,
+  UpdatePage,
+  MovieRouter
 }

@@ -3,7 +3,14 @@ import {
   RECEIVE_MOVIES,
   MOVIE_CREATION_PENDING,
   MOVIE_CREATION_SUCCESS,
-  MOVIE_CREATION_FAILURE
+  MOVIE_CREATION_FAILURE,
+  MOVIE_REQUEST_PENDING,
+  MOVIE_REQUEST_SUCCESS,
+  MOVIE_REQUEST_FAILURE,
+  MOVIE_UPDATE_PENDING,
+  MOVIE_UPDATE_SUCCESS,
+  MOVIE_UPDATE_FAILURE,
+
 } from './ActionTypes';
 
 import api from '../core/Api';
@@ -32,6 +39,28 @@ const fetchMovies = () => {
   }
 }
 
+const fetchMovie = (id) => {
+  return (dispatch) => {
+    dispatch({
+      type: MOVIE_REQUEST_PENDING
+    });
+
+    return api.fetchMovie(id)
+      .then((movie) => {
+        dispatch({
+          type: MOVIE_REQUEST_SUCCESS,
+          movie
+        });
+      })
+      .catch((e) => {
+        dispatch({
+          type: MOVIE_REQUEST_FAILURE,
+          error: e
+        });
+      });
+  };
+}
+
 const createMovie = (movie) => {
   return (dispatch) => {
     dispatch({
@@ -54,9 +83,33 @@ const createMovie = (movie) => {
   }
 }
 
+const updateMovie = (id, payload) => {
+  return (dispatch) => {
+    dispatch({
+      type: MOVIE_UPDATE_PENDING
+    });
+
+    return api.updateMovie(id, payload)
+      .then((movie) => {
+        dispatch({
+          type: MOVIE_UPDATE_SUCCESS,
+          movie
+        });
+      })
+      .catch((e) => {
+        dispatch({
+          type: MOVIE_UPDATE_FAILURE,
+          error: e
+        });
+      });
+  }
+}
+
 export {
   requestAll,
   receiveAll,
   fetchMovies,
-  createMovie
+  fetchMovie,
+  createMovie,
+  updateMovie
 }

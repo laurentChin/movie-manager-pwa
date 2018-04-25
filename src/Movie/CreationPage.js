@@ -6,7 +6,7 @@ import { withAuth } from "../Auth";
 import { createMovie } from "./Actions";
 import { fetchFormats } from '../Format';
 
-class FormPage extends Component {
+class CreationPage extends Component {
   constructor(props) {
     super(props);
     this.submitHandler = this.submitHandler.bind(this);
@@ -14,30 +14,30 @@ class FormPage extends Component {
 
   componentDidMount() {
     this.props.dispatch(fetchFormats());
+    console.log(this.props);
   }
 
   submitHandler(formData) {
-    formData.formats = formData.formats
-      .map((value, key) => {
-        return key;
-      })
-      .filter((value) => {
-        return value;
-      });
-    this.props.dispatch(createMovie(formData));
+    this.props.dispatch(createMovie(formData)).then(() => {
+      this.props.history.push('/');
+    });
   }
   render() {
-    return (<MovieForm onSubmit={this.submitHandler} formats={this.props.formats}/>)
+    return (
+      <MovieForm onSubmit={this.submitHandler} formats={this.props.formats}/>
+      )
   }
 }
 
 const mapStateToProps = (state) => {
   const { isFetching, formats } = state.format;
+  const { isProcessingCreation } = state.movies;
 
   return {
     isFetching,
-    formats
+    formats,
+    isProcessingCreation
   }
 }
 
-export default connect(mapStateToProps)(withAuth(FormPage));
+export default connect(mapStateToProps)(withAuth(CreationPage));

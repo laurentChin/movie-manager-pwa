@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 import {
   BrowserRouter as Router,
-  Route
+  Route,
+  Switch
 } from 'react-router-dom';
 
 import {connect} from "react-redux";
@@ -11,7 +12,7 @@ import './App.css';
 
 import Home from "./Home";
 import { Auth, AuthContext } from "./Auth";
-import { FormPage } from "./Movie";
+import { MovieRouter } from "./Movie";
 
 class App extends Component {
   componentDidMount() {
@@ -22,13 +23,15 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
-        <AuthContext.Provider>
-          <Route exact path="/" component={Home}/>
-          <Route exact path="/movies/create" component={FormPage}/>
-          <Route path="/login" component={Auth}/>
-        </AuthContext.Provider>
-      </Router>
+      <AuthContext.Provider>
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/movies" component={MovieRouter} />
+            <Route path="/login" component={Auth} />
+          </Switch>
+        </Router>
+      </AuthContext.Provider>
     );
   }
 }
