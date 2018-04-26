@@ -14,7 +14,6 @@ class CreationPage extends Component {
 
   componentDidMount() {
     this.props.dispatch(fetchFormats());
-    console.log(this.props);
   }
 
   submitHandler(formData) {
