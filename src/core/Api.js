@@ -35,6 +35,15 @@ async function updateMovie(id, payload) {
   return await updateMovieResponse.json();
 }
 
+async function deleteMovie(id) {
+  const deleteMovieResponse = await fetch(`${apiBaseUrl}/movies/${id}`,{
+    ...createAuthoptions(),
+    method: 'DELETE'
+  });
+
+  return await deleteMovieResponse.json();
+}
+
 async function fetchFormats() {
   const fetchFormatsResponse = await fetch(`${apiBaseUrl}/formats`, createAuthoptions());
   const jsonResponse = await fetchFormatsResponse.json();
@@ -58,5 +67,6 @@ export default {
   fetchMovie,
   createMovie,
   updateMovie,
-  fetchFormats
+  fetchFormats,
+  deleteMovie
 }

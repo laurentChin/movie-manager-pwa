@@ -1,13 +1,31 @@
 import React, {Component} from "react";
 import { FormattedDate } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import './Movie.css';
 
 import {FormatList} from '../../Format';
 import {Duration} from '../../Duration';
+import {deleteMovie, fetchMovies} from "../Actions";
 
 class Movie extends Component {
+
+  constructor(props) {
+    super(props);
+    this.deleteHandler = this.deleteHandler.bind(this);
+  }
+
+  deleteHandler() {
+    const {movie, dispatch} = this.props;
+    const confirm = window.confirm(`Are you sure want to delete '${movie.title}' (${movie.director} - ${movie.releaseDate}) ?`);
+    if(confirm) {
+      dispatch(deleteMovie(movie.id))
+        .then(() => {
+          dispatch(fetchMovies());
+        });
+    }
+  }
   render() {
     let movie = this.props.movie;
     return (
@@ -23,10 +41,11 @@ class Movie extends Component {
           </section>
           <p>{movie.synopsis}</p>
           <Link to={`/movies/${movie.id}/update`}>Edit</Link>
+          <button onClick={this.deleteHandler}>Delete</button>
         </section>
       </div>
     )
   }
 }
 
-export default Movie;
+export default connect()(Movie);

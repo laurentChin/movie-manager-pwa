@@ -10,6 +10,9 @@ import {
   MOVIE_UPDATE_PENDING,
   MOVIE_UPDATE_SUCCESS,
   MOVIE_UPDATE_FAILURE,
+  MOVIE_DELETE_PENDING,
+  MOVIE_DELETE_SUCCESS,
+  MOVIE_DELETE_FAILURE
 
 } from './ActionTypes';
 
@@ -105,11 +108,33 @@ const updateMovie = (id, payload) => {
   }
 }
 
+const deleteMovie = (id) => {
+  return (dispatch) => {
+    dispatch({
+      type: MOVIE_DELETE_PENDING
+    });
+
+    return api.deleteMovie(id)
+      .then(() => {
+        dispatch({
+          type: MOVIE_DELETE_SUCCESS
+        });
+      })
+      .catch((e) => {
+        dispatch({
+          type: MOVIE_DELETE_FAILURE,
+          error: e
+        });
+      });
+  }
+}
+
 export {
   requestAll,
   receiveAll,
   fetchMovies,
   fetchMovie,
   createMovie,
-  updateMovie
+  updateMovie,
+  deleteMovie
 }
