@@ -19,12 +19,10 @@ class MovieForm extends Component {
         <label htmlFor="releaseDate">Release date</label>
         <Field name="releaseDate" component="input" type="date"/>
       </div>
-      <div>
-        <Field name="formats"
-               component={FormatCheckboxGroup}
-               formats={formats}
-               selection={(initialized && initialValues.formats) ? initialValues.formats : []}/>
-      </div>
+      <Field name="formats"
+             component={FormatCheckboxGroup}
+             formats={formats}
+             selection={(initialized && initialValues.formats) ? initialValues.formats : []}/>
       <button type="submit">{this.props.initialized ? 'Update' : 'Create'}</button>
     </form>)
   }
