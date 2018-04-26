@@ -20,7 +20,6 @@ class UpdatePage extends Component {
   }
 
   submitHandler(formData) {
-    console.log(formData);
     this.props.dispatch(updateMovie(formData.id, formData));
   }
   render() {
