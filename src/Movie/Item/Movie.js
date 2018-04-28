@@ -9,6 +9,8 @@ import {FormatList} from '../../Format';
 import {Duration} from '../../Duration';
 import {deleteMovie, fetchMovies} from "../Actions";
 
+const assetsUrl = process.env.REACT_APP_ASSETS_URL;
+
 class Movie extends Component {
 
   constructor(props) {
@@ -30,7 +32,7 @@ class Movie extends Component {
     let movie = this.props.movie;
     return (
       <div className="movie-item">
-        {movie.cover && <img src={movie.cover} alt={movie.title}/>}
+        {movie.poster && <img src={`${assetsUrl}/${movie.poster}`} alt={movie.title}/>}
         <section className="movie-item__content">
           <h3>{movie.title}</h3>
           {movie.originalTitle && <small>{movie.originalTitle}</small>}

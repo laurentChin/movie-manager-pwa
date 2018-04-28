@@ -6,38 +6,55 @@ async function facebookLogin(code) {
 }
 
 async function fetchMovies() {
-  const fetchMoviesResponse = await fetch(`${apiBaseUrl}/movies`, createAuthoptions());
+  const fetchMoviesResponse = await fetch(`${apiBaseUrl}/movies`, {
+    headers: createAuthHeaders()
+  });
   const jsonResponse = await fetchMoviesResponse.json();
   return jsonResponse;
 }
 
 async function fetchMovie(id) {
-  const fetchMovieResponse = await fetch(`${apiBaseUrl}/movies/${id}`, createAuthoptions());
+  const fetchMovieResponse = await fetch(`${apiBaseUrl}/movies/${id}`, {
+    headers: createAuthHeaders()
+  });
   const jsonResponse = await fetchMovieResponse.json();
   return jsonResponse;
 }
 
 async function createMovie(movie) {
+  const formData = new FormData();
+
+  for (let key in movie) {
+    formData.append(key, (key === 'formats') ? JSON.stringify(movie[key]) : movie[key]);
+  }
+
   const createMovieResponse = await fetch(`${apiBaseUrl}/movies`, {
-    ...createAuthoptions(),
+    headers: createAuthHeaders(),
     method: 'POST',
-    body: JSON.stringify(movie)
+    body: formData
   });
+
   return await createMovieResponse.json();
 }
 
 async function updateMovie(id, payload) {
+  const formData = new FormData();
+
+  for (let key in payload) {
+    formData.append(key, (key === 'formats') ? JSON.stringify(payload[key]) : payload[key]);
+  }
+
   const updateMovieResponse = await fetch(`${apiBaseUrl}/movies/${id}`, {
-    ...createAuthoptions(),
+    headers: createAuthHeaders(),
     method: 'PATCH',
-    body: JSON.stringify(payload)
+    body: formData
   });
   return await updateMovieResponse.json();
 }
 
 async function deleteMovie(id) {
-  const deleteMovieResponse = await fetch(`${apiBaseUrl}/movies/${id}`,{
-    ...createAuthoptions(),
+  const deleteMovieResponse = await fetch(`${apiBaseUrl}/movies/${id}`, {
+    headers: createAuthHeaders(),
     method: 'DELETE'
   });
 
@@ -45,20 +62,18 @@ async function deleteMovie(id) {
 }
 
 async function fetchFormats() {
-  const fetchFormatsResponse = await fetch(`${apiBaseUrl}/formats`, createAuthoptions());
+  const fetchFormatsResponse = await fetch(
+    `${apiBaseUrl}/formats`, {
+      headers: createAuthHeaders()
+    });
   const jsonResponse = await fetchFormatsResponse.json();
   return jsonResponse;
 }
 
-function createAuthoptions() {
-  const options = {};
-
-  options.headers = new Headers({
-    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-    'Content-Type': 'application/json'
-  });
-
-  return options;
+function createAuthHeaders() {
+  return new Headers({
+    'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+  });;
 }
 
 export default {

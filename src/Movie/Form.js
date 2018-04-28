@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { Field, reduxForm } from 'redux-form';
+
 import { FormatCheckboxGroup } from "../Format";
+import { CoverInput } from './';
 
 class MovieForm extends Component {
   render() {
@@ -9,20 +11,21 @@ class MovieForm extends Component {
       {initialized && <Field name="id" component="input" type="hidden"/>}
       <div>
         <label htmlFor="title">Title</label>
-        <Field name="title" component="input" type="text"/>
+        <Field name="title" component="input" type="text" required/>
       </div>
       <div>
         <label htmlFor="director">Director</label>
-        <Field name="director" component="input" type="text"/>
+        <Field name="director" component="input" type="text" required/>
       </div>
       <div>
         <label htmlFor="releaseDate">Release date</label>
-        <Field name="releaseDate" component="input" type="date"/>
+        <Field name="releaseDate" component="input" type="date" required/>
       </div>
       <Field name="formats"
              component={FormatCheckboxGroup}
              formats={formats}
              selection={(initialized && initialValues.formats) ? initialValues.formats : []}/>
+      <Field name="poster" component={CoverInput} />
       <button type="submit">{this.props.initialized ? 'Update' : 'Create'}</button>
     </form>)
   }
