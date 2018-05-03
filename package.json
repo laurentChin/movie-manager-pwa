@@ -36,6 +36,9 @@
     "react-dev-utils": "^3.0.0",
     "react-error-overlay": "^1.0.7",
     "react-test-renderer": "^15.6.1",
+    "shipit-cli": "^4.1.0",
+    "shipit-deploy": "^4.1.0",
+    "shipit-shared": "^4.4.2",
     "style-loader": "0.17.0",
     "sw-precache-webpack-plugin": "0.9.1",
     "url-loader": "0.5.8",
@@ -57,7 +60,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "shipit": "shipit"
   },
   "jest": {
     "collectCoverageFrom": [
