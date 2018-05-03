@@ -15,11 +15,11 @@ class MovieForm extends Component {
       </div>
       <div>
         <label htmlFor="director">Director</label>
-        <Field name="director" component="input" type="text" required/>
+        <Field name="director" component="input" type="text"/>
       </div>
       <div>
         <label htmlFor="releaseDate">Release date</label>
-        <Field name="releaseDate" component="input" type="date" required/>
+        <Field name="releaseDate" component="input" type="date"/>
       </div>
       <Field name="formats"
              component={FormatCheckboxGroup}
