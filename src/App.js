@@ -13,6 +13,7 @@ import './App.css';
 import Home from "./Home";
 import { Auth, AuthContext } from "./Auth";
 import { MovieRouter } from "./Movie";
+import { Loader }from "./core";
 
 class App extends Component {
   componentDidMount() {
@@ -22,15 +23,24 @@ class App extends Component {
   }
 
   render() {
+    const { loading } = this.props;
+    let className = 'main-container';
+    if (loading) {
+      className = `${className} ${className}--hidden`;
+    }
+
     return (
       <AuthContext.Provider>
-        <Router>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/movies" component={MovieRouter} />
-            <Route path="/login" component={Auth} />
-          </Switch>
-        </Router>
+        <div className={className}>
+          <Router>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/movies" component={MovieRouter} />
+              <Route path="/login" component={Auth} />
+            </Switch>
+          </Router>
+        </div>
+        <Loader />
       </AuthContext.Provider>
     );
   }
@@ -38,8 +48,10 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   const {isAuthenticated} = state.auth;
+  const { loading } = state.loader;
   return {
-    isAuthenticated
+    isAuthenticated,
+    loading
   }
 }
 
