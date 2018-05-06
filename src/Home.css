@@ -1,8 +1,8 @@
 .home-container {
     display: grid;
     grid-template-areas:
-            "count add"
-            "movies movies";
+            "count import add"
+            "movies movies movies";
     max-width: 100vw;
     overflow: hidden;
     .movie-count, .add-movie-btn {
@@ -11,6 +11,10 @@
 
     .movie-count {
         grid-area: count;
+    }
+
+    .bulk-import-btn {
+        grid-area: import;
     }
 
     .add-movie-btn {

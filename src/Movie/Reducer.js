@@ -6,7 +6,10 @@ import {
   MOVIE_REQUEST_FAILURE,
   MOVIE_CREATION_PENDING,
   MOVIE_CREATION_SUCCESS,
-  MOVIE_CREATION_FAILURE
+  MOVIE_CREATION_FAILURE,
+  MOVIE_BULK_IMPORT_PENDING,
+  MOVIE_BULK_IMPORT_SUCCESS,
+  MOVIE_BULK_IMPORT_FAILURE
 } from './ActionTypes';
 
 const initialState = {
@@ -63,6 +66,25 @@ const movieReducer = ( state = initialState, action ) => {
       return {
         ...state,
         isFetching: false,
+        error: action.e
+      }
+    case MOVIE_BULK_IMPORT_PENDING:
+      return {
+        ...state,
+        isProcessingImport: true,
+        importDone: false
+      }
+    case MOVIE_BULK_IMPORT_SUCCESS:
+      return {
+        ...state,
+        isProcessingImport: false,
+        importDone: true
+      }
+    case MOVIE_BULK_IMPORT_FAILURE:
+      return {
+        ...state,
+        isProcessingImport: false,
+        importDone: false,
         error: action.e
       }
     default:

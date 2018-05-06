@@ -12,7 +12,10 @@ import {
   MOVIE_UPDATE_FAILURE,
   MOVIE_DELETE_PENDING,
   MOVIE_DELETE_SUCCESS,
-  MOVIE_DELETE_FAILURE
+  MOVIE_DELETE_FAILURE,
+  MOVIE_BULK_IMPORT_PENDING,
+  MOVIE_BULK_IMPORT_SUCCESS,
+  MOVIE_BULK_IMPORT_FAILURE
 
 } from './ActionTypes';
 
@@ -129,6 +132,27 @@ const deleteMovie = (id) => {
   }
 }
 
+const bulkImport = (file) => {
+  return (dispatch) => {
+    dispatch({
+      type: MOVIE_BULK_IMPORT_PENDING
+    });
+
+    return api.bulkImport(file)
+      .then(() => {
+        dispatch({
+          type: MOVIE_BULK_IMPORT_SUCCESS
+        });
+      })
+      .catch(error => {
+        dispatch({
+          type: MOVIE_BULK_IMPORT_FAILURE,
+          error
+        });
+      });
+  }
+}
+
 export {
   requestAll,
   receiveAll,
@@ -136,5 +160,6 @@ export {
   fetchMovie,
   createMovie,
   updateMovie,
-  deleteMovie
+  deleteMovie,
+  bulkImport
 }

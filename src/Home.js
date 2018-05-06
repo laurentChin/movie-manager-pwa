@@ -23,6 +23,7 @@ class Home extends Component {
         {!this.props.isFetching
         && movies.length > 0
         && <MovieList movies={movies} />}
+        <Link to="/movies/import" className="bulk-import-btn">Bulk import</Link>
         <Link to="/movies/create" className="add-movie-btn">Add</Link>
       </div>
     )
