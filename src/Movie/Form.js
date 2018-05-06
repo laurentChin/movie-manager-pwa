@@ -26,6 +26,7 @@ class MovieForm extends Component {
              formats={formats}
              selection={(initialized && initialValues.formats) ? initialValues.formats : []}/>
       <Field name="poster" component={CoverInput} />
+      {this.props.backToList && <button onClick={this.props.backToList}>Go back to movie list</button>}
       <button type="submit">{this.props.initialized ? 'Update' : 'Create'}</button>
     </form>)
   }

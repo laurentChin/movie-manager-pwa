@@ -10,6 +10,7 @@ class UpdatePage extends Component {
   constructor(props) {
     super(props);
     this.submitHandler = this.submitHandler.bind(this);
+    this.backToList = this.backToList.bind(this);
   }
 
   componentDidMount() {
@@ -20,13 +21,21 @@ class UpdatePage extends Component {
   }
 
   submitHandler(formData) {
-    this.props.dispatch(updateMovie(formData.id, formData));
+    this.props
+      .dispatch(updateMovie(formData.id, formData))
+      .then();
   }
+
+  backToList() {
+    this.props.history.push('/');
+  }
+
   render() {
     const {formats, movie} = this.props;
     return (<MovieForm onSubmit={this.submitHandler}
                        formats={formats}
-                       initialValues={movie} />)
+                       initialValues={movie}
+                       backToList={this.backToList}/>)
   }
 }
 
