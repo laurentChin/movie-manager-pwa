@@ -8,7 +8,7 @@
   line-height: 14px;
   margin-bottom: 5px;
 
-  img {
+  picture {
     grid-column: 1;
     grid-row: 1 / span 2;
     justify-self: center;
@@ -45,16 +45,16 @@
     width: 150px;
     height: 200px;
 
-    & > *:not(img) {
+    & > *:not(picture) {
       z-index: 10;
       padding: 4px;
     }
 
-    img, &__content {
+    picture, &__content {
       width: 100%;
     }
 
-    img {
+    picture {
       z-index: 0;
       grid-row: 1 / span 2;
     }
@@ -81,7 +81,7 @@
     height: 200px;
     width: auto;
 
-    img {
+    picture {
       grid-column: 1;
       grid-row: 1 / span 2;
       justify-self: center;
