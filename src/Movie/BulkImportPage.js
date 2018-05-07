@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { withAuth } from "../Auth";
-import BulkImportForm from "./BulkImportForm";
+import { BulkImportForm } from "./Form";
 import {bulkImport} from "./Actions";
 
 class BulkImportPage extends Component {

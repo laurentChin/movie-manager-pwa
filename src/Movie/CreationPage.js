@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import MovieForm from "./Form";
+import { Form } from "./Form";
 import { withAuth } from "../Auth";
 import { createMovie } from "./Actions";
 import { fetchFormats } from '../Format';
@@ -23,7 +23,7 @@ class CreationPage extends Component {
   }
   render() {
     return (
-      <MovieForm onSubmit={this.submitHandler} formats={this.props.formats}/>
+      <Form onSubmit={this.submitHandler} formats={this.props.formats}/>
       )
   }
 }

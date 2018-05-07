@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import { FormatCheckboxGroup } from "../Format";
+import { FormatCheckboxGroup } from "../../Format/index";
 import { CoverInput } from './';
 
 class MovieForm extends Component {

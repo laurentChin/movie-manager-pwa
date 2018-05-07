@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import MovieForm from "./Form";
+import { Form } from "./Form";
 import { withAuth } from "../Auth";
 import { fetchMovie, updateMovie } from "./Actions";
 import { fetchFormats } from '../Format';
@@ -32,7 +32,7 @@ class UpdatePage extends Component {
 
   render() {
     const {formats, movie} = this.props;
-    return (<MovieForm onSubmit={this.submitHandler}
+    return (<Form onSubmit={this.submitHandler}
                        formats={formats}
                        initialValues={movie}
                        backToList={this.backToList}/>)
