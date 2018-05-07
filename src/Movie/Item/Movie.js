@@ -8,6 +8,7 @@ import './Movie.css';
 import {FormatList} from '../../Format';
 import {Duration} from '../../Duration';
 import {deleteMovie, fetchMovies} from "../Actions";
+import { Image } from "../../core";
 
 const assetsUrl = process.env.REACT_APP_ASSETS_URL;
 
@@ -32,7 +33,7 @@ class Movie extends Component {
     let movie = this.props.movie;
     return (
       <div className="movie-item">
-        {movie.poster && <img src={`${assetsUrl}/${movie.poster}`} alt={movie.title}/>}
+        {movie.poster && <Image src={`${assetsUrl}/${movie.poster}`} alt={movie.title}/>}
         <section className="movie-item__content">
           <h3>{movie.title}</h3>
           {movie.originalTitle && <small>{movie.originalTitle}</small>}
