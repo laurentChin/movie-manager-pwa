@@ -1,0 +1,6 @@
+.cover-input-container {
+  display: flex;
+  img {
+    width: 150px;
+  }
+}

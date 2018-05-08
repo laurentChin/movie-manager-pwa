@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import './CoverInput.css';
+
 const assetsUrl = process.env.REACT_APP_ASSETS_URL;
 
 class CoverInput extends Component {
@@ -28,7 +30,7 @@ class CoverInput extends Component {
     const poster = input.value;
     delete input.value;
     return (
-      <div>
+      <div className="cover-input-container">
         <img src={`${assetsUrl}/${poster}`} alt="movie_poster" ref={this.poster} />
         <input type="file" {...input} onChange={this.onChangeHandler(input.onChange)}/>
       </div>
