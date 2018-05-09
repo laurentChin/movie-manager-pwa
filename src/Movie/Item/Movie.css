@@ -1,17 +1,15 @@
 .movie-item {
   display: grid;
-  grid-template-rows: repeat(2, 1fr);
-  grid-template-columns: 50px calc(100vw - 50px);
-  grid-column-gap: 10px;
+  grid-template-areas: "picture content" "options options";
+  grid-template-columns: 50px calc(100% - 50px);
+  justify-content: left;
   text-align: left;
   font-size: 11px;
   line-height: 14px;
   box-shadow: 0px 0px 2px rgba(0,0,0,.2);
-  margin: 0 auto;
 
   picture {
-    grid-column: 1;
-    grid-row: 1 / span 2;
+    grid-area: picture;
     justify-self: center;
     width: 50px;
     display: flex;
@@ -25,9 +23,9 @@
   }
 
   &__content {
-    grid-column: 2;
-    grid-row: 1 / span 2;
+    grid-area: content;
     box-sizing: border-box;
+    padding: 5px 10px;
   }
 
   h3 {
@@ -48,15 +46,41 @@
     margin: 0;
   }
 
+  .options {
+    grid-area: options;
+    width: 100%;
+    text-align: right;
+    height: 40px;
+    display: flex;
+
+    & > * {
+      flex: 1;
+      text-align: center;
+      vertical-align: center;
+      line-height: 40px;
+      color: #fff;
+    }
+
+    a {
+      background-color: #3FA7D6;
+      text-decoration: none;
+    }
+    button {
+      background-color: #ee6352;
+      border: none;
+    }
+  }
+
   @media all and (min-width: 400px) {
     display: grid;
+    grid-template-areas: "picture" "content" "options";
     grid-template-columns: 1fr;
     width: 150px;
     height: 200px;
+    margin: 0 auto 15px auto;
 
     & > *:not(picture) {
       z-index: 10;
-      padding: 4px;
     }
 
     picture, &__content {
@@ -65,12 +89,24 @@
 
     picture {
       z-index: 0;
-      grid-row: 1 / span 2;
+      grid-row: 1 / span 3;
+    }
+
+    &__content, .options {
+      background-color: rgba(0, 0, 0, .4);
     }
 
     &__content {
       grid-column: 1;
       grid-row: 2;
+      color: #fff;
+      padding-bottom: 5px;
+    }
+
+    .options {
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: flex-end;
     }
 
     section {
@@ -86,19 +122,23 @@
 
   @media all and (min-width: 980px) {
     display: grid;
+    grid-template-areas: "picture content" "options options";
     grid-template-columns: 150px 1fr;
     height: 200px;
     width: auto;
+    margin: 0;
 
     picture {
-      grid-column: 1;
-      grid-row: 1 / span 2;
+      grid-area: picture;
+      grid-row: initial;
       justify-self: center;
     }
 
     &__content {
-      grid-column: 2;
-      grid-row: 1 / span 2;
+      grid-area: content;
+      background-color: transparent;
+      color: inherit;
+      height: calc(100% - 40px);
     }
   }
 }

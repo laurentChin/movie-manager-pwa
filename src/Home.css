@@ -29,7 +29,7 @@
     @media screen and (max-width: 400px) {
         display: flex;
         flex-direction: column;
-        padding: 40px 0;
+        padding: 40px 20px;
 
         .movie-count, .add-movie-btn {
             position: fixed;

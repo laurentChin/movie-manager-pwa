@@ -33,7 +33,7 @@ class Movie extends Component {
     let movie = this.props.movie;
     return (
       <div className="movie-item">
-        {movie.poster && <Image src={`${assetsUrl}/${movie.poster}`} alt={movie.title}/>}
+        <Image src={`${assetsUrl}/${movie.poster}`} alt={movie.title}/>
         <section className="movie-item__content">
           <h3>{movie.title}</h3>
           {movie.originalTitle && <small>{movie.originalTitle}</small>}
@@ -43,6 +43,8 @@ class Movie extends Component {
             {movie.formats && <FormatList formats={movie.formats}/>}
           </section>
           <p>{movie.synopsis}</p>
+        </section>
+        <section className="options">
           <Link to={`/movies/${movie.id}/update`}>Edit</Link>
           <button onClick={this.deleteHandler}>Delete</button>
         </section>
