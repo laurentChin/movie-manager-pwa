@@ -19,12 +19,11 @@ class Home extends Component {
     const movies = this.props.movies || [];
     return (
       <div className="home-container">
-        <span className="movie-count">You own {movies.length} movies</span>
+        <span className="movie-count">Count: {movies.length}</span>
         {!this.props.isFetching
         && movies.length > 0
         && <MovieList movies={movies} />}
-        <Link to="/movies/import" className="bulk-import-btn">Bulk import</Link>
-        <Link to="/movies/create" className="add-movie-btn">Add</Link>
+        <Link to="/movies/create" className="add-movie-btn">+</Link>
       </div>
     )
   }
