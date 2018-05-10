@@ -1,6 +1,7 @@
 import {
-  REQUEST_MOVIES,
-  RECEIVE_MOVIES,
+  MOVIES_REQUEST_PENDING,
+  MOVIES_REQUEST_SUCCESS,
+  MOVIES_REQUEST_FAILURE,
   MOVIE_REQUEST_PENDING,
   MOVIE_REQUEST_SUCCESS,
   MOVIE_REQUEST_FAILURE,
@@ -21,16 +22,21 @@ const initialState = {
 
 const movieReducer = ( state = initialState, action ) => {
   switch (action.type) {
-    case REQUEST_MOVIES:
+    case MOVIES_REQUEST_PENDING:
       return {
         ...state,
         isFetching: true
       }
-    case RECEIVE_MOVIES:
+    case MOVIES_REQUEST_SUCCESS:
       return {
         ...state,
         isFetching: false,
         items: action.movies
+      }
+    case MOVIES_REQUEST_FAILURE:
+      return {
+        ...state,
+        isFetching: false
       }
     case MOVIE_CREATION_PENDING:
       return {

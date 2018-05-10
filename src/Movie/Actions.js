@@ -1,6 +1,7 @@
 import {
-  REQUEST_MOVIES,
-  RECEIVE_MOVIES,
+  MOVIES_REQUEST_PENDING,
+  MOVIES_REQUEST_SUCCESS,
+  MOVIES_REQUEST_FAILURE,
   MOVIE_CREATION_PENDING,
   MOVIE_CREATION_SUCCESS,
   MOVIE_CREATION_FAILURE,
@@ -21,27 +22,25 @@ import {
 
 import api from '../core/Api';
 
-const requestAll = () => {
-  return {
-    type: REQUEST_MOVIES
-  }
-}
-
-const receiveAll = (movies) => {
-  return {
-    type: RECEIVE_MOVIES,
-    movies
-  }
-}
-
 const fetchMovies = () => {
   return (dispatch) => {
-    dispatch(requestAll());
+    dispatch({
+      type: MOVIES_REQUEST_PENDING
+    });
 
     return api.fetchMovies()
       .then(
-        json => dispatch(receiveAll(json))
+        movies => dispatch({
+          type: MOVIES_REQUEST_SUCCESS,
+          movies
+        })
       )
+      .catch(error => {
+        dispatch({
+          type: MOVIES_REQUEST_FAILURE,
+          error
+        })
+      })
   }
 }
 
@@ -154,8 +153,6 @@ const bulkImport = (file) => {
 }
 
 export {
-  requestAll,
-  receiveAll,
   fetchMovies,
   fetchMovie,
   createMovie,
