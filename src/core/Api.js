@@ -58,7 +58,7 @@ async function deleteMovie(id) {
     method: 'DELETE'
   });
 
-  return await deleteMovieResponse.json();
+  return await deleteMovieResponse.text();
 }
 
 async function fetchFormats() {

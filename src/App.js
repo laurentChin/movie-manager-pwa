@@ -13,7 +13,7 @@ import './App.css';
 import Home from "./Home";
 import { Auth, AuthContext } from "./Auth";
 import { MovieRouter } from "./Movie";
-import { Loader }from "./core";
+import { Loader, FlashMessage }from "./core";
 
 class App extends Component {
   componentDidMount() {
@@ -23,7 +23,7 @@ class App extends Component {
   }
 
   render() {
-    const { loading } = this.props;
+    const { loading, showFlash } = this.props;
     let className = 'main-container';
     if (loading) {
       className = `${className} ${className}--hidden`;
@@ -31,6 +31,7 @@ class App extends Component {
 
     return (
       <AuthContext.Provider>
+        {showFlash && <FlashMessage />}
         <div className={className}>
           <Router>
             <Switch>
@@ -49,9 +50,11 @@ class App extends Component {
 const mapStateToProps = (state) => {
   const {isAuthenticated} = state.auth;
   const { loading } = state.loader;
+  const { show: showFlash } = state.flash;
   return {
     isAuthenticated,
-    loading
+    loading,
+    showFlash
   }
 }
 

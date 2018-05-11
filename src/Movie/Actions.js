@@ -76,13 +76,15 @@ const createMovie = (movie) => {
       .then(
         json => dispatch({
           type: MOVIE_CREATION_SUCCESS,
-          movie: json
+          movie: json,
+          flashMessage: `'${movie.title}' has been created successfully.`
         })
       )
       .catch(e => {
         dispatch({
           type: MOVIE_CREATION_FAILURE,
-          error: e
+          error: e,
+          flashMessage: `'${movie.title}' creation fails.`
         })
       })
   }
@@ -98,19 +100,21 @@ const updateMovie = (id, payload) => {
       .then((movie) => {
         dispatch({
           type: MOVIE_UPDATE_SUCCESS,
-          movie
+          movie,
+          flashMessage: `'${payload.title}' has been updated successfully.`
         });
       })
       .catch((e) => {
         dispatch({
           type: MOVIE_UPDATE_FAILURE,
-          error: e
+          error: e,
+          flashMessage: `'${payload.title}' update fails.`
         });
       });
   }
 }
 
-const deleteMovie = (id) => {
+const deleteMovie = (id, title) => {
   return (dispatch) => {
     dispatch({
       type: MOVIE_DELETE_PENDING
@@ -119,13 +123,15 @@ const deleteMovie = (id) => {
     return api.deleteMovie(id)
       .then(() => {
         dispatch({
-          type: MOVIE_DELETE_SUCCESS
+          type: MOVIE_DELETE_SUCCESS,
+          flashMessage: `'${title}' has been deleted successfully.`
         });
       })
       .catch((e) => {
         dispatch({
           type: MOVIE_DELETE_FAILURE,
-          error: e
+          error: e,
+          flashMessage: `'${title}' deletion fails.`
         });
       });
   }

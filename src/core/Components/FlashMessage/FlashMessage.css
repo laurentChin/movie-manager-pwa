@@ -1,0 +1,42 @@
+.flash-message-container {
+  position: fixed;
+  top: 0px;
+  transform: translate3d(0, -100%, 0);
+  z-index: 10;
+  width: 100vw;
+  animation: slide-in .4s linear forwards, slide-out .4s 1s linear forwards;
+  text-align: center;
+  color: #000;
+
+  &[status="success"] {
+    background-color: #AED69B;
+  }
+
+  &[status="failure"] {
+    background-color: #E3665A;
+  }
+
+  p {
+    margin: 5px 10px;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0%, 0);
+  }
+}
+
+@keyframes slide-out {
+  from {
+    transform: translate3d(0, 0%, 0);
+  }
+
+  to {
+    transform: translate3d(0, -100%, 0);
+  }
+}

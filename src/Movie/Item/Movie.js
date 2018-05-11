@@ -23,7 +23,7 @@ class Movie extends Component {
     const {movie, dispatch} = this.props;
     const confirm = window.confirm(`Are you sure want to delete '${movie.title}' (${movie.director} - ${movie.releaseDate}) ?`);
     if(confirm) {
-      dispatch(deleteMovie(movie.id))
+      dispatch(deleteMovie(movie.id, movie.title))
         .then(() => {
           dispatch(fetchMovies());
         });
