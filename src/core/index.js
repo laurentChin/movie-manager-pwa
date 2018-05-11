@@ -1,7 +1,6 @@
 import api from './Api';
-import { Loader } from './Components/Loader';
+import { Loader, loaderMiddleware } from './Components/Loader';
 import Image from './Components/Image';
-import loaderMiddleware from './LoaderMiddleware';
 
 export {
   api,

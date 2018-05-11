@@ -5,7 +5,7 @@ import {reducer as formReducer} from 'redux-form';
 import movieReducer from './Movie/Reducer';
 import authReducer from './Auth/Reducer';
 import formatReducer from "./Format/Reducer";
-import loaderReducer from "./core/LoaderReducer";
+import loaderReducer from "./core/Components/Loader/LoaderReducer";
 
 const rootReducer = combineReducers({
   movies: movieReducer,
