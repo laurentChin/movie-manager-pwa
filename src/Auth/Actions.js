@@ -11,6 +11,7 @@ export const facebookLogin = (code) => {
     return api.facebookLogin(code)
       .then(jwt => {
         localStorage.setItem('jwt', jwt);
+        navigator.serviceWorker.controller.postMessage(jwt);
         dispatch({
           type: FACEBOOK_LOGIN_REQUEST_SUCCESS,
           jwt
