@@ -4,9 +4,9 @@ import {
 } from "./FlashMessageActionTypes";
 
 const initialState = {
-  show: true,
-  message: 'test',
-  status: 'success'
+  show: false,
+  message: '',
+  status: ''
 }
 
 const flashMessageReducer = (state = initialState, action) => {
