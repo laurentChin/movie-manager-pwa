@@ -94,7 +94,7 @@ async function bulkImport(file) {
 
 function createAuthHeaders() {
   return new Headers({
-    'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    'Authorization': `Bearer ${Cookies.get('jwt')}`
   });
 }
 

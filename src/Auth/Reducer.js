@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie';
+
 import {
   FACEBOOK_LOGIN_REQUEST_PENDING,
   FACEBOOK_LOGIN_REQUEST_SUCCESS,
@@ -6,7 +8,7 @@ import {
 
 const initialState = {
   isFetching: false,
-  isAuthenticated: localStorage.getItem('jwt') !== null
+  isAuthenticated: Cookies.get('jwt') !== undefined
 }
 
 const authReducer = (state = initialState, action) => {

@@ -1,5 +1,7 @@
 import { FACEBOOK_LOGIN_REQUEST_PENDING, FACEBOOK_LOGIN_REQUEST_SUCCESS, FACEBOOK_LOGIN_REQUEST_FAILURE } from './ActionTypes';
 
+import Cookies from 'js-cookie';
+
 import api from "../core/Api";
 
 export const facebookLogin = (code) => {
@@ -10,7 +12,7 @@ export const facebookLogin = (code) => {
 
     return api.facebookLogin(code)
       .then(jwt => {
-        localStorage.setItem('jwt', jwt);
+        Cookies.set('jwt', jwt);
         navigator.serviceWorker.controller.postMessage(jwt);
         dispatch({
           type: FACEBOOK_LOGIN_REQUEST_SUCCESS,
@@ -19,7 +21,7 @@ export const facebookLogin = (code) => {
       })
       .catch((e) => {
         // makes sure the jwt item is empty at login failure
-        localStorage.removeItem('jwt');
+        Cookies.remove('jwt');
         dispatch({
           type: FACEBOOK_LOGIN_REQUEST_FAILURE,
           error: e
