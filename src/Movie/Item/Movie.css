@@ -71,7 +71,7 @@
     }
   }
 
-  @media all and (min-width: 400px) {
+  @media all and (min-width: 501px) {
     display: grid;
     grid-template-areas: "picture" "content" "options";
     grid-template-columns: 1fr;
