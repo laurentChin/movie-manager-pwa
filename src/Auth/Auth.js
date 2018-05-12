@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Redirect } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 
 import { connect } from 'react-redux';
 
@@ -8,13 +8,14 @@ import { LogIn, Success } from './';
 class Auth extends Component {
   render () {
     const { match } = this.props;
-
     return (
       <div>
         {this.props.isAuthenticated && <Redirect to="/" />}
         {!this.props.isAuthenticated && <div>
-          <Route exact path="" component={ LogIn } />
-          <Route path={ match.path + '/success'} component={Success} />
+          <Switch>
+            <Route exact path={ match.path } component={ LogIn } />
+            <Route exact path={ match.path + '/success'} component={Success} />
+          </Switch>
         </div>}
       </div>
     )

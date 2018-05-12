@@ -1,8 +1,14 @@
+import Cookies from 'js-cookie';
+
 const apiBaseUrl = process.env.REACT_APP_API_URL;
 
 async function facebookLogin(code) {
   const facebookLoginResponse = await fetch(`${apiBaseUrl}/security/facebook/${code}`);
-  return await facebookLoginResponse.json();
+  if(facebookLoginResponse.status === 200) {
+    return await facebookLoginResponse.json();
+  } else {
+    throw new Error(facebookLoginResponse.text());
+  }
 }
 
 async function fetchMovies() {

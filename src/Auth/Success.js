@@ -5,7 +5,8 @@ import {facebookLogin} from './Actions';
 class Success extends Component {
   componentDidMount() {
     const accessToken = this.props.location.search.replace('?code=', '');
-    if(!this.props.isAuthenticated && !this.props.isFetching) {
+
+    if(!this.props.isAuthenticated && !this.props.isFetching && accessToken) {
       this.props.dispatch(facebookLogin(accessToken));
     }
   }
