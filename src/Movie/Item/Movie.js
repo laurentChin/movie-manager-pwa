@@ -37,6 +37,7 @@ class Movie extends Component {
         <section className="movie-item__content">
           <h3>{movie.title}</h3>
           {movie.originalTitle && <small>{movie.originalTitle}</small>}
+          {movie.director && <small>{movie.director}</small>}
           <section className="infos">
             {movie.duration && <Duration className="duration" value={movie.duration} />}
             <FormattedDate className="theater-release-Date" value={new Date(movie.releaseDate)}/>
