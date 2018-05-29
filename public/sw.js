@@ -19,7 +19,7 @@ self.addEventListener('message', (message) => {
 
     workbox.routing.registerRoute(
       new RegExp('^https:\/\/api\.mm\.laurentjanet\.fr'),
-      new workbox.strategies.StaleWhileRevalidate({
+      new workbox.strategies.NetworkFirst({
         fetchOptions: {
           headers: authHeaders,
         },
