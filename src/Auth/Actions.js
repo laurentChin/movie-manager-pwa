@@ -13,11 +13,15 @@ export const facebookLogin = (code) => {
     return api.facebookLogin(code)
       .then(jwt => {
         Cookies.set('jwt', jwt);
-        navigator.serviceWorker.controller.postMessage(jwt);
+
+        if (navigator.serviceWorker.controller) {
+          navigator.serviceWorker.controller.postMessage(jwt);
+        }
+
         dispatch({
           type: FACEBOOK_LOGIN_REQUEST_SUCCESS,
           jwt
-        })
+        });
       })
       .catch((e) => {
         // makes sure the jwt item is empty at login failure
