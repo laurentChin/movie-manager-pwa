@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
 import {
@@ -7,15 +7,16 @@ import {
 
 import rootReducer from './RootReducer';
 
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const configureStore = ()  => {
   return createStore(
     rootReducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-    applyMiddleware(
+    composeEnhancer(applyMiddleware(
       thunkMiddleware,
       loaderMiddleware,
       flashMessageMiddleWare
-    )
+    ))
   )
 }
 
