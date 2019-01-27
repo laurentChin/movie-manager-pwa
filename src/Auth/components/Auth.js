@@ -3,7 +3,7 @@ import { Route, Redirect, Switch } from "react-router-dom";
 
 import { connect } from 'react-redux';
 
-import { LogIn, Success } from './';
+import { LogIn, Success } from '..';
 
 class Auth extends Component {
   render () {

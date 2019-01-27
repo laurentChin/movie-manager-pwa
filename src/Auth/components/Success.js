@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {facebookLogin} from './Actions';
+import {facebookLogin} from '../Actions';
 
 class Success extends Component {
   componentDidMount() {
