@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class FormatCheckboxGroup extends Component {
   formatMap = new Map();
@@ -11,7 +11,7 @@ class FormatCheckboxGroup extends Component {
 
   changeHandler(event) {
     const { value, checked } = event.target;
-    if(checked) {
+    if (checked) {
       this.valueMap.set(value, this.formatMap.get(value));
     } else {
       this.valueMap.delete(value);
@@ -35,13 +35,27 @@ class FormatCheckboxGroup extends Component {
 
     return (
       <div>
-        {formats.map(format =>
-          (<label key={format.id}>
-            {this.valueMap.has(`${format.id}`)
-              ? <input name={`formats[${format.id}]`} type="checkbox" defaultChecked onChange={this.changeHandler} value={format.id}/>
-              : <input name={`formats[${format.id}]`} type="checkbox" onChange={this.changeHandler} value={format.id}/>}
+        {formats.map(format => (
+          <label key={format.id}>
+            {this.valueMap.has(`${format.id}`) ? (
+              <input
+                name={`formats[${format.id}]`}
+                type="checkbox"
+                defaultChecked
+                onChange={this.changeHandler}
+                value={format.id}
+              />
+            ) : (
+              <input
+                name={`formats[${format.id}]`}
+                type="checkbox"
+                onChange={this.changeHandler}
+                value={format.id}
+              />
+            )}
             <span>{format.name}</span>
-        </label>))}
+          </label>
+        ))}
       </div>
     );
   }

@@ -17,20 +17,20 @@ import {
   MOVIE_BULK_IMPORT_PENDING,
   MOVIE_BULK_IMPORT_SUCCESS,
   MOVIE_BULK_IMPORT_FAILURE
+} from "./ActionTypes";
 
-} from './ActionTypes';
-
-import api from '../core/Api';
+import api from "../core/Api";
 
 const fetchMovies = () => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: MOVIES_REQUEST_PENDING
     });
 
-    return api.fetchMovies()
-      .then(
-        movies => dispatch({
+    return api
+      .fetchMovies()
+      .then(movies =>
+        dispatch({
           type: MOVIES_REQUEST_SUCCESS,
           movies
         })
@@ -39,42 +39,44 @@ const fetchMovies = () => {
         dispatch({
           type: MOVIES_REQUEST_FAILURE,
           error
-        })
-      })
-  }
-}
+        });
+      });
+  };
+};
 
-const fetchMovie = (id) => {
-  return (dispatch) => {
+const fetchMovie = id => {
+  return dispatch => {
     dispatch({
       type: MOVIE_REQUEST_PENDING
     });
 
-    return api.fetchMovie(id)
-      .then((movie) => {
+    return api
+      .fetchMovie(id)
+      .then(movie => {
         dispatch({
           type: MOVIE_REQUEST_SUCCESS,
           movie
         });
       })
-      .catch((e) => {
+      .catch(e => {
         dispatch({
           type: MOVIE_REQUEST_FAILURE,
           error: e
         });
       });
   };
-}
+};
 
-const createMovie = (movie) => {
-  return (dispatch) => {
+const createMovie = movie => {
+  return dispatch => {
     dispatch({
       type: MOVIE_CREATION_PENDING
     });
 
-    return api.createMovie(movie)
-      .then(
-        json => dispatch({
+    return api
+      .createMovie(movie)
+      .then(json =>
+        dispatch({
           type: MOVIE_CREATION_SUCCESS,
           movie: json,
           flashMessage: `'${movie.title}' has been created successfully.`
@@ -85,65 +87,68 @@ const createMovie = (movie) => {
           type: MOVIE_CREATION_FAILURE,
           error: e,
           flashMessage: `'${movie.title}' creation fails.`
-        })
-      })
-  }
-}
+        });
+      });
+  };
+};
 
 const updateMovie = (id, payload) => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: MOVIE_UPDATE_PENDING
     });
 
-    return api.updateMovie(id, payload)
-      .then((movie) => {
+    return api
+      .updateMovie(id, payload)
+      .then(movie => {
         dispatch({
           type: MOVIE_UPDATE_SUCCESS,
           movie,
           flashMessage: `'${payload.title}' has been updated successfully.`
         });
       })
-      .catch((e) => {
+      .catch(e => {
         dispatch({
           type: MOVIE_UPDATE_FAILURE,
           error: e,
           flashMessage: `'${payload.title}' update fails.`
         });
       });
-  }
-}
+  };
+};
 
 const deleteMovie = (id, title) => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: MOVIE_DELETE_PENDING
     });
 
-    return api.deleteMovie(id)
+    return api
+      .deleteMovie(id)
       .then(() => {
         dispatch({
           type: MOVIE_DELETE_SUCCESS,
           flashMessage: `'${title}' has been deleted successfully.`
         });
       })
-      .catch((e) => {
+      .catch(e => {
         dispatch({
           type: MOVIE_DELETE_FAILURE,
           error: e,
           flashMessage: `'${title}' deletion fails.`
         });
       });
-  }
-}
+  };
+};
 
-const bulkImport = (file) => {
-  return (dispatch) => {
+const bulkImport = file => {
+  return dispatch => {
     dispatch({
       type: MOVIE_BULK_IMPORT_PENDING
     });
 
-    return api.bulkImport(file)
+    return api
+      .bulkImport(file)
       .then(() => {
         dispatch({
           type: MOVIE_BULK_IMPORT_SUCCESS
@@ -155,8 +160,8 @@ const bulkImport = (file) => {
           error
         });
       });
-  }
-}
+  };
+};
 
 export {
   fetchMovies,
@@ -165,4 +170,4 @@ export {
   updateMovie,
   deleteMovie,
   bulkImport
-}
+};

@@ -2,16 +2,17 @@ import {
   FETCH_FORMAT_LIST_PENDING,
   FETCH_FORMAT_LIST_SUCCESS,
   FETCH_FORMAT_LIST_FAILURE
-} from './ActionTypes';
+} from "./ActionTypes";
 
-import { api } from '../core';
+import { api } from "../core";
 
 const fetchFormats = () => {
   return dispatch => {
     dispatch({
       type: FETCH_FORMAT_LIST_PENDING
     });
-    api.fetchFormats()
+    api
+      .fetchFormats()
       .then(formats => {
         dispatch({
           type: FETCH_FORMAT_LIST_SUCCESS,
@@ -23,10 +24,8 @@ const fetchFormats = () => {
           type: FETCH_FORMAT_LIST_FAILURE,
           error: e
         });
-      })
-  }
-}
+      });
+  };
+};
 
-export {
-  fetchFormats
-}
+export { fetchFormats };

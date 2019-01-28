@@ -1,7 +1,4 @@
-import FlashMessage from './FlashMessage';
-import flashMessageMiddleWare from './FlashMessageMiddleware';
+import FlashMessage from "./FlashMessage";
+import flashMessageMiddleWare from "./FlashMessageMiddleware";
 
-export {
-  FlashMessage,
-  flashMessageMiddleWare
-}
+export { FlashMessage, flashMessageMiddleWare };

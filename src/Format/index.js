@@ -1,13 +1,8 @@
-import { FormatList } from './List';
-import { Format } from './Item';
+import { FormatList } from "./List";
+import { Format } from "./Item";
 
-import { fetchFormats } from './Actions';
+import { fetchFormats } from "./Actions";
 
-import FormatCheckboxGroup from './FormatCheckboxGroup';
+import FormatCheckboxGroup from "./FormatCheckboxGroup";
 
-export {
-  FormatList,
-  Format,
-  fetchFormats,
-  FormatCheckboxGroup
-}
+export { FormatList, Format, fetchFormats, FormatCheckboxGroup };

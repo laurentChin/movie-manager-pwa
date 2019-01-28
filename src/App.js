@@ -1,19 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
 
-import {connect} from "react-redux";
-
-import './App.css';
+import "./App.css";
 
 import Home from "./Home";
 import { Auth, AuthContext } from "./Auth";
 import { MovieRouter } from "./Movie";
-import { Loader, FlashMessage }from "./core";
+import { Loader, FlashMessage } from "./core";
+import { Router as SignInRouter } from "./SignIn";
 
 class App extends Component {
   componentDidMount() {
@@ -27,7 +23,7 @@ class App extends Component {
 
   render() {
     const { loading, showFlash } = this.props;
-    let className = 'main-container';
+    let className = "main-container";
     if (loading) {
       className = `${className} ${className}--hidden`;
     }
@@ -51,15 +47,15 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const {isAuthenticated} = state.auth;
+const mapStateToProps = state => {
+  const { isAuthenticated } = state.auth;
   const { loading } = state.loader;
   const { show: showFlash } = state.flash;
   return {
     isAuthenticated,
     loading,
     showFlash
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps)(App);

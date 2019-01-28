@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import { Form } from "./Form";
 import { withAuth } from "../Auth";
 import { createMovie } from "./Actions";
-import { fetchFormats } from '../Format';
+import { fetchFormats } from "../Format";
 
 class CreationPage extends Component {
   constructor(props) {
@@ -18,17 +18,15 @@ class CreationPage extends Component {
 
   submitHandler(formData) {
     this.props.dispatch(createMovie(formData)).then(() => {
-      this.props.history.push('/');
+      this.props.history.push("/");
     });
   }
   render() {
-    return (
-      <Form onSubmit={this.submitHandler} formats={this.props.formats}/>
-      )
+    return <Form onSubmit={this.submitHandler} formats={this.props.formats} />;
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { isFetching, formats } = state.format;
   const { isProcessingCreation } = state.movies;
 
@@ -36,7 +34,7 @@ const mapStateToProps = (state) => {
     isFetching,
     formats,
     isProcessingCreation
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps)(withAuth(CreationPage));

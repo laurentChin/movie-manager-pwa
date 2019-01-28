@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from "react";
+import { Link } from "react-router-dom";
 
-import './Login.css';
+import "./Login.css";
 
 class LogIn extends Component {
-
   constructor(props) {
     super(props);
     this._initiateFacebookLogin = this._initiateFacebookLogin.bind(this);

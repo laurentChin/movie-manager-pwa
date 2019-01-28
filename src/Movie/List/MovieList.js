@@ -1,18 +1,18 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 
-import './MovieList.css';
+import "./MovieList.css";
 
-import { Movie } from '../';
+import { Movie } from "../";
 
 class MovieList extends Component {
   render() {
     return (
       <div className="movie-list">
-        {this.props.movies.map((movie) => {
-          return <Movie key={movie.id} movie={movie}></Movie>
+        {this.props.movies.map(movie => {
+          return <Movie key={movie.id} movie={movie} />;
         })}
       </div>
-    )
+    );
   }
 }
 

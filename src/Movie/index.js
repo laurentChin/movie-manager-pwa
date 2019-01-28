@@ -1,9 +1,9 @@
-import { MovieList } from './List';
-import { Movie } from './Item';
-import CreationPage from './CreationPage';
-import UpdatePage from './UpdatePage';
-import BulkImportPage from './BulkImportPage';
-import MovieRouter from './MovieRouter';
+import { MovieList } from "./List";
+import { Movie } from "./Item";
+import CreationPage from "./CreationPage";
+import UpdatePage from "./UpdatePage";
+import BulkImportPage from "./BulkImportPage";
+import MovieRouter from "./MovieRouter";
 export {
   MovieList,
   Movie,
@@ -11,4 +11,4 @@ export {
   UpdatePage,
   BulkImportPage,
   MovieRouter
-}
+};

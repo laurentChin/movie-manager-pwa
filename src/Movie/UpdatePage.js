@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import { Form } from "./Form";
 import { withAuth } from "../Auth";
 import { fetchMovie, updateMovie } from "./Actions";
-import { fetchFormats } from '../Format';
+import { fetchFormats } from "../Format";
 
 class UpdatePage extends Component {
   constructor(props) {
@@ -14,32 +14,33 @@ class UpdatePage extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchMovie(this.props.match.params.id))
-      .then(() => {
-        this.props.dispatch(fetchFormats());
+    this.props.dispatch(fetchMovie(this.props.match.params.id)).then(() => {
+      this.props.dispatch(fetchFormats());
     });
   }
 
   submitHandler(formData) {
-    this.props
-      .dispatch(updateMovie(formData.id, formData))
-      .then();
+    this.props.dispatch(updateMovie(formData.id, formData)).then();
   }
 
   backToList() {
-    this.props.history.push('/');
+    this.props.history.push("/");
   }
 
   render() {
-    const {formats, movie} = this.props;
-    return (<Form onSubmit={this.submitHandler}
-                       formats={formats}
-                       initialValues={movie}
-                       backToList={this.backToList}/>)
+    const { formats, movie } = this.props;
+    return (
+      <Form
+        onSubmit={this.submitHandler}
+        formats={formats}
+        initialValues={movie}
+        backToList={this.backToList}
+      />
+    );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { isFetching: isFetchingFormat, formats } = state.format;
   const { isFetching: isFetchingMovie, movie } = state.movies;
 
@@ -48,7 +49,7 @@ const mapStateToProps = (state) => {
     isFetchingMovie,
     formats,
     movie
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps)(withAuth(UpdatePage));

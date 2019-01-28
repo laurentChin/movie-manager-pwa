@@ -4,16 +4,16 @@
   transform: translate3d(0, -100%, 0);
   z-index: 10;
   width: 100vw;
-  animation: slide-in .4s linear forwards, slide-out .4s 1s linear forwards;
+  animation: slide-in 0.4s linear forwards, slide-out 0.4s 1s linear forwards;
   text-align: center;
   color: #000;
 
   &[status="success"] {
-    background-color: #AED69B;
+    background-color: #aed69b;
   }
 
   &[status="failure"] {
-    background-color: #E3665A;
+    background-color: #e3665a;
   }
 
   p {

@@ -1,5 +1,3 @@
-import Duration from './Duration';
+import Duration from "./Duration";
 
-export {
-  Duration
-};
+export { Duration };

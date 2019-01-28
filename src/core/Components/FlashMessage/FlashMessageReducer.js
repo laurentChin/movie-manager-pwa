@@ -5,12 +5,12 @@ import {
 
 const initialState = {
   show: false,
-  message: '',
-  status: ''
-}
+  message: "",
+  status: ""
+};
 
 const flashMessageReducer = (state = initialState, action) => {
-  const {type, message, status} = action;
+  const { type, message, status } = action;
   switch (type) {
     case FLASH_MESSAGE_SHOW:
       return {
@@ -18,17 +18,17 @@ const flashMessageReducer = (state = initialState, action) => {
         show: true,
         message,
         status
-      }
+      };
     case FLASH_MESSAGE_HIDE:
       return {
         ...state,
         show: false
-      }
+      };
     default:
       return {
         ...state
-      }
+      };
   }
-}
+};
 
 export default flashMessageReducer;

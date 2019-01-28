@@ -1,23 +1,19 @@
-import { createStore, compose, applyMiddleware } from 'redux';
-import thunkMiddleware from 'redux-thunk';
+import { createStore, compose, applyMiddleware } from "redux";
+import thunkMiddleware from "redux-thunk";
 
-import {
-  loaderMiddleware,
-  flashMessageMiddleWare } from './core';
+import { loaderMiddleware, flashMessageMiddleWare } from "./core";
 
-import rootReducer from './RootReducer';
+import rootReducer from "./RootReducer";
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const configureStore = ()  => {
+const configureStore = () => {
   return createStore(
     rootReducer,
-    composeEnhancer(applyMiddleware(
-      thunkMiddleware,
-      loaderMiddleware,
-      flashMessageMiddleWare
-    ))
-  )
-}
+    composeEnhancer(
+      applyMiddleware(thunkMiddleware, loaderMiddleware, flashMessageMiddleWare)
+    )
+  );
+};
 
 export default configureStore;

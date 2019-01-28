@@ -1,4 +1,4 @@
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 import {
   FACEBOOK_LOGIN_REQUEST_PENDING,
@@ -8,8 +8,8 @@ import {
 
 const initialState = {
   isFetching: false,
-  isAuthenticated: Cookies.get('jwt') !== undefined
-}
+  isAuthenticated: Cookies.get("jwt") !== undefined
+};
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -34,8 +34,8 @@ const authReducer = (state = initialState, action) => {
     default:
       return {
         ...state
-      }
+      };
   }
-}
+};
 
 export default authReducer;

@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import {Link} from 'react-router-dom';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
-import './Home.css';
+import "./Home.css";
 
-import { fetchMovies } from './Movie/Actions';
+import { fetchMovies } from "./Movie/Actions";
 import MovieList from "./Movie/List/MovieList";
 import { withAuth } from "./Auth";
 
 class Home extends Component {
-
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchMovies());
@@ -20,17 +19,19 @@ class Home extends Component {
     return (
       <div className="home-container">
         <span className="movie-count">Count: {movies.length}</span>
-        {!this.props.isFetching
-        && movies.length > 0
-        && <MovieList movies={movies} />}
-        <Link to="/movies/create" className="add-movie-btn">+</Link>
+        {!this.props.isFetching && movies.length > 0 && (
+          <MovieList movies={movies} />
+        )}
+        <Link to="/movies/create" className="add-movie-btn">
+          +
+        </Link>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => {
-  const {isFetching, items: movies} = state.movies || {
+const mapStateToProps = state => {
+  const { isFetching, items: movies } = state.movies || {
     isFetching: true,
     movies: []
   };
@@ -38,7 +39,7 @@ const mapStateToProps = (state) => {
   return {
     isFetching,
     movies
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps)(withAuth(Home));

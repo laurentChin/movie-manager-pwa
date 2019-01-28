@@ -1,7 +1,10 @@
-import api from './Api';
-import { Loader, loaderMiddleware } from './Components/Loader';
-import { FlashMessage, flashMessageMiddleWare } from './Components/FlashMessage';
-import Image from './Components/Image';
+import api from "./Api";
+import { Loader, loaderMiddleware } from "./Components/Loader";
+import {
+  FlashMessage,
+  flashMessageMiddleWare
+} from "./Components/FlashMessage";
+import Image from "./Components/Image";
 
 export {
   api,
@@ -10,4 +13,4 @@ export {
   loaderMiddleware,
   FlashMessage,
   flashMessageMiddleWare
-}
+};

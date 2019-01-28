@@ -1,10 +1,12 @@
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 const apiBaseUrl = process.env.REACT_APP_API_URL;
 
 async function facebookLogin(code) {
-  const facebookLoginResponse = await fetch(`${apiBaseUrl}/security/facebook/${code}`);
-  if(facebookLoginResponse.status === 200) {
+  const facebookLoginResponse = await fetch(
+    `${apiBaseUrl}/security/facebook/${code}`
+  );
+  if (facebookLoginResponse.status === 200) {
     return await facebookLoginResponse.json();
   } else {
     throw new Error(facebookLoginResponse.text());
@@ -31,12 +33,15 @@ async function createMovie(movie) {
   const formData = new FormData();
 
   for (let key in movie) {
-    formData.append(key, (key === 'formats') ? JSON.stringify(movie[key]) : movie[key]);
+    formData.append(
+      key,
+      key === "formats" ? JSON.stringify(movie[key]) : movie[key]
+    );
   }
 
   const createMovieResponse = await fetch(`${apiBaseUrl}/movies`, {
     headers: createAuthHeaders(),
-    method: 'POST',
+    method: "POST",
     body: formData
   });
 
@@ -47,12 +52,15 @@ async function updateMovie(id, payload) {
   const formData = new FormData();
 
   for (let key in payload) {
-    formData.append(key, (key === 'formats') ? JSON.stringify(payload[key]) : payload[key]);
+    formData.append(
+      key,
+      key === "formats" ? JSON.stringify(payload[key]) : payload[key]
+    );
   }
 
   const updateMovieResponse = await fetch(`${apiBaseUrl}/movies/${id}`, {
     headers: createAuthHeaders(),
-    method: 'PATCH',
+    method: "PATCH",
     body: formData
   });
   return await updateMovieResponse.json();
@@ -61,40 +69,36 @@ async function updateMovie(id, payload) {
 async function deleteMovie(id) {
   const deleteMovieResponse = await fetch(`${apiBaseUrl}/movies/${id}`, {
     headers: createAuthHeaders(),
-    method: 'DELETE'
+    method: "DELETE"
   });
 
   return await deleteMovieResponse.text();
 }
 
 async function fetchFormats() {
-  const fetchFormatsResponse = await fetch(
-    `${apiBaseUrl}/formats`, {
-      headers: createAuthHeaders()
-    });
+  const fetchFormatsResponse = await fetch(`${apiBaseUrl}/formats`, {
+    headers: createAuthHeaders()
+  });
   const jsonResponse = await fetchFormatsResponse.json();
   return jsonResponse;
 }
 
 async function bulkImport(file) {
   const formData = new FormData();
-  formData.append('csv', file);
+  formData.append("csv", file);
 
-  const bulkImportReponse = await fetch(
-    `${apiBaseUrl}/movies/import`,
-    {
-      headers: createAuthHeaders(),
-      method: 'POST',
-      body: formData
-    }
-  );
+  const bulkImportReponse = await fetch(`${apiBaseUrl}/movies/import`, {
+    headers: createAuthHeaders(),
+    method: "POST",
+    body: formData
+  });
 
   return await bulkImportReponse.json();
 }
 
 function createAuthHeaders() {
   return new Headers({
-    'Authorization': `Bearer ${Cookies.get('jwt')}`
+    Authorization: `Bearer ${Cookies.get("jwt")}`
   });
 }
 
@@ -107,4 +111,4 @@ export default {
   fetchFormats,
   deleteMovie,
   bulkImport
-}
+};

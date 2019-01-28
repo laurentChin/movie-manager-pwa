@@ -1,3 +1,3 @@
-import Movie from './Movie';
+import Movie from "./Movie";
 
 export { Movie };

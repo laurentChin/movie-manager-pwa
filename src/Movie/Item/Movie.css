@@ -6,7 +6,7 @@
   text-align: left;
   font-size: 11px;
   line-height: 14px;
-  box-shadow: 0px 0px 2px rgba(0,0,0,.2);
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
 
   picture {
     grid-area: picture;
@@ -62,7 +62,7 @@
     }
 
     a {
-      background-color: #3FA7D6;
+      background-color: #3fa7d6;
       text-decoration: none;
     }
     button {
@@ -83,7 +83,8 @@
       z-index: 10;
     }
 
-    picture, &__content {
+    picture,
+    &__content {
       width: 100%;
     }
 
@@ -92,8 +93,9 @@
       grid-row: 1 / span 3;
     }
 
-    &__content, .options {
-      background-color: rgba(0, 0, 0, .4);
+    &__content,
+    .options {
+      background-color: rgba(0, 0, 0, 0.4);
     }
 
     &__content {
