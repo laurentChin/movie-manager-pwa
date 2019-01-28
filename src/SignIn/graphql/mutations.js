@@ -8,6 +8,15 @@ const SIGN_IN = gql`
   }
 `;
 
+const VALIDATE_TOKEN = gql`
+  mutation ValidateToken($token: String) {
+    validateToken(token: $token) {
+      email
+    }
+  }
+`;
+
 export default {
-  SIGN_IN
+  SIGN_IN,
+  VALIDATE_TOKEN
 };

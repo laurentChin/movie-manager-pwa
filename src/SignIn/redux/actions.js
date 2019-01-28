@@ -1,7 +1,10 @@
 import {
   SIGN_IN_START_REQUEST_PENDING,
   SIGN_IN_START_REQUEST_FAILURE,
-  SIGN_IN_START_REQUEST_SUCCESS
+  SIGN_IN_START_REQUEST_SUCCESS,
+  SIGN_IN_FINISH_REQUEST_PENDING,
+  SIGN_IN_FINISH_REQUEST_FAILURE,
+  SIGN_IN_FINISH_REQUEST_SUCCESS
 } from "./actionTypes";
 
 import ApolloClient from "../../core/GraphQLClient";
@@ -31,6 +34,33 @@ export const startSignIn = (email, password) => {
       });
     dispatch({
       type: SIGN_IN_START_REQUEST_PENDING
+    });
+  };
+};
+
+export const finishSignIn = token => {
+  return dispatch => {
+    ApolloClient.mutate({
+      mutation: mutations.VALIDATE_TOKEN,
+      variables: {
+        token
+      }
+    })
+      .then(() => {
+        dispatch({
+          type: SIGN_IN_FINISH_REQUEST_SUCCESS
+        });
+      })
+      .catch(error => {
+        dispatch({
+          type: SIGN_IN_FINISH_REQUEST_FAILURE,
+          payload: {
+            error: error.toString()
+          }
+        });
+      });
+    dispatch({
+      type: SIGN_IN_FINISH_REQUEST_PENDING
     });
   };
 };

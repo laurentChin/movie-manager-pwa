@@ -1,3 +1,4 @@
 import StartForm from "./StartForm";
+import FinishForm from "./FinishForm";
 
-export { StartForm };
+export { StartForm, FinishForm };
