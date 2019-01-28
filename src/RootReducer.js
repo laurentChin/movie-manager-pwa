@@ -7,6 +7,7 @@ import authReducer from './Auth/Reducer';
 import formatReducer from "./Format/Reducer";
 import loaderReducer from "./core/Components/Loader/LoaderReducer";
 import flashMessageReducer from "./core/Components/FlashMessage/FlashMessageReducer";
+import { reducer as SignInReducer } from "./SignIn/redux";
 
 const rootReducer = combineReducers({
   movies: movieReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   form: formReducer,
   format: formatReducer,
   loader: loaderReducer,
-  flash: flashMessageReducer
+  flash: flashMessageReducer,
+  signIn: SignInReducer
 });
 
 export default rootReducer;

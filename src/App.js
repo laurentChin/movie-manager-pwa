@@ -17,8 +17,11 @@ import { Loader, FlashMessage }from "./core";
 
 class App extends Component {
   componentDidMount() {
-    if (!this.props.isAuthenticated && !/^\/login/.test(window.location.pathname)) {
-      window.location.replace('/login');
+    if (
+      !this.props.isAuthenticated &&
+      !/^\/login|signIn/.test(window.location.pathname)
+    ) {
+      window.location.replace("/login");
     }
   }
 
@@ -37,6 +40,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/movies" component={MovieRouter} />
+              <Route path="/signin" component={SignInRouter} />
               <Route path="/login" component={Auth} />
             </Switch>
           </Router>

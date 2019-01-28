@@ -15,9 +15,17 @@ class LogIn extends Component {
 
   render() {
     return (
-      <div className="login-options-container">
-        <div className="facebook-login-btn" onClick={() => this._initiateFacebookLogin()}>Log in with Facebook</div>
-      </div>
+      <Fragment>
+        <div className="login-options-container">
+          <div
+            className="facebook-login-btn"
+            onClick={() => this._initiateFacebookLogin()}
+          >
+            Log in with Facebook
+          </div>
+        </div>
+        <Link to="/signIn/start">Create an account.</Link>
+      </Fragment>
     );
   }
 }
