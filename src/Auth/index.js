@@ -1,5 +1,5 @@
 import AuthContext from "./Context";
 import withAuth from "./withAuth";
-import { Auth, LogIn, Success } from "./components";
+import { LogInForm } from "./containers";
 
-export { AuthContext, withAuth, Auth, LogIn, Success };
+export { AuthContext, withAuth, LogInForm };

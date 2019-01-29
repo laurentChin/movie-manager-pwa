@@ -8,10 +8,8 @@ const flashMessage = store => next => action => {
     return next(action);
   }
 
-  const mutationActionRegexp = new RegExp(
-    "(?:UPDATE|CREATION|DELETE)_(SUCCESS|FAILURE)$"
-  );
-  if (mutationActionRegexp.test(action.type)) {
+  const mutationActionRegexp = new RegExp("_(SUCCESS|FAILURE)$");
+  if (mutationActionRegexp.test(action.type) && action.flashMessage) {
     const [, status] = mutationActionRegexp.exec(action.type);
     store.dispatch({
       type: FLASH_MESSAGE_SHOW,

@@ -1,22 +1,35 @@
 import {
-  FACEBOOK_LOGIN_REQUEST_PENDING,
-  FACEBOOK_LOGIN_REQUEST_SUCCESS,
-  FACEBOOK_LOGIN_REQUEST_FAILURE
+  LOGIN_REQUEST_PENDING,
+  LOGIN_REQUEST_SUCCESS,
+  LOGIN_REQUEST_FAILURE
 } from "./ActionTypes";
 
 import Cookies from "js-cookie";
 
-import api from "../core/Api";
+import { GraphQLClient } from "../core";
 
-export const facebookLogin = code => {
+import { queries } from "./graphql";
+
+export const logIn = (email, password) => {
   return dispatch => {
     dispatch({
-      type: FACEBOOK_LOGIN_REQUEST_PENDING
+      type: LOGIN_REQUEST_PENDING
     });
 
-    return api
-      .facebookLogin(code)
-      .then(jwt => {
+    GraphQLClient.query({
+      query: queries.LOG_IN,
+      variables: {
+        email,
+        password
+      }
+    })
+      .then(response => {
+        const {
+          data: {
+            login: { jwt }
+          }
+        } = response;
+
         Cookies.set("jwt", jwt);
 
         if (navigator.serviceWorker.controller) {
@@ -24,16 +37,20 @@ export const facebookLogin = code => {
         }
 
         dispatch({
-          type: FACEBOOK_LOGIN_REQUEST_SUCCESS,
-          jwt
+          type: LOGIN_REQUEST_SUCCESS,
+          payload: { jwt },
+          flashMessage: `Successfully logged in as ${email}.`
         });
       })
-      .catch(e => {
-        // makes sure the jwt item is empty at login failure
+      .catch(error => {
         Cookies.remove("jwt");
+
         dispatch({
-          type: FACEBOOK_LOGIN_REQUEST_FAILURE,
-          error: e
+          type: LOGIN_REQUEST_FAILURE,
+          payload: {
+            error: error.toString()
+          },
+          flashMessage: `Log In failed for ${email}.`
         });
       });
   };

@@ -5,6 +5,7 @@ import {
   flashMessageMiddleWare
 } from "./Components/FlashMessage";
 import Image from "./Components/Image";
+import GraphQLClient from "./GraphQLClient";
 
 export {
   api,
@@ -12,5 +13,6 @@ export {
   Image,
   loaderMiddleware,
   FlashMessage,
-  flashMessageMiddleWare
+  flashMessageMiddleWare,
+  GraphQLClient
 };

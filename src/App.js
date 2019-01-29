@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import "./App.css";
 
 import Home from "./Home";
-import { Auth, AuthContext } from "./Auth";
+import { LogInForm, AuthContext } from "./Auth";
 import { MovieRouter } from "./Movie";
 import { Loader, FlashMessage } from "./core";
 import { Router as SignInRouter } from "./SignIn";
@@ -37,7 +37,7 @@ class App extends Component {
               <Route exact path="/" component={Home} />
               <Route path="/movies" component={MovieRouter} />
               <Route path="/signin" component={SignInRouter} />
-              <Route path="/login" component={Auth} />
+              <Route path="/login" component={LogInForm} />
             </Switch>
           </Router>
         </div>

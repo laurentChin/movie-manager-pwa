@@ -6,7 +6,8 @@ const startForm = ({
   submitHandler,
   validatePasswordConfirmation,
   startSignIn,
-  startSuccess
+  startSuccess,
+  logInLink
 }) => {
   return (
     <>
@@ -39,6 +40,7 @@ const startForm = ({
           <div className="formActions">
             <button type="submit">Sign In</button>
           </div>
+          {logInLink}
         </form>
       )}
     </>

@@ -1,31 +1,34 @@
 import Cookies from "js-cookie";
 
 import {
-  FACEBOOK_LOGIN_REQUEST_PENDING,
-  FACEBOOK_LOGIN_REQUEST_SUCCESS,
-  FACEBOOK_LOGIN_REQUEST_FAILURE
+  LOGIN_REQUEST_PENDING,
+  LOGIN_REQUEST_SUCCESS,
+  LOGIN_REQUEST_FAILURE
 } from "./ActionTypes";
 
 const initialState = {
   isFetching: false,
-  isAuthenticated: Cookies.get("jwt") !== undefined
+  isAuthenticated: Cookies.get("jwt") !== undefined,
+  jwt: Cookies.get("jwt")
 };
 
 const authReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case FACEBOOK_LOGIN_REQUEST_PENDING:
+  const { type, payload } = action;
+  switch (type) {
+    case LOGIN_REQUEST_PENDING:
       return {
         ...state,
         isFetching: true,
         isAuthenticated: false
       };
-    case FACEBOOK_LOGIN_REQUEST_SUCCESS:
+    case LOGIN_REQUEST_SUCCESS:
       return {
         ...state,
         isFetching: false,
-        isAuthenticated: true
+        isAuthenticated: true,
+        jwt: payload.jwt
       };
-    case FACEBOOK_LOGIN_REQUEST_FAILURE:
+    case LOGIN_REQUEST_FAILURE:
       return {
         ...state,
         isFetching: false,
