@@ -20,21 +20,35 @@ import {
 } from "./ActionTypes";
 
 import api from "../core/Api";
+import { GraphQLClient } from "../core";
+import { queries } from "./graphql";
 
-const fetchMovies = () => {
+import { MOVIE_ITEMS_LIMIT } from "./constants";
+
+const fetchMovies = offset => {
   return dispatch => {
     dispatch({
       type: MOVIES_REQUEST_PENDING
     });
 
-    return api
-      .fetchMovies()
-      .then(movies =>
+    GraphQLClient.query({
+      query: queries.MOVIES,
+      variables: {
+        offset,
+        limit: MOVIE_ITEMS_LIMIT
+      }
+    })
+      .then(response => {
+        const {
+          data: { movies }
+        } = response;
+
         dispatch({
           type: MOVIES_REQUEST_SUCCESS,
-          movies
-        })
-      )
+          movies,
+          offset: offset + MOVIE_ITEMS_LIMIT
+        });
+      })
       .catch(error => {
         dispatch({
           type: MOVIES_REQUEST_FAILURE,

@@ -16,6 +16,7 @@ import {
 const initialState = {
   isFetching: false,
   items: [],
+  offset: 0,
   movie: {},
   isProcessingCreation: false
 };
@@ -31,7 +32,8 @@ const movieReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        items: action.movies
+        items: [...new Set([...state.items, ...action.movies])],
+        offset: action.offset
       };
     case MOVIES_REQUEST_FAILURE:
       return {

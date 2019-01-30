@@ -6,7 +6,7 @@ import {
 
 import Cookies from "js-cookie";
 
-import { GraphQLClient } from "../core";
+import { GraphQLClient, authenticateGraphQLClient } from "../core";
 
 import { queries } from "./graphql";
 
@@ -35,6 +35,8 @@ export const logIn = (email, password) => {
         if (navigator.serviceWorker.controller) {
           navigator.serviceWorker.controller.postMessage(jwt);
         }
+
+        authenticateGraphQLClient(jwt);
 
         dispatch({
           type: LOGIN_REQUEST_SUCCESS,

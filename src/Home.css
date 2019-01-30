@@ -3,7 +3,8 @@
   grid-template-areas:
     "count"
     "add"
-    "movies";
+    "movies"
+    "more";
   max-width: 100vw;
   overflow: hidden;
   padding-top: 45px;
@@ -36,6 +37,12 @@
     grid-area: movies;
     position: relative;
     z-index: 0;
+  }
+
+  .fetch-more {
+    grid-area: more;
+    margin-top: 15px;
+    height: 40px;
   }
 
   @media screen and (max-width: 500px) {

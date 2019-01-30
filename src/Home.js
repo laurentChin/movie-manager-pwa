@@ -10,36 +10,42 @@ import { withAuth } from "./Auth";
 
 class Home extends Component {
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchMovies());
+    const { fetchMovies, offset } = this.props;
+    fetchMovies(offset);
   }
 
   render() {
-    const movies = this.props.movies || [];
+    const { movies, offset, isFetching, fetchMovies } = this.props;
     return (
       <div className="home-container">
         <span className="movie-count">Count: {movies.length}</span>
-        {!this.props.isFetching && movies.length > 0 && (
-          <MovieList movies={movies} />
-        )}
+        {!isFetching && movies.length > 0 && <MovieList movies={movies} />}
         <Link to="/movies/create" className="add-movie-btn">
           +
         </Link>
+        <button className="fetch-more" onClick={() => fetchMovies(offset)}>
+          More...
+        </button>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const { isFetching, items: movies } = state.movies || {
-    isFetching: true,
-    movies: []
-  };
+  const { isFetching, items: movies, offset } = state.movies;
 
   return {
     isFetching,
-    movies
+    movies,
+    offset
   };
 };
 
-export default connect(mapStateToProps)(withAuth(Home));
+const mapDispatchToProps = {
+  fetchMovies
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withAuth(Home));

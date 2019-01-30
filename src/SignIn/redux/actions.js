@@ -7,12 +7,12 @@ import {
   SIGN_IN_FINISH_REQUEST_SUCCESS
 } from "./actionTypes";
 
-import ApolloClient from "../../core/GraphQLClient";
+import { GraphQLClient } from "../../core/GraphQLClient";
 import { mutations } from "../graphql";
 
 export const startSignIn = (email, password) => {
   return dispatch => {
-    ApolloClient.mutate({
+    GraphQLClient.mutate({
       mutation: mutations.SIGN_IN,
       variables: {
         email,
@@ -40,7 +40,7 @@ export const startSignIn = (email, password) => {
 
 export const finishSignIn = token => {
   return dispatch => {
-    ApolloClient.mutate({
+    GraphQLClient.mutate({
       mutation: mutations.VALIDATE_TOKEN,
       variables: {
         token
