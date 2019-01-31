@@ -13,13 +13,11 @@ class CreationPage extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchFormats());
+    this.props.fetchFormats();
   }
 
   submitHandler(formData) {
-    this.props.dispatch(createMovie(formData)).then(() => {
-      this.props.history.push("/");
-    });
+    this.props.createMovie(formData);
   }
   render() {
     return <Form onSubmit={this.submitHandler} formats={this.props.formats} />;
@@ -37,4 +35,12 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(withAuth(CreationPage));
+const mapDispatchToProps = {
+  fetchFormats,
+  createMovie
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withAuth(CreationPage));

@@ -21,7 +21,7 @@ import {
 
 import api from "../core/Api";
 import { GraphQLClient } from "../core";
-import { queries } from "./graphql";
+import { queries, mutations } from "./graphql";
 
 import { MOVIE_ITEMS_LIMIT } from "./constants";
 
@@ -81,26 +81,37 @@ const fetchMovie = id => {
   };
 };
 
-const createMovie = movie => {
+const createMovie = ({ title, director, releaseDate, poster, formats }) => {
   return dispatch => {
     dispatch({
       type: MOVIE_CREATION_PENDING
     });
 
-    return api
-      .createMovie(movie)
-      .then(json =>
+    GraphQLClient.mutate({
+      mutation: mutations.ADD_MOVIE,
+      variables: {
+        title,
+        director,
+        releaseDate,
+        poster,
+        formats: formats.map(format => format.id)
+      }
+    })
+      .then(response => {
+        const {
+          data: { addMovie: movie }
+        } = response;
         dispatch({
           type: MOVIE_CREATION_SUCCESS,
-          movie: json,
+          movie,
           flashMessage: `'${movie.title}' has been created successfully.`
-        })
-      )
-      .catch(e => {
+        });
+      })
+      .catch(error => {
         dispatch({
           type: MOVIE_CREATION_FAILURE,
-          error: e,
-          flashMessage: `'${movie.title}' creation fails.`
+          error: error,
+          flashMessage: `'${title}' creation fails.`
         });
       });
   };

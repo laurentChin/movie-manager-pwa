@@ -13,7 +13,7 @@ class CoverInput extends Component {
   onChangeHandler(reduxFormOnChangeHandler) {
     return event => {
       const file = event.target.files[0];
-      reduxFormOnChangeHandler(event.target.files[0]);
+      reduxFormOnChangeHandler(file);
 
       const reader = new FileReader();
       reader.onloadend = event => {
