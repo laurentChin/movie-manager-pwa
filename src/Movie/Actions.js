@@ -1,3 +1,4 @@
+import { push } from "connected-react-router";
 import {
   MOVIES_REQUEST_PENDING,
   MOVIES_REQUEST_SUCCESS,
@@ -5,9 +6,6 @@ import {
   MOVIE_CREATION_PENDING,
   MOVIE_CREATION_SUCCESS,
   MOVIE_CREATION_FAILURE,
-  MOVIE_REQUEST_PENDING,
-  MOVIE_REQUEST_SUCCESS,
-  MOVIE_REQUEST_FAILURE,
   MOVIE_UPDATE_PENDING,
   MOVIE_UPDATE_SUCCESS,
   MOVIE_UPDATE_FAILURE,
@@ -16,7 +14,8 @@ import {
   MOVIE_DELETE_FAILURE,
   MOVIE_BULK_IMPORT_PENDING,
   MOVIE_BULK_IMPORT_SUCCESS,
-  MOVIE_BULK_IMPORT_FAILURE
+  MOVIE_BULK_IMPORT_FAILURE,
+  MOVIE_SELECT
 } from "./ActionTypes";
 
 import api from "../core/Api";
@@ -58,29 +57,6 @@ const fetchMovies = offset => {
   };
 };
 
-const fetchMovie = id => {
-  return dispatch => {
-    dispatch({
-      type: MOVIE_REQUEST_PENDING
-    });
-
-    return api
-      .fetchMovie(id)
-      .then(movie => {
-        dispatch({
-          type: MOVIE_REQUEST_SUCCESS,
-          movie
-        });
-      })
-      .catch(e => {
-        dispatch({
-          type: MOVIE_REQUEST_FAILURE,
-          error: e
-        });
-      });
-  };
-};
-
 const createMovie = ({ title, director, releaseDate, poster, formats }) => {
   return dispatch => {
     dispatch({
@@ -117,26 +93,26 @@ const createMovie = ({ title, director, releaseDate, poster, formats }) => {
   };
 };
 
-const updateMovie = (id, payload) => {
+const updateMovie = movie => {
   return dispatch => {
     dispatch({
       type: MOVIE_UPDATE_PENDING
     });
 
     return api
-      .updateMovie(id, payload)
+      .updateMovie(movie)
       .then(movie => {
         dispatch({
           type: MOVIE_UPDATE_SUCCESS,
           movie,
-          flashMessage: `'${payload.title}' has been updated successfully.`
+          flashMessage: `'${movie.title}' has been updated successfully.`
         });
       })
       .catch(e => {
         dispatch({
           type: MOVIE_UPDATE_FAILURE,
           error: e,
-          flashMessage: `'${payload.title}' update fails.`
+          flashMessage: `'${movie.title}' update fails.`
         });
       });
   };
@@ -188,11 +164,22 @@ const bulkImport = file => {
   };
 };
 
+const editMovie = movie => {
+  return dispatch => {
+    dispatch({
+      type: MOVIE_SELECT,
+      movie
+    });
+
+    dispatch(push(`/movies/${movie.id}/update`));
+  };
+};
+
 export {
   fetchMovies,
-  fetchMovie,
   createMovie,
   updateMovie,
   deleteMovie,
-  bulkImport
+  bulkImport,
+  editMovie
 };

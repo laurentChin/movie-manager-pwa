@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
+import { ConnectedRouter } from "connected-react-router";
 
 import "./App.css";
 
@@ -22,7 +23,7 @@ class App extends Component {
   }
 
   render() {
-    const { loading, showFlash } = this.props;
+    const { loading, showFlash, history } = this.props;
     let className = "main-container";
     if (loading) {
       className = `${className} ${className}--hidden`;
@@ -32,14 +33,14 @@ class App extends Component {
       <AuthContext.Provider>
         {showFlash && <FlashMessage />}
         <div className={className}>
-          <Router>
+          <ConnectedRouter history={history}>
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/movies" component={MovieRouter} />
               <Route path="/signin" component={SignInRouter} />
               <Route path="/login" component={LogInForm} />
             </Switch>
-          </Router>
+          </ConnectedRouter>
         </div>
         <Loader />
       </AuthContext.Provider>

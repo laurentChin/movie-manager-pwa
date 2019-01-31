@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import "./MovieList.css";
 
-import { Movie } from "../";
+import { Movie } from "../containers";
 
 class MovieList extends Component {
   render() {

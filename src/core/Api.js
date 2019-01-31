@@ -48,17 +48,17 @@ async function createMovie(movie) {
   return await createMovieResponse.json();
 }
 
-async function updateMovie(id, payload) {
+async function updateMovie(movie) {
   const formData = new FormData();
 
-  for (let key in payload) {
+  for (let key in movie) {
     formData.append(
       key,
-      key === "formats" ? JSON.stringify(payload[key]) : payload[key]
+      key === "formats" ? JSON.stringify(movie[key]) : movie[key]
     );
   }
 
-  const updateMovieResponse = await fetch(`${apiBaseUrl}/movies/${id}`, {
+  const updateMovieResponse = await fetch(`${apiBaseUrl}/movies/${movie.id}`, {
     headers: createAuthHeaders(),
     method: "PATCH",
     body: formData

@@ -2,22 +2,20 @@ import {
   MOVIES_REQUEST_PENDING,
   MOVIES_REQUEST_SUCCESS,
   MOVIES_REQUEST_FAILURE,
-  MOVIE_REQUEST_PENDING,
-  MOVIE_REQUEST_SUCCESS,
-  MOVIE_REQUEST_FAILURE,
   MOVIE_CREATION_PENDING,
   MOVIE_CREATION_SUCCESS,
   MOVIE_CREATION_FAILURE,
   MOVIE_BULK_IMPORT_PENDING,
   MOVIE_BULK_IMPORT_SUCCESS,
-  MOVIE_BULK_IMPORT_FAILURE
+  MOVIE_BULK_IMPORT_FAILURE,
+  MOVIE_SELECT
 } from "./ActionTypes";
 
 const initialState = {
   isFetching: false,
   items: [],
   offset: 0,
-  movie: {},
+  selected: null,
   isProcessingCreation: false
 };
 
@@ -59,23 +57,6 @@ const movieReducer = (state = initialState, action) => {
         creationDone: false,
         error: action.e
       };
-    case MOVIE_REQUEST_PENDING:
-      return {
-        ...state,
-        isFetching: true
-      };
-    case MOVIE_REQUEST_SUCCESS:
-      return {
-        ...state,
-        isFetching: false,
-        movie: action.movie
-      };
-    case MOVIE_REQUEST_FAILURE:
-      return {
-        ...state,
-        isFetching: false,
-        error: action.e
-      };
     case MOVIE_BULK_IMPORT_PENDING:
       return {
         ...state,
@@ -94,6 +75,11 @@ const movieReducer = (state = initialState, action) => {
         isProcessingImport: false,
         importDone: false,
         error: action.e
+      };
+    case MOVIE_SELECT:
+      return {
+        ...state,
+        selected: action.movie
       };
     default:
       return state;
