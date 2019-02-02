@@ -9,7 +9,8 @@ import {
   MOVIE_BULK_IMPORT_SUCCESS,
   MOVIE_BULK_IMPORT_FAILURE,
   MOVIE_SELECT,
-  MOVIE_UPDATE_SUCCESS
+  MOVIE_UPDATE_SUCCESS,
+  MOVIE_DELETE_SUCCESS
 } from "./ActionTypes";
 
 const initialState = {
@@ -57,6 +58,11 @@ const movieReducer = (state = initialState, action) => {
         isProcessingCreation: false,
         creationDone: false,
         error: action.e
+      };
+    case MOVIE_DELETE_SUCCESS:
+      return {
+        ...state,
+        items: state.items.filter(movie => movie.id !== action.id)
       };
     case MOVIE_BULK_IMPORT_PENDING:
       return {

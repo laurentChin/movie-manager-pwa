@@ -144,6 +144,7 @@ const deleteMovie = (id, title) => {
       .then(() => {
         dispatch({
           type: MOVIE_DELETE_SUCCESS,
+          id,
           flashMessage: `'${title}' has been deleted successfully.`
         });
       })
