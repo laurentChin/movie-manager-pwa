@@ -51,7 +51,7 @@ const UPDATE_MOVIE = gql`
       releaseDate
       poster
       formats {
-        id,
+        id
         name
       }
     }
