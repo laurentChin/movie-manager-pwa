@@ -12,6 +12,7 @@ import {
   MOVIE_UPDATE_SUCCESS,
   MOVIE_DELETE_SUCCESS
 } from "./ActionTypes";
+import { orderBy } from "natural-orderby";
 
 const initialState = {
   isFetching: false,
@@ -49,6 +50,7 @@ const movieReducer = (state = initialState, action) => {
     case MOVIE_CREATION_SUCCESS:
       return {
         ...state,
+        items: orderBy([...state.items, action.movie], "title", "asc"),
         isProcessingCreation: false,
         creationDone: true
       };

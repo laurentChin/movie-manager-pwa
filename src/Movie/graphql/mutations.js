@@ -15,11 +15,13 @@ const ADD_MOVIE = gql`
       poster: $poster
       formats: $formats
     ) {
+      id
       title
       director
       releaseDate
       poster
       formats {
+        id
         name
       }
     }
