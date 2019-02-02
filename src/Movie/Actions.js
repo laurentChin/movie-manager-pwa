@@ -139,13 +139,17 @@ const deleteMovie = (id, title) => {
       type: MOVIE_DELETE_PENDING
     });
 
-    return api
-      .deleteMovie(id)
-      .then(() => {
+    GraphQLClient.mutate({
+      mutation: mutations.DELETE_MOVIE,
+      variables: {
+        id: parseInt(id)
+      }
+    })
+      .then(reponse => {
         dispatch({
           type: MOVIE_DELETE_SUCCESS,
-          id,
-          flashMessage: `'${title}' has been deleted successfully.`
+          id: reponse.id,
+          flashMessage: `'${reponse.title}' has been deleted successfully.`
         });
       })
       .catch(e => {

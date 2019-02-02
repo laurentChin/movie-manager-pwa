@@ -58,7 +58,17 @@ const UPDATE_MOVIE = gql`
   }
 `;
 
+const DELETE_MOVIE = gql`
+  mutation DeleteMovie($id: ID) {
+    deleteMovie(id: $id) {
+      id
+      title
+    }
+  }
+`;
+
 export default {
   ADD_MOVIE,
-  UPDATE_MOVIE
+  UPDATE_MOVIE,
+  DELETE_MOVIE
 };
