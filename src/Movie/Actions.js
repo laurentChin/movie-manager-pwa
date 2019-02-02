@@ -93,26 +93,41 @@ const createMovie = ({ title, director, releaseDate, poster, formats }) => {
   };
 };
 
-const updateMovie = movie => {
+const updateMovie = ({ id, title, director, releaseDate, poster, formats }) => {
   return dispatch => {
     dispatch({
       type: MOVIE_UPDATE_PENDING
     });
 
-    return api
-      .updateMovie(movie)
-      .then(movie => {
+    GraphQLClient.mutate({
+      mutation: mutations.UPDATE_MOVIE,
+      variables: {
+        id: parseInt(id),
+        title,
+        director,
+        releaseDate,
+        poster,
+        formats: formats
+          .filter(format => format.id)
+          .map(format => parseInt(format.id))
+      }
+    })
+      .then(response => {
+        const {
+          data: { updateMovie: movie }
+        } = response;
+
         dispatch({
           type: MOVIE_UPDATE_SUCCESS,
           movie,
-          flashMessage: `'${movie.title}' has been updated successfully.`
+          flashMessage: `'${title}' has been updated successfully.`
         });
       })
-      .catch(e => {
+      .catch(error => {
         dispatch({
           type: MOVIE_UPDATE_FAILURE,
-          error: e,
-          flashMessage: `'${movie.title}' update fails.`
+          error,
+          flashMessage: `'${title}' update fails.`
         });
       });
   };

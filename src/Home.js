@@ -10,8 +10,10 @@ import { withAuth } from "./Auth";
 
 class Home extends Component {
   componentDidMount() {
-    const { fetchMovies, offset } = this.props;
-    fetchMovies(offset);
+    const { fetchMovies, movies } = this.props;
+    if (movies.length === 0) {
+      fetchMovies(0);
+    }
   }
 
   render() {

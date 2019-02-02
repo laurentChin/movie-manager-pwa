@@ -8,7 +8,8 @@ import {
   MOVIE_BULK_IMPORT_PENDING,
   MOVIE_BULK_IMPORT_SUCCESS,
   MOVIE_BULK_IMPORT_FAILURE,
-  MOVIE_SELECT
+  MOVIE_SELECT,
+  MOVIE_UPDATE_SUCCESS
 } from "./ActionTypes";
 
 const initialState = {
@@ -75,6 +76,17 @@ const movieReducer = (state = initialState, action) => {
         isProcessingImport: false,
         importDone: false,
         error: action.e
+      };
+    case MOVIE_UPDATE_SUCCESS:
+      return {
+        ...state,
+        items: state.items.map(movie => {
+          if (movie.id === action.movie.id) {
+            return action.movie;
+          }
+
+          return movie;
+        })
       };
     case MOVIE_SELECT:
       return {
