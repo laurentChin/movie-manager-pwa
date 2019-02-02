@@ -9,7 +9,9 @@ class FormatList extends Component {
     return (
       <div className="format-list">
         {this.props.formats.map(format => {
-          return <Format key={format.id} label={format.name} />;
+          return (
+            <Format key={format.id} label={format.name} logo={format.logo} />
+          );
         })}
       </div>
     );

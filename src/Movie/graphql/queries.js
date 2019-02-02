@@ -11,6 +11,7 @@ const MOVIES = gql`
       formats {
         id
         name
+        logo
       }
     }
   }

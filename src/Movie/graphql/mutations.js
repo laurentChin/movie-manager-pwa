@@ -23,6 +23,7 @@ const ADD_MOVIE = gql`
       formats {
         id
         name
+        logo
       }
     }
   }
@@ -53,6 +54,7 @@ const UPDATE_MOVIE = gql`
       formats {
         id
         name
+        logo
       }
     }
   }

@@ -1,4 +1,6 @@
 .format {
   font-size: 9px;
   text-transform: uppercase;
+  height: 10px;
+  filter: drop-shadow(0 0 1px #fff);
 }

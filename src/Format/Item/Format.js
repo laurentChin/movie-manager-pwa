@@ -2,9 +2,17 @@ import React, { Component } from "react";
 
 import "./Format.css";
 
+const baseUrl = process.env.REACT_APP_API_URL;
+
 class Format extends Component {
   render() {
-    return <span className="format">{this.props.label}</span>;
+    return (
+      <img
+        src={`${baseUrl}/assets/${this.props.logo}`}
+        className="format"
+        alt={this.props.name}
+      />
+    );
   }
 }
 
