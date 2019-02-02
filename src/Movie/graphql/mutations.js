@@ -6,7 +6,7 @@ const ADD_MOVIE = gql`
     $director: String
     $releaseDate: String
     $poster: Upload
-    $formats: [Int]
+    $formats: [ID]
   ) {
     addMovie(
       title: $title
@@ -30,12 +30,12 @@ const ADD_MOVIE = gql`
 
 const UPDATE_MOVIE = gql`
   mutation UpdateMovie(
-    $id: Int
+    $id: ID
     $title: String
     $director: String
     $releaseDate: String
     $poster: Upload
-    $formats: [Int]
+    $formats: [ID]
   ) {
     updateMovie(
       id: $id
