@@ -42,10 +42,13 @@ const fetchMovies = offset => {
           data: { movies }
         } = response;
 
+        const hasMoreToFetch = movies.length !== 0;
+
         dispatch({
           type: MOVIES_REQUEST_SUCCESS,
           movies,
-          offset: offset + MOVIE_ITEMS_LIMIT
+          hasMoreToFetch,
+          offset: hasMoreToFetch ? offset + MOVIE_ITEMS_LIMIT : offset
         });
       })
       .catch(error => {

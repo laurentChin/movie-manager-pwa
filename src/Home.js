@@ -17,7 +17,13 @@ class Home extends Component {
   }
 
   render() {
-    const { movies, offset, isFetching, fetchMovies } = this.props;
+    const {
+      movies,
+      offset,
+      isFetching,
+      fetchMovies,
+      hasMoreToFetch
+    } = this.props;
     return (
       <div className="home-container">
         <span className="movie-count">Count: {movies.length}</span>
@@ -25,21 +31,24 @@ class Home extends Component {
         <Link to="/movies/create" className="add-movie-btn">
           +
         </Link>
-        <button className="fetch-more" onClick={() => fetchMovies(offset)}>
-          More...
-        </button>
+        {hasMoreToFetch && (
+          <button className="fetch-more" onClick={() => fetchMovies(offset)}>
+            More...
+          </button>
+        )}
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const { isFetching, items: movies, offset } = state.movies;
+  const { isFetching, items: movies, offset, hasMoreToFetch } = state.movies;
 
   return {
     isFetching,
     movies,
-    offset
+    offset,
+    hasMoreToFetch
   };
 };
 

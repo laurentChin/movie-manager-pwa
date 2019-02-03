@@ -19,7 +19,8 @@ const initialState = {
   items: [],
   offset: 0,
   selected: null,
-  isProcessingCreation: false
+  isProcessingCreation: false,
+  hasMoreToFetch: true
 };
 
 const movieReducer = (state = initialState, action) => {
@@ -34,7 +35,8 @@ const movieReducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
         items: [...new Set([...state.items, ...action.movies])],
-        offset: action.offset
+        offset: action.offset,
+        hasMoreToFetch: action.hasMoreToFetch
       };
     case MOVIES_REQUEST_FAILURE:
       return {
