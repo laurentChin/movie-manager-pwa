@@ -17,6 +17,7 @@ export const history = createBrowserHistory();
 
 const persisConfig = {
   key: "movieManager",
+  whitelist: ["auth", "user", "movies", "form", "router"],
   storage
 };
 
