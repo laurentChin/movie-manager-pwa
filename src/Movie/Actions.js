@@ -148,11 +148,15 @@ const deleteMovie = (id, title) => {
         id: parseInt(id)
       }
     })
-      .then(reponse => {
+      .then(response => {
+        const {
+          data: { deleteMovie: movie }
+        } = response;
+
         dispatch({
           type: MOVIE_DELETE_SUCCESS,
-          id: reponse.id,
-          flashMessage: `'${reponse.title}' has been deleted successfully.`
+          id: movie.id,
+          flashMessage: `'${movie.title}' has been deleted successfully.`
         });
       })
       .catch(e => {
