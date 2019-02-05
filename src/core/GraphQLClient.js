@@ -12,9 +12,10 @@ const httpLink = createUploadLink({
 });
 
 const defaultOptions = {
-  cache: new InMemoryCache({
+  cache: new InMemoryCache(),
+  query: {
     fetchPolicy: "network-only"
-  })
+  }
 };
 
 let GraphQLClient;
