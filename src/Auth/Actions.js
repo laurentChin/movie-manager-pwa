@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 import { GraphQLClient, authenticateGraphQLClient } from "../core";
 
 import { queries } from "./graphql";
+import { fetchUser } from "../User/actions";
 
 export const logIn = (email, password) => {
   return dispatch => {
@@ -43,6 +44,8 @@ export const logIn = (email, password) => {
           payload: { jwt },
           flashMessage: `Successfully logged in as ${email}.`
         });
+
+        dispatch(fetchUser());
       })
       .catch(error => {
         Cookies.remove("jwt");

@@ -5,15 +5,17 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 
 import { fetchMovies } from "./Movie/Actions";
+import { fetchUser } from "./User/actions";
 import MovieList from "./Movie/List/MovieList";
 import { withAuth } from "./Auth";
 
 class Home extends Component {
   componentDidMount() {
-    const { fetchMovies, movies } = this.props;
+    const { fetchMovies, movies, fetchUser } = this.props;
     if (movies.length === 0) {
       fetchMovies(0);
     }
+    fetchUser();
   }
 
   render() {
@@ -22,11 +24,12 @@ class Home extends Component {
       offset,
       isFetching,
       fetchMovies,
-      hasMoreToFetch
+      hasMoreToFetch,
+      count
     } = this.props;
     return (
       <div className="home-container">
-        <span className="movie-count">Count: {movies.length}</span>
+        <span className="movie-count">Count: {count}</span>
         {!isFetching && movies.length > 0 && <MovieList movies={movies} />}
         <Link to="/movies/create" className="add-movie-btn">
           +
@@ -41,19 +44,22 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const { isFetching, items: movies, offset, hasMoreToFetch } = state.movies;
+const mapStateToProps = ({ movies, user }) => {
+  const { isFetching, items, offset, hasMoreToFetch } = movies;
+  const { count } = user;
 
   return {
     isFetching,
-    movies,
+    movies: items,
     offset,
-    hasMoreToFetch
+    hasMoreToFetch,
+    count
   };
 };
 
 const mapDispatchToProps = {
-  fetchMovies
+  fetchMovies,
+  fetchUser
 };
 
 export default connect(
