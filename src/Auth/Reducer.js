@@ -1,5 +1,3 @@
-import Cookies from "js-cookie";
-
 import {
   LOGIN_REQUEST_PENDING,
   LOGIN_REQUEST_SUCCESS,
@@ -8,8 +6,8 @@ import {
 
 const initialState = {
   isFetching: false,
-  isAuthenticated: Cookies.get("jwt") !== undefined,
-  jwt: Cookies.get("jwt")
+  isAuthenticated: !!localStorage.getItem("jwt"),
+  jwt: localStorage.getItem("jwt")
 };
 
 const authReducer = (state = initialState, action) => {

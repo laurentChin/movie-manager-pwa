@@ -1,5 +1,3 @@
-import Cookies from "js-cookie";
-
 const apiBaseUrl = process.env.REACT_APP_API_URL;
 
 async function facebookLogin(code) {
@@ -98,7 +96,7 @@ async function bulkImport(file) {
 
 function createAuthHeaders() {
   return new Headers({
-    Authorization: `Bearer ${Cookies.get("jwt")}`
+    Authorization: `Bearer ${localStorage.getItem("jwt")}`
   });
 }
 

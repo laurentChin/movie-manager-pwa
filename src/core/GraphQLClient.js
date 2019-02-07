@@ -4,8 +4,6 @@ import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { GRAPHQL_ENDPONT } from "../Auth/constants";
 
-import Cookies from "js-cookie";
-
 const httpLink = createUploadLink({
   uri: GRAPHQL_ENDPONT,
   includeExtensions: true
@@ -20,8 +18,8 @@ const defaultOptions = {
 
 let GraphQLClient;
 
-if (Cookies.get("jwt")) {
-  authenticateGraphQLClient(Cookies.get("jwt"));
+if (localStorage.getItem("jwt")) {
+  authenticateGraphQLClient(localStorage.getItem("jwt"));
 } else {
   createAnonymousGraphQLClient();
 }

@@ -4,8 +4,6 @@ import {
   LOGIN_REQUEST_FAILURE
 } from "./ActionTypes";
 
-import Cookies from "js-cookie";
-
 import { GraphQLClient, authenticateGraphQLClient } from "../core";
 
 import { queries } from "./graphql";
@@ -31,7 +29,7 @@ export const logIn = (email, password) => {
           }
         } = response;
 
-        Cookies.set("jwt", jwt);
+        localStorage.setItem("jwt", jwt);
 
         if (navigator.serviceWorker.controller) {
           navigator.serviceWorker.controller.postMessage(jwt);
@@ -48,7 +46,7 @@ export const logIn = (email, password) => {
         dispatch(fetchUser());
       })
       .catch(error => {
-        Cookies.remove("jwt");
+        localStorage.removeItem("jwt");
 
         dispatch({
           type: LOGIN_REQUEST_FAILURE,

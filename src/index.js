@@ -1,8 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import Cookies from "js-cookie";
-
 import Root from "./Root";
 import "./index.css";
 
@@ -10,8 +8,10 @@ if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("/service-worker.js")
     .then(() => {
-      if (Cookies.get("jwt")) {
-        navigator.serviceWorker.controller.postMessage(Cookies.get("jwt"));
+      if (localStorage.getItem("jwt")) {
+        navigator.serviceWorker.controller.postMessage(
+          localStorage.getItem("jwt")
+        );
       }
     })
     .catch(() => {});

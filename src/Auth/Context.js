@@ -1,9 +1,7 @@
 import React from "react";
 
-import Cookies from "js-cookie";
-
 const AuthContext = React.createContext({
-  jwt: Cookies.get("jwt") || null
+  jwt: localStorage.getItem("jwt") || null
 });
 
 export default AuthContext;
