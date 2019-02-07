@@ -10,6 +10,7 @@ import loaderReducer from "./core/Components/Loader/LoaderReducer";
 import flashMessageReducer from "./core/Components/FlashMessage/FlashMessageReducer";
 import { reducer as SignInReducer } from "./SignIn/redux";
 import userReducer from "./User/reducer";
+import searchReducer from "./Search/reducer";
 
 const rootReducer = history =>
   combineReducers({
@@ -21,6 +22,7 @@ const rootReducer = history =>
     loader: loaderReducer,
     flash: flashMessageReducer,
     signIn: SignInReducer,
+    search: searchReducer,
     router: connectRouter(history)
   });
 

@@ -8,6 +8,7 @@ import { fetchMovies } from "./Movie/Actions";
 import { fetchUser } from "./User/actions";
 import MovieList from "./Movie/List/MovieList";
 import { withAuth } from "./Auth";
+import SearchBox from "./Search/container/SearchBox";
 
 class Home extends Component {
   componentDidMount() {
@@ -25,15 +26,24 @@ class Home extends Component {
       isFetching,
       fetchMovies,
       hasMoreToFetch,
-      count
+      count,
+      matches
     } = this.props;
     return (
       <div className="home-container">
-        <span className="movie-count">Count: {count}</span>
-        {!isFetching && movies.length > 0 && <MovieList movies={movies} />}
-        <Link to="/movies/create" className="add-movie-btn">
-          +
-        </Link>
+        <div className="toolbox">
+          <SearchBox />
+          <span className="movie-count">Count: {count}</span>
+          <Link to="/movies/create" className="add-movie-btn">
+            +
+          </Link>
+        </div>
+        <div className="results">
+          {matches.length > 0 && <MovieList movies={matches} />}
+        </div>
+        {!isFetching && movies.length > 0 && matches.length === 0 && (
+          <MovieList movies={movies} />
+        )}
         {hasMoreToFetch && (
           <button className="fetch-more" onClick={() => fetchMovies(offset)}>
             More...
@@ -44,16 +54,18 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = ({ movies, user }) => {
+const mapStateToProps = ({ movies, user, search }) => {
   const { isFetching, items, offset, hasMoreToFetch } = movies;
   const { count } = user;
+  const { matches } = search;
 
   return {
     isFetching,
     movies: items,
     offset,
     hasMoreToFetch,
-    count
+    count,
+    matches
   };
 };
 
