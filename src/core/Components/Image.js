@@ -8,7 +8,7 @@ const Image = ({ src, alt }) => {
   return (
     <picture>
       <source srcSet={original} media="(min-width: 980px)" />
-      <source srcSet={medium} media="(min-width: 400px)" />
+      <source srcSet={medium} media="(min-width: 420px)" />
       <img src={small} alt={alt} />
     </picture>
   );
