@@ -3,6 +3,7 @@ import "./SearchBox.css";
 
 const box = ({ search, reset, matches }) => {
   const [isSearching, setSearching] = useState(false);
+  const [debounceTimeout, setDebounceTimeout] = useState(null);
 
   return (
     <div className="searchbox">
@@ -14,11 +15,14 @@ const box = ({ search, reset, matches }) => {
 
           setSearching(!isFieldEmpty);
 
-          if (isFieldEmpty) {
-            reset();
-          } else {
-            search(value.trim());
-          }
+          if (isFieldEmpty) return reset();
+
+          clearTimeout(debounceTimeout);
+          setDebounceTimeout(
+            setTimeout(() => {
+              search(value.trim());
+            }, 400)
+          );
         }}
       />
       {isSearching && <span>{matches.length} results.</span>}
