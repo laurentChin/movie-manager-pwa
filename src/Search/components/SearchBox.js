@@ -11,13 +11,12 @@ const box = ({ search, reset, matches }) => {
         type="search"
         onChange={e => {
           const { value } = e.currentTarget;
+          clearTimeout(debounceTimeout);
           const isFieldEmpty = !/\S/.test(value);
 
           setSearching(!isFieldEmpty);
 
           if (isFieldEmpty) return reset();
-
-          clearTimeout(debounceTimeout);
           setDebounceTimeout(
             setTimeout(() => {
               search(value.trim());
