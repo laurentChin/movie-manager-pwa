@@ -26,5 +26,14 @@ self.addEventListener("message", message => {
         }
       })
     );
+
+    workbox.routing.registerRoute(
+      new RegExp(".(jpg|jpeg|svg)$"),
+      new workbox.strategies.CacheFirst({
+        fetchOptions: {
+          headers: authHeaders
+        }
+      })
+    );
   }
 });
