@@ -30,6 +30,7 @@ import { GraphQLClient } from "../core";
 import { queries, mutations } from "./graphql";
 
 import { MOVIE_ITEMS_LIMIT } from "./constants";
+import { HOME_PAGE } from "../constants";
 
 const fetchMovies = offset => {
   return dispatch => {
@@ -92,6 +93,7 @@ const create = ({ title, director, releaseDate, poster, formats }) => {
           movie,
           flashMessage: `'${movie.title}' has been created successfully.`
         });
+        dispatch(push(HOME_PAGE));
       })
       .catch(error => {
         dispatch({
