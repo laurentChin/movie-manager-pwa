@@ -10,7 +10,9 @@ import {
   MOVIE_BULK_IMPORT_FAILURE,
   MOVIE_SELECT,
   MOVIE_UPDATE_SUCCESS,
-  MOVIE_DELETE_SUCCESS
+  MOVIE_DELETE_SUCCESS,
+  MOVIE_SEARCH_SUCCESS,
+  RESET_PROPOSAL_LIST
 } from "./ActionTypes";
 import { orderBy } from "natural-orderby";
 
@@ -20,7 +22,8 @@ const initialState = {
   offset: 0,
   selected: null,
   isProcessingCreation: false,
-  hasMoreToFetch: true
+  hasMoreToFetch: true,
+  proposals: []
 };
 
 const movieReducer = (state = initialState, action) => {
@@ -102,6 +105,16 @@ const movieReducer = (state = initialState, action) => {
       return {
         ...state,
         selected: action.movie
+      };
+    case MOVIE_SEARCH_SUCCESS:
+      return {
+        ...state,
+        proposals: action.payload.results
+      };
+    case RESET_PROPOSAL_LIST:
+      return {
+        ...state,
+        proposals: []
       };
     default:
       return state;

@@ -1,4 +1,7 @@
 import { push } from "connected-react-router";
+
+import { change } from "redux-form";
+
 import {
   MOVIES_REQUEST_PENDING,
   MOVIES_REQUEST_SUCCESS,
@@ -15,7 +18,11 @@ import {
   MOVIE_BULK_IMPORT_PENDING,
   MOVIE_BULK_IMPORT_SUCCESS,
   MOVIE_BULK_IMPORT_FAILURE,
-  MOVIE_SELECT
+  MOVIE_SELECT,
+  MOVIE_SEARCH_PENDING,
+  MOVIE_SEARCH_SUCCESS,
+  MOVIE_SEARCH_FAILURE,
+  RESET_PROPOSAL_LIST
 } from "./ActionTypes";
 
 import api from "../core/Api";
@@ -60,7 +67,7 @@ const fetchMovies = offset => {
   };
 };
 
-const createMovie = ({ title, director, releaseDate, poster, formats }) => {
+const create = ({ title, director, releaseDate, poster, formats }) => {
   return dispatch => {
     dispatch({
       type: MOVIE_CREATION_PENDING
@@ -96,7 +103,7 @@ const createMovie = ({ title, director, releaseDate, poster, formats }) => {
   };
 };
 
-const updateMovie = ({ id, title, director, releaseDate, poster, formats }) => {
+const update = ({ id, title, director, releaseDate, poster, formats }) => {
   return dispatch => {
     dispatch({
       type: MOVIE_UPDATE_PENDING
@@ -169,6 +176,60 @@ const deleteMovie = (id, title) => {
   };
 };
 
+const search = terms => {
+  return dispatch => {
+    dispatch({
+      type: MOVIE_SEARCH_PENDING
+    });
+
+    GraphQLClient.query({
+      query: queries.SEARCH,
+      variables: {
+        terms
+      }
+    })
+      .then(response => {
+        const {
+          data: { explore: results }
+        } = response;
+
+        dispatch({
+          type: MOVIE_SEARCH_SUCCESS,
+          payload: {
+            results
+          }
+        });
+      })
+      .catch(error => {
+        dispatch({
+          type: MOVIE_SEARCH_FAILURE,
+          error
+        });
+      });
+  };
+};
+
+const resetProposalList = () => {
+  return dispatch => {
+    dispatch({
+      type: RESET_PROPOSAL_LIST
+    });
+  };
+};
+
+const selectProposal = (title, releaseDate, director, poster) => {
+  return dispatch => {
+    dispatch(change("movie", "title", title));
+    dispatch(change("movie", "releaseDate", releaseDate));
+    dispatch(change("movie", "director", director));
+    dispatch(change("movie", "poster", poster));
+
+    dispatch({
+      type: RESET_PROPOSAL_LIST
+    });
+  };
+};
+
 const bulkImport = file => {
   return dispatch => {
     dispatch({
@@ -204,9 +265,12 @@ const editMovie = movie => {
 
 export {
   fetchMovies,
-  createMovie,
-  updateMovie,
+  create,
+  update,
   deleteMovie,
   bulkImport,
-  editMovie
+  editMovie,
+  search,
+  resetProposalList,
+  selectProposal
 };

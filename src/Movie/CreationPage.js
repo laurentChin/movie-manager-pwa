@@ -1,43 +1,41 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import { Form } from "./Form";
 import { withAuth } from "../Auth";
-import { createMovie } from "./Actions";
+import { create, search, resetProposalList, selectProposal } from "./Actions";
 import { fetchFormats } from "../Format";
+import { formValueSelector } from "redux-form";
 
-class CreationPage extends Component {
-  constructor(props) {
-    super(props);
-    this.submitHandler = this.submitHandler.bind(this);
-  }
+const CreationPage = ({ create, formats, fetchFormats, ...props }) => {
+  useEffect(() => {
+    if (formats.length === 0) {
+      fetchFormats();
+    }
+  });
 
-  componentDidMount() {
-    this.props.fetchFormats();
-  }
+  return <Form onSubmit={create} formats={formats} {...props} />;
+};
 
-  submitHandler(formData) {
-    this.props.createMovie(formData);
-  }
-  render() {
-    return <Form onSubmit={this.submitHandler} formats={this.props.formats} />;
-  }
-}
-
-const mapStateToProps = state => {
-  const { isFetching, formats } = state.format;
-  const { isProcessingCreation } = state.movies;
+const mapStateToProps = ({ format, movies, ...state }) => {
+  const { isFetching, formats } = format;
+  const { isProcessingCreation, proposals } = movies;
 
   return {
     isFetching,
     formats,
-    isProcessingCreation
+    isProcessingCreation,
+    title: formValueSelector("movie")(state, "title"),
+    proposals
   };
 };
 
 const mapDispatchToProps = {
   fetchFormats,
-  createMovie
+  create,
+  search,
+  resetProposalList,
+  selectProposal
 };
 
 export default connect(

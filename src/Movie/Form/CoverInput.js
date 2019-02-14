@@ -10,7 +10,7 @@ class CoverInput extends Component {
     this.poster = React.createRef();
   }
 
-  onChangeHandler(reduxFormOnChangeHandler) {
+  onFileChangeHandler(reduxFormOnChangeHandler) {
     return event => {
       const file = event.target.files[0];
       reduxFormOnChangeHandler(file);
@@ -27,18 +27,15 @@ class CoverInput extends Component {
   render() {
     const { input } = this.props;
     const poster = input.value;
-    delete input.value;
+    const { value, ...inputProps } = input;
+    const src = /^http[s]?:\/\//.test(value) ? value : `${assetsUrl}/${poster}`;
     return (
       <div className="cover-input-container">
-        <img
-          src={`${assetsUrl}/${poster}`}
-          alt="movie_poster"
-          ref={this.poster}
-        />
+        <img src={src} alt="movie_poster" ref={this.poster} />
         <input
           type="file"
-          {...input}
-          onChange={this.onChangeHandler(input.onChange)}
+          {...inputProps}
+          onChange={this.onFileChangeHandler(input.onChange)}
         />
       </div>
     );

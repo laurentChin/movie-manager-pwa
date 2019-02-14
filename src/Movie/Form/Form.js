@@ -1,18 +1,34 @@
-import React, { Component } from "react";
+import React from "react";
 import { Field, reduxForm } from "redux-form";
 
 import { FormatCheckboxGroup } from "../../Format/index";
 import { CoverInput } from "./";
+import ProposalList from "../components/ProposalList";
+import { HOME_PAGE } from "../../constants";
 
-class MovieForm extends Component {
-  render() {
-    const { handleSubmit, formats, initialized, initialValues } = this.props;
-    return (
+const MovieForm = ({
+  handleSubmit,
+  formats,
+  initialized,
+  initialValues,
+  backToList,
+  title,
+  search,
+  proposals,
+  resetProposalList,
+  selectProposal,
+  push
+}) => {
+  return (
+    <>
       <form onSubmit={handleSubmit}>
         {initialized && <Field name="id" component="input" type="hidden" />}
         <div>
           <label htmlFor="title">Title</label>
           <Field name="title" component="input" type="text" required />
+          <span className="search" onClick={() => search(title)}>
+            search
+          </span>
         </div>
         <div>
           <label htmlFor="director">Director</label>
@@ -31,20 +47,23 @@ class MovieForm extends Component {
           }
         />
         <Field name="poster" component={CoverInput} />
-        {this.props.backToList && (
-          <button onClick={this.props.backToList}>Go back to movie list</button>
+        {push && (
+          <button onClick={() => push(HOME_PAGE)}>Go back to movie list</button>
         )}
-        <button type="submit">
-          {this.props.initialized ? "Update" : "Create"}
-        </button>
+        <button type="submit">{initialized ? "Update" : "Create"}</button>
       </form>
-    );
-  }
-}
+      {proposals.length > 0 && (
+        <ProposalList
+          proposals={proposals}
+          closeHandler={resetProposalList}
+          selectProposal={selectProposal}
+        />
+      )}
+    </>
+  );
+};
 
-MovieForm = reduxForm({
+export default reduxForm({
   form: "movie",
   enableReinitialize: true
 })(MovieForm);
-
-export default MovieForm;

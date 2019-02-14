@@ -17,6 +17,18 @@ const MOVIES = gql`
   }
 `;
 
+const SEARCH = gql`
+  query Explore($terms: String) {
+    explore(terms: $terms) {
+      title
+      director
+      releaseDate
+      poster
+    }
+  }
+`;
+
 export default {
-  MOVIES
+  MOVIES,
+  SEARCH
 };
