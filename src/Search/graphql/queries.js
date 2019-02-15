@@ -5,7 +5,7 @@ const SEARCH = gql`
     search(terms: $terms) {
       id
       title
-      director
+      direction
       releaseDate
       poster
       formats {

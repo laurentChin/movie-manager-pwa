@@ -16,7 +16,7 @@ const Movie = ({ movie, editMovie, deleteMovie }) => {
       <section className="movie-item__content">
         <h3>{movie.title}</h3>
         {movie.originalTitle && <small>{movie.originalTitle}</small>}
-        {movie.director && <small>{movie.director}</small>}
+        {movie.direction && <small>{movie.direction}</small>}
         <section className="infos">
           {movie.duration && (
             <Duration className="duration" value={movie.duration} />
@@ -35,7 +35,7 @@ const Movie = ({ movie, editMovie, deleteMovie }) => {
           onClick={() => {
             const confirm = window.confirm(
               `Are you sure want to delete '${movie.title}' (${
-                movie.director
+                movie.direction
               } - ${movie.releaseDate}) ?`
             );
             if (confirm) {

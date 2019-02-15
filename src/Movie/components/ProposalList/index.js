@@ -10,12 +10,12 @@ const ProposalList = ({ proposals, closeHandler, selectProposal }) => {
       <span className="proposal-list__close-btn" onClick={() => closeHandler()}>
         Close
       </span>
-      {proposals.map(({ title, releaseDate, director, poster }) => (
+      {proposals.map(({ title, releaseDate, direction, poster }) => (
         <Proposal
           key={`${poster}_${title}_${releaseDate}`}
           title={title}
           releaseDate={releaseDate}
-          director={director}
+          direction={direction}
           poster={poster}
           select={selectProposal}
         />

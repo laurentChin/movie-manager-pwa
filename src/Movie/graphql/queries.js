@@ -5,7 +5,7 @@ const MOVIES = gql`
     movies(offset: $offset, limit: $limit) {
       id
       title
-      director
+      direction
       releaseDate
       poster
       formats {
@@ -21,7 +21,7 @@ const SEARCH = gql`
   query Explore($terms: String) {
     explore(terms: $terms) {
       title
-      director
+      direction
       releaseDate
       poster
     }

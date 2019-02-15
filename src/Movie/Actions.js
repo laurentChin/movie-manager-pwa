@@ -68,7 +68,7 @@ const fetchMovies = offset => {
   };
 };
 
-const create = ({ title, director, releaseDate, poster, formats }) => {
+const create = ({ title, direction, releaseDate, poster, formats }) => {
   return dispatch => {
     dispatch({
       type: MOVIE_CREATION_PENDING
@@ -78,7 +78,7 @@ const create = ({ title, director, releaseDate, poster, formats }) => {
       mutation: mutations.ADD_MOVIE,
       variables: {
         title,
-        director,
+        direction,
         releaseDate,
         poster,
         formats: formats.map(format => format.id)
@@ -105,7 +105,7 @@ const create = ({ title, director, releaseDate, poster, formats }) => {
   };
 };
 
-const update = ({ id, title, director, releaseDate, poster, formats }) => {
+const update = ({ id, title, direction, releaseDate, poster, formats }) => {
   return dispatch => {
     dispatch({
       type: MOVIE_UPDATE_PENDING
@@ -116,7 +116,7 @@ const update = ({ id, title, director, releaseDate, poster, formats }) => {
       variables: {
         id: parseInt(id),
         title,
-        director,
+        direction,
         releaseDate,
         poster,
         formats: formats
@@ -219,11 +219,11 @@ const resetProposalList = () => {
   };
 };
 
-const selectProposal = (title, releaseDate, director, poster) => {
+const selectProposal = (title, releaseDate, direction, poster) => {
   return dispatch => {
     dispatch(change("movie", "title", title));
     dispatch(change("movie", "releaseDate", releaseDate));
-    dispatch(change("movie", "director", director));
+    dispatch(change("movie", "direction", direction));
     dispatch(change("movie", "poster", poster));
 
     dispatch({

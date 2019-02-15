@@ -31,8 +31,8 @@ const MovieForm = ({
           </span>
         </div>
         <div>
-          <label htmlFor="director">Director</label>
-          <Field name="director" component="input" type="text" />
+          <label htmlFor="direction">Director</label>
+          <Field name="direction" component="input" type="text" />
         </div>
         <div>
           <label htmlFor="releaseDate">Release date</label>

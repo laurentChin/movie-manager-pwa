@@ -3,21 +3,21 @@ import { gql } from "apollo-boost";
 const ADD_MOVIE = gql`
   mutation AddMovie(
     $title: String
-    $director: String
+    $direction: String
     $releaseDate: String
     $poster: Upload
     $formats: [ID]
   ) {
     addMovie(
       title: $title
-      director: $director
+      direction: $direction
       releaseDate: $releaseDate
       poster: $poster
       formats: $formats
     ) {
       id
       title
-      director
+      direction
       releaseDate
       poster
       formats {
@@ -33,7 +33,7 @@ const UPDATE_MOVIE = gql`
   mutation UpdateMovie(
     $id: ID
     $title: String
-    $director: String
+    $direction: String
     $releaseDate: String
     $poster: Upload
     $formats: [ID]
@@ -41,14 +41,14 @@ const UPDATE_MOVIE = gql`
     updateMovie(
       id: $id
       title: $title
-      director: $director
+      direction: $direction
       releaseDate: $releaseDate
       poster: $poster
       formats: $formats
     ) {
       id
       title
-      director
+      direction
       releaseDate
       poster
       formats {
