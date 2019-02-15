@@ -12,11 +12,13 @@ import SearchBox from "./Search/container/SearchBox";
 
 class Home extends Component {
   componentDidMount() {
-    const { fetchMovies, movies, fetchUser } = this.props;
+    const { fetchMovies, movies, fetchUser, jwt } = this.props;
     if (movies.length === 0) {
       fetchMovies(0);
     }
-    fetchUser();
+    if (jwt) {
+      fetchUser();
+    }
   }
 
   render() {
@@ -54,10 +56,11 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = ({ movies, user, search }) => {
+const mapStateToProps = ({ movies, user, search, auth }) => {
   const { isFetching, items, offset, hasMoreToFetch } = movies;
   const { count } = user;
   const { matches } = search;
+  const { jwt } = auth;
 
   return {
     isFetching,
@@ -65,7 +68,8 @@ const mapStateToProps = ({ movies, user, search }) => {
     offset,
     hasMoreToFetch,
     count,
-    matches
+    matches,
+    jwt
   };
 };
 
