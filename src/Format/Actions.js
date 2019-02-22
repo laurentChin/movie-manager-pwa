@@ -4,16 +4,21 @@ import {
   FETCH_FORMAT_LIST_FAILURE
 } from "./ActionTypes";
 
-import { api } from "../core";
+import { GraphQLClient } from "../core";
+import { queries } from "./graphql";
 
 const fetchFormats = () => {
   return dispatch => {
     dispatch({
       type: FETCH_FORMAT_LIST_PENDING
     });
-    api
-      .fetchFormats()
-      .then(formats => {
+    GraphQLClient.query({
+      query: queries.FORMATS
+    })
+      .then(response => {
+        const {
+          data: { getFormats: formats }
+        } = response;
         dispatch({
           type: FETCH_FORMAT_LIST_SUCCESS,
           formats
