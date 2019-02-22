@@ -72,6 +72,7 @@
     "graphql": "^14.1.1",
     "history": "^4.7.2",
     "jsonwebtoken": "^8.4.0",
+    "localforage": "^1.7.3",
     "natural-orderby": "^2.0.0",
     "prop-types": "^15.6.2",
     "react": "^16.8.1",

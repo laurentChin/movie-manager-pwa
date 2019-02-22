@@ -7,7 +7,7 @@ import { ConnectedRouter } from "connected-react-router";
 import "./App.css";
 
 import Home from "./Home";
-import { LogInForm, AuthContext } from "./Auth";
+import { LogInForm } from "./Auth";
 import { MovieRouter } from "./Movie";
 import { Loader, FlashMessage } from "./core";
 import { Router as SignInRouter } from "./SignIn";
@@ -30,7 +30,7 @@ class App extends Component {
     }
 
     return (
-      <AuthContext.Provider>
+      <>
         {showFlash && <FlashMessage />}
         <div className={className}>
           <ConnectedRouter history={history}>
@@ -43,7 +43,7 @@ class App extends Component {
           </ConnectedRouter>
         </div>
         <Loader />
-      </AuthContext.Provider>
+      </>
     );
   }
 }

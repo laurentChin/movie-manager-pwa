@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { push } from "connected-react-router";
 
 import { Form } from "./Form";
-import { withAuth } from "../Auth";
 import { create, search, resetProposalList, selectProposal } from "./Actions";
 import { fetchFormats } from "../Format";
 import { formValueSelector } from "redux-form";
@@ -43,4 +42,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withAuth(CreationPage));
+)(CreationPage);

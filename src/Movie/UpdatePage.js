@@ -4,7 +4,6 @@ import { formValueSelector } from "redux-form";
 import { push } from "connected-react-router";
 
 import { Form } from "./Form";
-import { withAuth } from "../Auth";
 import { update, search, resetProposalList, selectProposal } from "./Actions";
 import { fetchFormats } from "../Format";
 
@@ -50,4 +49,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withAuth(UpdatePage));
+)(UpdatePage);

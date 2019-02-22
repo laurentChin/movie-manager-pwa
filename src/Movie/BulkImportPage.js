@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 
-import { withAuth } from "../Auth";
 import { BulkImportForm } from "./Form";
 import { bulkImport } from "./Actions";
 
@@ -32,4 +31,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(withAuth(BulkImportPage));
+export default connect(mapStateToProps)(BulkImportPage);

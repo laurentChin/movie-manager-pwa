@@ -6,8 +6,8 @@ import {
 
 const initialState = {
   isFetching: false,
-  isAuthenticated: !!localStorage.getItem("jwt"),
-  jwt: localStorage.getItem("jwt")
+  isAuthenticated: false,
+  jwt: null
 };
 
 const authReducer = (state = initialState, action) => {
@@ -30,7 +30,8 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        isAuthenticated: false
+        isAuthenticated: false,
+        jwt: null
       };
     default:
       return state;

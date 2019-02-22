@@ -29,8 +29,6 @@ export const logIn = (email, password) => {
           }
         } = response;
 
-        localStorage.setItem("jwt", jwt);
-
         if (navigator.serviceWorker.controller) {
           navigator.serviceWorker.controller.postMessage(jwt);
         }
@@ -46,8 +44,6 @@ export const logIn = (email, password) => {
         dispatch(fetchUser());
       })
       .catch(error => {
-        localStorage.removeItem("jwt");
-
         dispatch({
           type: LOGIN_REQUEST_FAILURE,
           payload: {
