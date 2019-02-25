@@ -22,7 +22,6 @@ import {
   RESET_PROPOSAL_LIST
 } from "./ActionTypes";
 
-import api from "../core/Api";
 import { GraphQLClient } from "../core";
 import { queries, mutations } from "./graphql";
 
