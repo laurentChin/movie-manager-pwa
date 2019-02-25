@@ -5,9 +5,6 @@ import {
   MOVIE_CREATION_PENDING,
   MOVIE_CREATION_SUCCESS,
   MOVIE_CREATION_FAILURE,
-  MOVIE_BULK_IMPORT_PENDING,
-  MOVIE_BULK_IMPORT_SUCCESS,
-  MOVIE_BULK_IMPORT_FAILURE,
   MOVIE_SELECT,
   MOVIE_UPDATE_SUCCESS,
   MOVIE_DELETE_SUCCESS,
@@ -70,25 +67,6 @@ const movieReducer = (state = initialState, action) => {
       return {
         ...state,
         items: state.items.filter(movie => movie.id !== action.id)
-      };
-    case MOVIE_BULK_IMPORT_PENDING:
-      return {
-        ...state,
-        isProcessingImport: true,
-        importDone: false
-      };
-    case MOVIE_BULK_IMPORT_SUCCESS:
-      return {
-        ...state,
-        isProcessingImport: false,
-        importDone: true
-      };
-    case MOVIE_BULK_IMPORT_FAILURE:
-      return {
-        ...state,
-        isProcessingImport: false,
-        importDone: false,
-        error: action.e
       };
     case MOVIE_UPDATE_SUCCESS:
       return {

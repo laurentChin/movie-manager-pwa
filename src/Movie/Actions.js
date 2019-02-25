@@ -15,9 +15,6 @@ import {
   MOVIE_DELETE_PENDING,
   MOVIE_DELETE_SUCCESS,
   MOVIE_DELETE_FAILURE,
-  MOVIE_BULK_IMPORT_PENDING,
-  MOVIE_BULK_IMPORT_SUCCESS,
-  MOVIE_BULK_IMPORT_FAILURE,
   MOVIE_SELECT,
   MOVIE_SEARCH_PENDING,
   MOVIE_SEARCH_SUCCESS,
@@ -232,28 +229,6 @@ const selectProposal = (title, releaseDate, direction, poster) => {
   };
 };
 
-const bulkImport = file => {
-  return dispatch => {
-    dispatch({
-      type: MOVIE_BULK_IMPORT_PENDING
-    });
-
-    return api
-      .bulkImport(file)
-      .then(() => {
-        dispatch({
-          type: MOVIE_BULK_IMPORT_SUCCESS
-        });
-      })
-      .catch(error => {
-        dispatch({
-          type: MOVIE_BULK_IMPORT_FAILURE,
-          error
-        });
-      });
-  };
-};
-
 const editMovie = movie => {
   return dispatch => {
     dispatch({
@@ -270,7 +245,6 @@ export {
   create,
   update,
   deleteMovie,
-  bulkImport,
   editMovie,
   search,
   resetProposalList,

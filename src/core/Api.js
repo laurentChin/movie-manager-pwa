@@ -81,19 +81,6 @@ async function fetchFormats() {
   return jsonResponse;
 }
 
-async function bulkImport(file) {
-  const formData = new FormData();
-  formData.append("csv", file);
-
-  const bulkImportReponse = await fetch(`${apiBaseUrl}/movies/import`, {
-    headers: createAuthHeaders(),
-    method: "POST",
-    body: formData
-  });
-
-  return await bulkImportReponse.json();
-}
-
 function createAuthHeaders() {
   return new Headers({
     Authorization: `Bearer ${localStorage.getItem("jwt")}`
@@ -107,6 +94,5 @@ export default {
   createMovie,
   updateMovie,
   fetchFormats,
-  deleteMovie,
-  bulkImport
+  deleteMovie
 };
