@@ -18,9 +18,14 @@ const defaultOptions = {
   }
 };
 
-let GraphQLClient;
+let GraphQLClient = createAnonymousGraphQLClient();
 
 localforage.getItem(PERSISTED_FULL_STORE_NAME).then(rawStore => {
+  if (!rawStore) {
+    createAnonymousGraphQLClient();
+    return;
+  }
+
   const { auth: rawAuth } = JSON.parse(rawStore);
   const { jwt } = JSON.parse(rawAuth);
   if (jwt) {
