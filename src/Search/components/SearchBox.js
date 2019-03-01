@@ -14,7 +14,7 @@ const box = ({ search, reset, matches }) => {
           clearTimeout(debounceTimeout);
           const isFieldEmpty = !/\S/.test(value);
 
-          if (value.length < 2) return;
+          if (value.length < 2) return reset();
 
           setSearching(!isFieldEmpty);
 
