@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FormattedDate } from "react-intl";
 
 import "./styles.css";
@@ -10,8 +10,9 @@ import { Image } from "../../../core";
 const assetsUrl = process.env.REACT_APP_ASSETS_URL;
 
 const Movie = ({ movie, edit, remove }) => {
+  const movieEl = useRef(null);
   return (
-    <div className="movie-item">
+    <div className="movie-item" ref={movieEl}>
       <Image src={`${assetsUrl}/${movie.poster}`} alt={movie.title} />
       <section className="movie-item__content">
         <h3>{movie.title}</h3>
@@ -30,7 +31,9 @@ const Movie = ({ movie, edit, remove }) => {
         <p>{movie.synopsis}</p>
       </section>
       <section className="options">
-        <button onClick={() => edit(movie)}>Edit</button>
+        <button onClick={() => edit(movie, movieEl.current.offsetTop)}>
+          Edit
+        </button>
         <button
           onClick={() => {
             const confirm = window.confirm(

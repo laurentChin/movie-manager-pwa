@@ -20,7 +20,8 @@ const Home = ({
   matches,
   jwt,
   fetchUser,
-  fetchLogs
+  fetchLogs,
+  scrollPosition
 }) => {
   useEffect(() => {
     fetchLogs();
@@ -31,7 +32,11 @@ const Home = ({
     if (movies.length === 0 && count > 0) {
       fetchMovies(0, count);
     }
-  }, [jwt, count, movies]);
+
+    if (scrollPosition) {
+      window.scrollTo(0, scrollPosition);
+    }
+  }, [jwt, count, movies, scrollPosition]);
 
   return (
     <div className="home-container">
@@ -53,7 +58,7 @@ const Home = ({
 };
 
 const mapStateToProps = ({ movies, user, search, auth }) => {
-  const { isFetching, items, offset, hasMoreToFetch } = movies;
+  const { isFetching, items, offset, hasMoreToFetch, scrollPosition } = movies;
   const { count } = user;
   const { matches } = search;
   const { jwt } = auth;
@@ -65,7 +70,8 @@ const mapStateToProps = ({ movies, user, search, auth }) => {
     hasMoreToFetch,
     count,
     matches,
-    jwt
+    jwt,
+    scrollPosition
   };
 };
 

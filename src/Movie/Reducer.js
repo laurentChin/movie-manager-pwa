@@ -1,3 +1,5 @@
+import { REHYDRATE } from "redux-persist/es/constants";
+
 import {
   MOVIES_REQUEST_PENDING,
   MOVIES_REQUEST_SUCCESS,
@@ -21,7 +23,8 @@ const initialState = {
   selected: null,
   isProcessingCreation: false,
   proposals: [],
-  initialized: false
+  initialized: false,
+  scrollPosition: null
 };
 
 const movieReducer = (state = initialState, action) => {
@@ -82,7 +85,8 @@ const movieReducer = (state = initialState, action) => {
     case MOVIE_SELECT:
       return {
         ...state,
-        selected: action.movie
+        selected: action.payload.movie,
+        scrollPosition: action.payload.scrollPosition
       };
     case MOVIE_SEARCH_SUCCESS:
       return {
@@ -98,6 +102,11 @@ const movieReducer = (state = initialState, action) => {
       return {
         ...state,
         items: orderBy(action.payload.movies, "title", "asc")
+      };
+    case REHYDRATE:
+      return {
+        ...state,
+        scrollPosition: null
       };
     default:
       return state;

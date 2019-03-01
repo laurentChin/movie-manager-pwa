@@ -247,11 +247,14 @@ const selectProposal = (title, releaseDate, direction, poster) => {
   };
 };
 
-const edit = movie => {
+const edit = (movie, scrollPosition = null) => {
   return dispatch => {
     dispatch({
       type: MOVIE_SELECT,
-      movie
+      payload: {
+        movie,
+        scrollPosition
+      }
     });
 
     dispatch(push(UPDATE_PAGE`${movie.id}`));
