@@ -1,7 +1,7 @@
 import { Loader, loaderMiddleware } from "./Components/Loader";
 import {
   FlashMessage,
-  flashMessageMiddleWare
+  flashMessageMiddleware
 } from "./Components/FlashMessage";
 import Image from "./Components/Image";
 import { GraphQLClient, authenticateGraphQLClient } from "./GraphQLClient";
@@ -11,7 +11,7 @@ export {
   Image,
   loaderMiddleware,
   FlashMessage,
-  flashMessageMiddleWare,
+  flashMessageMiddleware,
   GraphQLClient,
   authenticateGraphQLClient
 };
