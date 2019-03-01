@@ -53,6 +53,7 @@
     text-align: right;
     height: 40px;
     display: flex;
+    align-self: flex-end;
 
     & > * {
       text-align: center;
@@ -129,7 +130,7 @@
 
   @media all and (min-width: 980px) {
     display: grid;
-    grid-template-areas: "picture content" "options options";
+    grid-template-areas: "picture content" "picture options";
     grid-template-columns: 150px 1fr;
     height: 200px;
     width: auto;
@@ -137,8 +138,8 @@
 
     picture {
       grid-area: picture;
-      grid-row: initial;
       justify-self: center;
+      grid-row: 1 / span 2;
     }
 
     &__content {
