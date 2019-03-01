@@ -27,7 +27,7 @@ import { GraphQLClient } from "../core";
 import { queries, mutations } from "./graphql";
 
 import { MOVIE_ITEMS_LIMIT } from "./constants";
-import { HOME_PAGE } from "../constants";
+import { UPDATE_PAGE } from "../constants";
 
 const fetch = (offset = 0, limit = MOVIE_ITEMS_LIMIT) => {
   return dispatch => {
@@ -88,7 +88,7 @@ const create = ({ title, direction, releaseDate, poster, formats }) => {
           movie,
           flashMessage: `'${movie.title}' has been created successfully.`
         });
-        dispatch(push(HOME_PAGE));
+        dispatch(edit(movie));
       })
       .catch(error => {
         dispatch({
@@ -254,7 +254,7 @@ const edit = movie => {
       movie
     });
 
-    dispatch(push(`/movies/${movie.id}/update`));
+    dispatch(push(UPDATE_PAGE`${movie.id}`));
   };
 };
 
