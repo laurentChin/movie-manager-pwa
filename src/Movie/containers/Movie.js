@@ -1,12 +1,12 @@
 import { connect } from "react-redux";
 
 import Movie from "../components/Item";
-import { deleteMovie, fetchMovies, editMovie } from "../Actions";
+import { remove, fetch, edit } from "../Actions";
 
 const mapDispatchToProps = {
-  deleteMovie,
-  fetchMovies,
-  editMovie
+  remove,
+  fetch,
+  edit
 };
 
 export default connect(

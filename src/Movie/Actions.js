@@ -29,7 +29,7 @@ import { queries, mutations } from "./graphql";
 import { MOVIE_ITEMS_LIMIT } from "./constants";
 import { HOME_PAGE } from "../constants";
 
-const fetchMovies = (offset = 0, limit = MOVIE_ITEMS_LIMIT) => {
+const fetch = (offset = 0, limit = MOVIE_ITEMS_LIMIT) => {
   return dispatch => {
     dispatch({
       type: MOVIES_REQUEST_PENDING
@@ -153,7 +153,7 @@ const update = ({ id, title, direction, releaseDate, poster, formats }) => {
   };
 };
 
-const deleteMovie = (id, title) => {
+const remove = (id, title) => {
   return dispatch => {
     dispatch({
       type: MOVIE_DELETE_PENDING
@@ -247,7 +247,7 @@ const selectProposal = (title, releaseDate, direction, poster) => {
   };
 };
 
-const editMovie = movie => {
+const edit = movie => {
   return dispatch => {
     dispatch({
       type: MOVIE_SELECT,
@@ -270,11 +270,11 @@ const sync = movies => {
 };
 
 export {
-  fetchMovies,
+  fetch,
   create,
   update,
-  deleteMovie,
-  editMovie,
+  remove,
+  edit,
   search,
   resetProposalList,
   selectProposal,

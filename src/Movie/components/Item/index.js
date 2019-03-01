@@ -9,7 +9,7 @@ import { Image } from "../../../core";
 
 const assetsUrl = process.env.REACT_APP_ASSETS_URL;
 
-const Movie = ({ movie, editMovie, deleteMovie }) => {
+const Movie = ({ movie, edit, remove }) => {
   return (
     <div className="movie-item">
       <Image src={`${assetsUrl}/${movie.poster}`} alt={movie.title} />
@@ -30,7 +30,7 @@ const Movie = ({ movie, editMovie, deleteMovie }) => {
         <p>{movie.synopsis}</p>
       </section>
       <section className="options">
-        <button onClick={() => editMovie(movie)}>Edit</button>
+        <button onClick={() => edit(movie)}>Edit</button>
         <button
           onClick={() => {
             const confirm = window.confirm(
@@ -39,7 +39,7 @@ const Movie = ({ movie, editMovie, deleteMovie }) => {
               } - ${movie.releaseDate}) ?`
             );
             if (confirm) {
-              deleteMovie(movie.id, movie.title);
+              remove(movie.id, movie.title);
             }
           }}
         >

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import "./Home.css";
 
-import { fetchMovies } from "./Movie/Actions";
+import { fetch as fetchMovies } from "./Movie/Actions";
 import { fetchUser } from "./User/actions";
 import { fetch as fetchLogs } from "./Log/actions";
 import MovieList from "./Movie/List/MovieList";
