@@ -7,7 +7,8 @@ import localforage from "localforage";
 import { createBrowserHistory } from "history";
 import { routerMiddleware } from "connected-react-router";
 
-import { loaderMiddleware, flashMessageMiddleWare } from "./core";
+import { loaderMiddleware, flashMessageMiddleware } from "./core";
+import { middleware as logMiddleware } from "./Log";
 
 import rootReducer from "./RootReducer";
 import { PERSISTED_STORE_NAME } from "./constants";
@@ -24,7 +25,7 @@ localforage.config({
 
 const persisConfig = {
   key: PERSISTED_STORE_NAME,
-  whitelist: ["auth", "user", "movies", "form", "router"],
+  whitelist: ["auth", "user", "movies", "logs", "form", "router"],
   storage: localforage
 };
 
@@ -38,7 +39,8 @@ const configureStore = () => {
         routerMiddleware(history),
         thunkMiddleware,
         loaderMiddleware,
-        flashMessageMiddleWare
+        flashMessageMiddleware,
+        logMiddleware
       )
     )
   );

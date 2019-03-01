@@ -6,6 +6,7 @@ import "./Home.css";
 
 import { fetchMovies } from "./Movie/Actions";
 import { fetchUser } from "./User/actions";
+import { fetch as fetchLogs } from "./Log/actions";
 import MovieList from "./Movie/List/MovieList";
 import SearchBox from "./Search/container/SearchBox";
 
@@ -18,15 +19,19 @@ const Home = ({
   count,
   matches,
   jwt,
-  fetchUser
+  fetchUser,
+  fetchLogs
 }) => {
   useEffect(() => {
-    if (movies.length === 0) {
-      fetchMovies(0);
-    }
+    fetchLogs();
+  }, []);
 
+  useEffect(() => {
     fetchUser();
-  }, [movies, jwt]);
+    if (movies.length === 0 && count > 0) {
+      fetchMovies(0, count);
+    }
+  }, [jwt, count, movies]);
 
   return (
     <div className="home-container">
@@ -42,11 +47,6 @@ const Home = ({
       </div>
       {!isFetching && movies.length > 0 && matches.length === 0 && (
         <MovieList movies={movies} />
-      )}
-      {hasMoreToFetch && (
-        <button className="fetch-more" onClick={() => fetchMovies(offset)}>
-          More...
-        </button>
       )}
     </div>
   );
@@ -71,7 +71,8 @@ const mapStateToProps = ({ movies, user, search, auth }) => {
 
 const mapDispatchToProps = {
   fetchMovies,
-  fetchUser
+  fetchUser,
+  fetchLogs
 };
 
 export default connect(

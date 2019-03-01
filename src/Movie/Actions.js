@@ -19,7 +19,8 @@ import {
   MOVIE_SEARCH_PENDING,
   MOVIE_SEARCH_SUCCESS,
   MOVIE_SEARCH_FAILURE,
-  RESET_PROPOSAL_LIST
+  RESET_PROPOSAL_LIST,
+  MOVIE_SYNC
 } from "./ActionTypes";
 
 import { GraphQLClient } from "../core";
@@ -28,7 +29,7 @@ import { queries, mutations } from "./graphql";
 import { MOVIE_ITEMS_LIMIT } from "./constants";
 import { HOME_PAGE } from "../constants";
 
-const fetchMovies = offset => {
+const fetchMovies = (offset = 0, limit = MOVIE_ITEMS_LIMIT) => {
   return dispatch => {
     dispatch({
       type: MOVIES_REQUEST_PENDING
@@ -38,7 +39,7 @@ const fetchMovies = offset => {
       query: queries.MOVIES,
       variables: {
         offset,
-        limit: MOVIE_ITEMS_LIMIT
+        limit
       }
     })
       .then(response => {
@@ -46,13 +47,11 @@ const fetchMovies = offset => {
           data: { movies }
         } = response;
 
-        const hasMoreToFetch = movies.length !== 0;
-
         dispatch({
           type: MOVIES_REQUEST_SUCCESS,
-          movies,
-          hasMoreToFetch,
-          offset: hasMoreToFetch ? offset + MOVIE_ITEMS_LIMIT : offset
+          payload: {
+            movies
+          }
         });
       })
       .catch(error => {
@@ -132,11 +131,24 @@ const update = ({ id, title, direction, releaseDate, poster, formats }) => {
         });
       })
       .catch(error => {
-        dispatch({
-          type: MOVIE_UPDATE_FAILURE,
-          error,
-          flashMessage: `'${title}' update fails.`
-        });
+        if (
+          error.graphQLErrors[0] &&
+          error.graphQLErrors[0].extensions &&
+          error.graphQLErrors[0].extensions.code &&
+          error.graphQLErrors[0].extensions.code === 404
+        ) {
+          dispatch({
+            type: MOVIE_DELETE_SUCCESS,
+            id,
+            flashMessage: `'${title}' has been previously deleted.`
+          });
+        } else {
+          dispatch({
+            type: MOVIE_UPDATE_FAILURE,
+            error,
+            flashMessage: `'${title}' update fails.`
+          });
+        }
       });
   };
 };
@@ -147,29 +159,36 @@ const deleteMovie = (id, title) => {
       type: MOVIE_DELETE_PENDING
     });
 
+    const successAction = {
+      type: MOVIE_DELETE_SUCCESS,
+      id: parseInt(id),
+      flashMessage: `'${title}' has been deleted successfully.`
+    };
+
     GraphQLClient.mutate({
       mutation: mutations.DELETE_MOVIE,
       variables: {
         id: parseInt(id)
       }
     })
-      .then(response => {
-        const {
-          data: { deleteMovie: movie }
-        } = response;
-
-        dispatch({
-          type: MOVIE_DELETE_SUCCESS,
-          id: movie.id,
-          flashMessage: `'${movie.title}' has been deleted successfully.`
-        });
+      .then(() => {
+        dispatch(successAction);
       })
       .catch(e => {
-        dispatch({
-          type: MOVIE_DELETE_FAILURE,
-          error: e,
-          flashMessage: `'${title}' deletion fails.`
-        });
+        if (
+          e.graphQLErrors[0] &&
+          e.graphQLErrors[0].extensions &&
+          e.graphQLErrors[0].extensions.code &&
+          e.graphQLErrors[0].extensions.code === 404
+        ) {
+          dispatch(successAction);
+        } else {
+          dispatch({
+            type: MOVIE_DELETE_FAILURE,
+            error: e,
+            flashMessage: `'${title}' deletion fails.`
+          });
+        }
       });
   };
 };
@@ -239,6 +258,17 @@ const editMovie = movie => {
   };
 };
 
+const sync = movies => {
+  return dispatch => {
+    dispatch({
+      type: MOVIE_SYNC,
+      payload: {
+        movies
+      }
+    });
+  };
+};
+
 export {
   fetchMovies,
   create,
@@ -247,5 +277,6 @@ export {
   editMovie,
   search,
   resetProposalList,
-  selectProposal
+  selectProposal,
+  sync
 };
