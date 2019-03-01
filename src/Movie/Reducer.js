@@ -66,13 +66,13 @@ const movieReducer = (state = initialState, action) => {
     case MOVIE_DELETE_SUCCESS:
       return {
         ...state,
-        items: state.items.filter(movie => movie.id !== action.id)
+        items: state.items.filter(movie => parseInt(movie.id) !== action.id)
       };
     case MOVIE_UPDATE_SUCCESS:
       return {
         ...state,
         items: state.items.map(movie => {
-          if (movie.id === action.movie.id) {
+          if (parseInt(movie.id) === action.movie.id) {
             return action.movie;
           }
 
