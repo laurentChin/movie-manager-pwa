@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { CreationPage, UpdatePage, BulkImportPage } from "./";
+import { CreationPage, UpdatePage } from "./";
 
 const MovieRouter = ({ match }) => (
   <Switch>
