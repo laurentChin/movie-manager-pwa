@@ -20,7 +20,8 @@ import {
   MOVIE_SEARCH_SUCCESS,
   MOVIE_SEARCH_FAILURE,
   RESET_PROPOSAL_LIST,
-  MOVIE_SYNC
+  MOVIE_SYNC,
+  PAGINATE_ITEMS
 } from "./ActionTypes";
 
 import { GraphQLClient } from "../core";
@@ -247,13 +248,12 @@ const selectProposal = (title, releaseDate, direction, poster) => {
   };
 };
 
-const edit = (movie, scrollPosition = null) => {
+const edit = movie => {
   return dispatch => {
     dispatch({
       type: MOVIE_SELECT,
       payload: {
-        movie,
-        scrollPosition
+        movie
       }
     });
 
@@ -272,6 +272,17 @@ const sync = movies => {
   };
 };
 
+const paginate = offset => {
+  return dispatch => {
+    dispatch({
+      type: PAGINATE_ITEMS,
+      payload: {
+        offset
+      }
+    });
+  };
+};
+
 export {
   fetch,
   create,
@@ -281,5 +292,6 @@ export {
   search,
   resetProposalList,
   selectProposal,
-  sync
+  sync,
+  paginate
 };

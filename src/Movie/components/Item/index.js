@@ -31,9 +31,7 @@ const Movie = ({ movie, edit, remove }) => {
         <p>{movie.synopsis}</p>
       </section>
       <section className="options">
-        <button onClick={() => edit(movie, movieEl.current.offsetTop)}>
-          Edit
-        </button>
+        <button onClick={() => edit(movie)}>Edit</button>
         <button
           onClick={() => {
             const confirm = window.confirm(

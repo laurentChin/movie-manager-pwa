@@ -7,7 +7,7 @@ import "./Home.css";
 import { fetch as fetchMovies } from "./Movie/Actions";
 import { fetchUser } from "./User/actions";
 import { fetch as fetchLogs } from "./Log/actions";
-import MovieList from "./Movie/List/MovieList";
+import MovieList from "./Movie/containers/MovieList";
 import SearchBox from "./Search/container/SearchBox";
 
 const Home = ({

@@ -1,4 +1,4 @@
-import { MovieList } from "./List";
+import MovieList from "./components/List";
 import Movie from "./components/Item";
 import CreationPage from "./CreationPage";
 import UpdatePage from "./UpdatePage";

@@ -12,7 +12,8 @@ import {
   MOVIE_DELETE_SUCCESS,
   MOVIE_SEARCH_SUCCESS,
   RESET_PROPOSAL_LIST,
-  MOVIE_SYNC
+  MOVIE_SYNC,
+  PAGINATE_ITEMS
 } from "./ActionTypes";
 import { orderBy } from "natural-orderby";
 
@@ -20,11 +21,11 @@ const initialState = {
   isFetching: false,
   items: [],
   offset: 0,
+  limit: parseInt(process.env.REACT_APP_MOVIE_LIST_ITEM_LIMIT),
   selected: null,
   isProcessingCreation: false,
   proposals: [],
-  initialized: false,
-  scrollPosition: null
+  initialized: false
 };
 
 const movieReducer = (state = initialState, action) => {
@@ -85,8 +86,7 @@ const movieReducer = (state = initialState, action) => {
     case MOVIE_SELECT:
       return {
         ...state,
-        selected: action.payload.movie,
-        scrollPosition: action.payload.scrollPosition
+        selected: action.payload.movie
       };
     case MOVIE_SEARCH_SUCCESS:
       return {
@@ -103,10 +103,10 @@ const movieReducer = (state = initialState, action) => {
         ...state,
         items: orderBy(action.payload.movies, "title", "asc")
       };
-    case REHYDRATE:
+    case PAGINATE_ITEMS:
       return {
         ...state,
-        scrollPosition: null
+        offset: action.payload.offset
       };
     default:
       return state;
