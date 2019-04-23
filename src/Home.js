@@ -7,7 +7,8 @@ import "./Home.css";
 import { fetch as fetchMovies } from "./Movie/Actions";
 import { fetchUser } from "./User/actions";
 import { fetch as fetchLogs } from "./Log/actions";
-import MovieList from "./Movie/containers/MovieList";
+import { MovieList } from "./Movie";
+import ConnectedMovieList from "./Movie/containers/MovieList";
 import SearchBox from "./Search/container/SearchBox";
 
 const Home = ({
@@ -48,10 +49,12 @@ const Home = ({
         </Link>
       </div>
       <div className="results">
-        {matches.length > 0 && <MovieList movies={matches} />}
+        {matches.length > 0 && (
+          <MovieList offset={0} limit={matches.length} movies={matches} />
+        )}
       </div>
       {!isFetching && movies.length > 0 && matches.length === 0 && (
-        <MovieList movies={movies} />
+        <ConnectedMovieList movies={movies} />
       )}
     </div>
   );

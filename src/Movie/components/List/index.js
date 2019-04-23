@@ -4,13 +4,13 @@ import "./MovieList.css";
 
 import { Movie } from "../../containers";
 
-const MovieList = ({ movies, offset, limit, paginate }) => {
+const MovieList = ({ movies, offset, limit, paginate = null }) => {
   const previousOffset = offset - limit >= 0 ? offset - limit : -1;
   const nextOffset = offset + limit < movies.length ? offset + limit : null;
 
   return (
     <>
-      {previousOffset >= 0 && (
+      {previousOffset >= 0 && paginate && (
         <button
           className="previous-btn"
           onClick={() => paginate(previousOffset)}
@@ -23,7 +23,7 @@ const MovieList = ({ movies, offset, limit, paginate }) => {
           return <Movie key={movie.id} movie={movie} />;
         })}
       </div>
-      {nextOffset && (
+      {nextOffset && paginate && (
         <button className="next-btn" onClick={() => paginate(nextOffset)}>
           Next
         </button>
