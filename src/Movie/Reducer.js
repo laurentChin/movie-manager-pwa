@@ -1,5 +1,3 @@
-import { REHYDRATE } from "redux-persist/es/constants";
-
 import {
   MOVIES_REQUEST_PENDING,
   MOVIES_REQUEST_SUCCESS,
