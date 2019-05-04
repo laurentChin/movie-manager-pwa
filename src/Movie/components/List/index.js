@@ -24,7 +24,13 @@ const MovieList = ({ movies, offset, limit, paginate = null }) => {
         })}
       </div>
       {nextOffset && paginate && (
-        <button className="next-btn" onClick={() => paginate(nextOffset)}>
+        <button
+          className="next-btn"
+          onClick={() => {
+            window.scrollTo(0, 0);
+            paginate(nextOffset);
+          }}
+        >
           Next
         </button>
       )}
