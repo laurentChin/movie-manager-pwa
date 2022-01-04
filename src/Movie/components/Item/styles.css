@@ -7,146 +7,150 @@
   font-size: 11px;
   line-height: 14px;
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+}
 
-  picture {
-    grid-area: picture;
-    justify-self: center;
-    width: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+.movie-item h3 {
+  margin: 0;
+}
 
-    img {
-      max-width: 100%;
-    }
-  }
+.movie-item picture {
+  grid-area: picture;
+  justify-self: center;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 
-  &__content {
-    grid-area: content;
-    box-sizing: border-box;
-    padding: 5px 10px;
-  }
+.movie-item picture img {
+  max-width: 100%;
+}
 
-  h3 {
-    margin: 0;
-  }
+.movie-item__content {
+  grid-area: content;
+  box-sizing: border-box;
+  padding: 5px 10px;
+}
 
-  .infos {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-direction: column;
+.movie-item .infos {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+}
 
-    & > * {
-      margin-right: 5px;
-    }
-  }
+.movie-item .infos > * {
+  margin-right: 5px;
+}
 
-  p {
-    margin: 0;
-  }
+.movie-item p {
+  margin: 0;
+}
 
-  .options {
-    grid-area: options;
-    width: 100%;
-    text-align: right;
-    height: 40px;
-    display: flex;
-    align-self: flex-end;
+.movie-item .options {
+  grid-area: options;
+  width: 100%;
+  text-align: right;
+  height: 40px;
+  display: flex;
+  align-self: flex-end;
+}
 
-    & > * {
-      text-align: center;
-      vertical-align: center;
-      line-height: 40px;
-      color: #fff;
-    }
+.movie-item .options > * {
+  text-align: center;
+  vertical-align: center;
+  line-height: 40px;
+  color: #fff;
+}
 
-    button {
-      border: none;
-    }
+.movie-item .options button {
+  border: none;
+}
 
-    button:first-child {
-      background-color: #3fa7d6;
-      flex-basis: 80%;
-    }
+.movie-item .options button:first-child {
+  background-color: #3fa7d6;
+  flex-basis: 80%;
+}
 
-    button:last-child {
-      background-color: #ee6352;
-      flex-basis: 20%;
-    }
-  }
+.movie-item .options button:last-child {
+  background-color: #ee6352;
+  flex-basis: 20%;
+}
 
-  @media all and (min-width: 501px) {
+@media all and (min-width: 501px) {
+  .movie-item {
     display: grid;
     grid-template-areas: "picture" "content" "options";
     grid-template-columns: 1fr;
     width: 150px;
     height: 200px;
     margin: 0 auto 15px auto;
-
-    & > *:not(picture) {
-      z-index: 10;
-    }
-
-    picture,
-    &__content {
-      width: 100%;
-    }
-
-    picture {
-      z-index: 0;
-      grid-row: 1 / span 3;
-    }
-
-    &__content,
-    .options {
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    &__content {
-      grid-column: 1;
-      grid-row: 2;
-      color: #fff;
-      padding-bottom: 5px;
-    }
-
-    .options {
-      flex-direction: row;
-      justify-content: flex-end;
-      align-items: flex-end;
-    }
-
-    section {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .infos {
-      align-items: flex-start;
-    }
   }
 
-  @media all and (min-width: 980px) {
+  .movie-item > *:not(picture) {
+    z-index: 10;
+  }
+
+  .movie-item picture,
+  .movie-item__content {
+    width: 100%;
+  }
+
+  .movie-item picture {
+    z-index: 0;
+    grid-row: 1 / span 3;
+  }
+
+  .movie-item__content,
+  .options {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .movie-item__content {
+    grid-column: 1;
+    grid-row: 2;
+    color: #fff;
+    padding-bottom: 5px;
+  }
+
+  .movie-item .options {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+  .movie-item section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .movie-item .infos {
+    align-items: flex-start;
+  }
+}
+
+@media all and (min-width: 980px) {
+  .movie-item {
     display: grid;
     grid-template-areas: "picture content" "picture options";
     grid-template-columns: 150px 1fr;
     height: 200px;
     width: auto;
     margin: 0;
+  }
 
-    picture {
-      grid-area: picture;
-      justify-self: center;
-      grid-row: 1 / span 2;
-    }
+  .movie-item picture {
+    grid-area: picture;
+    justify-self: center;
+    grid-row: 1 / span 2;
+  }
 
-    &__content {
-      grid-area: content;
-      background-color: transparent;
-      color: inherit;
-      height: calc(100% - 40px);
-    }
+  .movie-item__content {
+    grid-area: content;
+    background-color: transparent;
+    color: inherit;
+    height: calc(100% - 40px);
   }
 }

@@ -1,5 +1,3 @@
-import { push } from "connected-react-router";
-
 import { change } from "redux-form";
 
 import {
@@ -28,7 +26,6 @@ import { GraphQLClient } from "../core";
 import { queries, mutations } from "./graphql";
 
 import { MOVIE_ITEMS_LIMIT } from "./constants";
-import { UPDATE_PAGE } from "../constants";
 
 const fetch = (offset = 0, limit = MOVIE_ITEMS_LIMIT) => {
   return dispatch => {
@@ -256,8 +253,6 @@ const edit = movie => {
         movie
       }
     });
-
-    dispatch(push(UPDATE_PAGE`${movie.id}`));
   };
 };
 

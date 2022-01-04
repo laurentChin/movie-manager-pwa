@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import "./CoverInput.css";
 
-const assetsUrl = process.env.REACT_APP_ASSETS_URL;
+const assetsUrl = process.env.REACT_APP_API_URL;
 
 class CoverInput extends Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class CoverInput extends Component {
     const { input } = this.props;
     const poster = input.value;
     const { value, ...inputProps } = input;
-    const src = /^http[s]?:\/\//.test(value) ? value : `${assetsUrl}/${poster}`;
+    const src = /^http[s]?:\/\//.test(value) ? value : `${assetsUrl}/uploads/${poster}`;
     return (
       <div className="cover-input-container">
         <img src={src} alt="movie_poster" ref={this.poster} />

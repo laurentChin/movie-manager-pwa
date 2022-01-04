@@ -2,17 +2,14 @@ import React, { Component } from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 
-import { IntlProvider, addLocaleData } from "react-intl";
-import fr from "react-intl/locale-data/fr";
+import { IntlProvider } from "react-intl";
 
-import configureStore, { history } from "./configureStore";
+import configureStore from "./configureStore";
 
 import App from "./App";
 import "./index.css";
 
 const { store, persistor } = configureStore();
-
-addLocaleData([...fr]);
 
 export default class Root extends Component {
   render() {
@@ -20,7 +17,7 @@ export default class Root extends Component {
       <Provider store={store}>
         <PersistGate persistor={persistor}>
           <IntlProvider loading={null} locale="fr">
-            <App history={history} />
+            <App />
           </IntlProvider>
         </PersistGate>
       </Provider>

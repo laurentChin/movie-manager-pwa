@@ -1,7 +1,6 @@
 import { combineReducers } from "redux";
 
 import { reducer as formReducer } from "redux-form";
-import { connectRouter } from "connected-react-router";
 
 import movieReducer from "./Movie/Reducer";
 import authReducer from "./Auth/Reducer";
@@ -13,8 +12,7 @@ import userReducer from "./User/reducer";
 import searchReducer from "./Search/reducer";
 import logReducer from "./Log/reducer";
 
-const rootReducer = history =>
-  combineReducers({
+const rootReducer = combineReducers({
     movies: movieReducer,
     auth: authReducer,
     user: userReducer,
@@ -24,8 +22,7 @@ const rootReducer = history =>
     flash: flashMessageReducer,
     signIn: SignInReducer,
     search: searchReducer,
-    router: connectRouter(history),
     logs: logReducer
-  });
+});
 
 export default rootReducer;

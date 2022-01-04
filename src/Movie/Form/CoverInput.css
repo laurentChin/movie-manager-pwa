@@ -1,6 +1,7 @@
 .cover-input-container {
   display: flex;
-  img {
-    height: 150px;
-  }
+}
+
+.cover-input-container img {
+  height: 150px;
 }

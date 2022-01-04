@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 
-import { Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { connect } from "react-redux";
-import { ConnectedRouter } from "connected-react-router";
 
 import "./App.css";
 
 import Home from "./Home";
 import { LogInForm } from "./Auth";
-import { MovieRouter } from "./Movie";
+import { CreationPage, MovieRouter, UpdatePage } from "./Movie";
 import { Loader, FlashMessage } from "./core";
 import { Router as SignInRouter } from "./SignIn";
 
@@ -23,7 +22,7 @@ class App extends Component {
   }
 
   render() {
-    const { loading, showFlash, history } = this.props;
+    const { loading, showFlash } = this.props;
     let className = "main-container";
     if (loading) {
       className = `${className} ${className}--hidden`;
@@ -33,14 +32,14 @@ class App extends Component {
       <>
         {showFlash && <FlashMessage />}
         <div className={className}>
-          <ConnectedRouter history={history}>
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/movies" component={MovieRouter} />
-              <Route path="/signin" component={SignInRouter} />
-              <Route path="/login" component={LogInForm} />
-            </Switch>
-          </ConnectedRouter>
+          <BrowserRouter>
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route path="movies/*" element={<MovieRouter />} />
+              <Route path="/signin" element={<SignInRouter />} />
+              <Route path="/login" element={<LogInForm />} />
+            </Routes>
+          </BrowserRouter>
         </div>
         <Loader />
       </>

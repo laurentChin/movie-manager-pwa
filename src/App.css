@@ -21,13 +21,13 @@
 .main-container {
   z-index: 0;
   position: relative;
-
-  &--hidden {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-  }
 }
+
+.main-container--hidden {
+   width: 100vw;
+   height: 100vh;
+   overflow: hidden;
+ }
 
 @keyframes App-logo-spin {
   from {

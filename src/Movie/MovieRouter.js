@@ -1,12 +1,12 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { CreationPage, UpdatePage } from "./";
 
 const MovieRouter = ({ match }) => (
-  <Switch>
-    <Route exact path={`${match.url}/create`} component={CreationPage} />
-    <Route path={`${match.url}/:id/update`} component={UpdatePage} />
-  </Switch>
+  <Routes>
+    <Route exact path="create" element={<CreationPage />} />
+    <Route path=":id/update" element={<UpdatePage />} />
+  </Routes>
 );
 
 export default MovieRouter;

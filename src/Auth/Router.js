@@ -1,15 +1,16 @@
-import { Redirect, Route, Switch } from "react-router-dom";
 import React from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+
 import { LogInForm } from "./containers";
 
 const authRouter = ({ isAuthenticated }) => (
   <>
-    {isAuthenticated && <Redirect to="/" />}
+    {isAuthenticated && <Route element={() => <Navigate replace to="/" />} />}
     {!isAuthenticated && (
       <div>
-        <Switch>
+        <Routes>
           <Route exact path={match.path} component={LogInForm} />
-        </Switch>
+        </Routes>
       </div>
     )}
   </>

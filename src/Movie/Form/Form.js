@@ -1,5 +1,6 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
+import { useNavigate } from "react-router-dom";
 
 import { FormatCheckboxGroup } from "../../Format/index";
 import { CoverInput } from "./";
@@ -48,7 +49,7 @@ const MovieForm = ({
         />
         <Field name="poster" component={CoverInput} />
         {push && (
-          <button onClick={() => push(HOME_PAGE)}>Go back to movie list</button>
+          <button onClick={() => navigate(HOME_PAGE)}>Go back to movie list</button>
         )}
         <button type="submit">{initialized ? "Update" : "Create"}</button>
       </form>

@@ -1,6 +1,6 @@
 import { createUploadLink } from "apollo-upload-client";
 import { setContext } from "apollo-link-context";
-import { ApolloClient } from "apollo-client";
+import { ApolloClient } from "@apollo/client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import localforage from "localforage";
 import { GRAPHQL_ENDPONT } from "../Auth/constants";
@@ -18,22 +18,7 @@ const defaultOptions = {
   }
 };
 
-let GraphQLClient = createAnonymousGraphQLClient();
-
-localforage.getItem(PERSISTED_FULL_STORE_NAME).then(rawStore => {
-  if (!rawStore) {
-    createAnonymousGraphQLClient();
-    return;
-  }
-
-  const { auth: rawAuth } = JSON.parse(rawStore);
-  const { jwt } = JSON.parse(rawAuth);
-  if (jwt) {
-    authenticateGraphQLClient(jwt);
-  } else {
-    createAnonymousGraphQLClient();
-  }
-});
+let GraphQLClient;
 
 function createAnonymousGraphQLClient() {
   GraphQLClient = new ApolloClient({
@@ -56,6 +41,23 @@ function authenticateGraphQLClient(jwt) {
     ...defaultOptions
   });
 }
+
+createAnonymousGraphQLClient();
+
+localforage.getItem(PERSISTED_FULL_STORE_NAME).then(rawStore => {
+  if (!rawStore) {
+    createAnonymousGraphQLClient();
+    return;
+  }
+
+  const { auth: rawAuth } = JSON.parse(rawStore);
+  const { jwt } = JSON.parse(rawAuth);
+  if (jwt) {
+    authenticateGraphQLClient(jwt);
+  } else {
+    createAnonymousGraphQLClient();
+  }
+});
 
 export {
   GraphQLClient,

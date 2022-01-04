@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./SearchBox.css";
 
-const box = ({ search, reset, matches }) => {
+const SearchBox = ({ search, reset, matches }) => {
   const [isSearching, setSearching] = useState(false);
   const [debounceTimeout, setDebounceTimeout] = useState(null);
 
@@ -30,4 +30,4 @@ const box = ({ search, reset, matches }) => {
   );
 };
 
-export default box;
+export default SearchBox;

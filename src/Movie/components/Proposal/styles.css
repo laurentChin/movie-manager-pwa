@@ -1,26 +1,26 @@
 .proposal {
   display: grid;
   grid-template-areas:
-          "picture title"
-          "picture releaseDate"
-          "picture direction";
+    "picture title"
+    "picture releaseDate"
+    "picture direction";
   grid-template-columns: 100px 1fr;
   grid-column-gap: 5px;
   margin-bottom: 10px;
+}
 
-  img {
-    grid-area: picture;
-  }
+.proposal img {
+  grid-area: picture;
+}
 
-  &__title {
-    grid-area: title
-  }
+.proposal__title {
+  grid-area: title;
+}
 
-  &__releaseDate {
-    grid-area: releaseDate
-  }
+.proposal__releaseDate {
+  grid-area: releaseDate;
+}
 
-  &__direction {
-    grid-area: direction
-  }
+.proposal__direction {
+  grid-area: direction;
 }

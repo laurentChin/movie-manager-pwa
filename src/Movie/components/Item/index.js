@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { FormattedDate } from "react-intl";
+import { useNavigate } from "react-router-dom";
 
 import "./styles.css";
 
@@ -7,13 +8,14 @@ import { FormatList } from "../../../Format";
 import { Duration } from "../../../Duration";
 import { Image } from "../../../core";
 
-const assetsUrl = process.env.REACT_APP_ASSETS_URL;
+const assetsUrl = process.env.REACT_APP_API_URL;
 
 const Movie = ({ movie, edit, remove }) => {
+  const navigate = useNavigate()
   const movieEl = useRef(null);
   return (
     <div className="movie-item" ref={movieEl}>
-      <Image src={`${assetsUrl}/${movie.poster}`} alt={movie.title} />
+      <Image src={`${assetsUrl}/uploads/${movie.poster}`} alt={movie.title} />
       <section className="movie-item__content">
         <h3>{movie.title}</h3>
         {movie.originalTitle && <small>{movie.originalTitle}</small>}
@@ -31,7 +33,11 @@ const Movie = ({ movie, edit, remove }) => {
         <p>{movie.synopsis}</p>
       </section>
       <section className="options">
-        <button onClick={() => edit(movie)}>Edit</button>
+        <button onClick={() => {
+          edit(movie);
+          navigate(`/movies/${movie.id}/update`)
+
+        }}>Edit</button>
         <button
           onClick={() => {
             const confirm = window.confirm(

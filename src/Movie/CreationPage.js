@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { push } from "connected-react-router";
 
 import { Form } from "./Form";
 import { create, search, resetProposalList, selectProposal } from "./Actions";
@@ -36,7 +35,6 @@ const mapDispatchToProps = {
   search,
   resetProposalList,
   selectProposal,
-  push
 };
 
 export default connect(

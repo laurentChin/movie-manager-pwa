@@ -1,15 +1,17 @@
 .proposal-list {
-    display: block;
-    position: fixed;
-    top: 4px; left: 4px;
-    width: calc(100vw - 8px);
-    height: calc(100vh - 8px);
-    background: white;
-    box-shadow: 0 0 16px rgb(0, 0, 0);
-    padding: 4px;
+  display: block;
+  position: fixed;
+  top: 4px;
+  left: 4px;
+  width: calc(100vw - 8px);
+  height: calc(100vh - 8px);
+  background: white;
+  box-shadow: 0 0 16px rgb(0, 0, 0);
+  padding: 4px;
+  overflow: auto;
+}
 
-    &__close-btn {
-        display: block;
-        text-align: right;
-    }
+.proposal-list__close-btn {
+  display: block;
+  text-align: right;
 }
