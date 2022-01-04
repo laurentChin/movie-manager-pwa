@@ -18,12 +18,15 @@ const MovieForm = ({
   proposals,
   resetProposalList,
   selectProposal,
-  push
+  push,
+  isUpdate
 }) => {
+  const navigate = useNavigate();
+
   return (
     <>
       <form onSubmit={handleSubmit}>
-        {initialized && <Field name="id" component="input" type="hidden" />}
+        {initialized && isUpdate && <Field name="id" component="input" type="hidden" />}
         <div>
           <label htmlFor="title">Title</label>
           <Field name="title" component="input" type="text" required />

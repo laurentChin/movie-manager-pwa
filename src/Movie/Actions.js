@@ -73,7 +73,7 @@ const create = ({ title, direction, releaseDate, poster, formats }) => {
         title,
         direction,
         releaseDate,
-        poster,
+        ...(typeof poster === "string" ? {posterUrl: poster } : {poster: poster[0]}),
         formats: formats.map(format => format.id)
       }
     })
@@ -111,7 +111,7 @@ const update = ({ id, title, direction, releaseDate, poster, formats }) => {
         title,
         direction,
         releaseDate,
-        poster,
+        ...(typeof poster === "string" ? {posterUrl: poster } : {poster: poster[0]}),
         formats: formats
           .filter(format => format.id)
           .map(format => parseInt(format.id))

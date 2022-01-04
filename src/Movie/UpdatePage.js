@@ -18,6 +18,7 @@ const UpdatePage = ({ movie, update, formats, fetchFormats, ...props }) => {
       onSubmit={update}
       initialValues={movie}
       formats={formats}
+      isUpdate
       {...props}
     />
   );

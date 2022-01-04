@@ -6,6 +6,7 @@ const ADD_MOVIE = gql`
     $direction: String
     $releaseDate: String
     $poster: Upload
+    $posterUrl: String
     $formats: [ID]
   ) {
     addMovie(
@@ -13,6 +14,7 @@ const ADD_MOVIE = gql`
       direction: $direction
       releaseDate: $releaseDate
       poster: $poster
+      posterUrl: $posterUrl
       formats: $formats
     ) {
       id
@@ -36,6 +38,7 @@ const UPDATE_MOVIE = gql`
     $direction: String
     $releaseDate: String
     $poster: Upload
+    $posterUrl: String
     $formats: [ID]
   ) {
     updateMovie(
@@ -44,6 +47,7 @@ const UPDATE_MOVIE = gql`
       direction: $direction
       releaseDate: $releaseDate
       poster: $poster
+      posterUrl: $posterUrl
       formats: $formats
     ) {
       id
