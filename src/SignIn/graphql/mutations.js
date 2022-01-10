@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import { gql } from "@apollo/client";
 
 const SIGN_IN = gql`
   mutation SignIn($email: String, $password: String) {
@@ -18,5 +18,5 @@ const VALIDATE_TOKEN = gql`
 
 export default {
   SIGN_IN,
-  VALIDATE_TOKEN
+  VALIDATE_TOKEN,
 };

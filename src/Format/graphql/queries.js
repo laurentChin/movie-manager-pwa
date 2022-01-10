@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 const FORMATS = gql`
   query Formats {
@@ -11,5 +11,5 @@ const FORMATS = gql`
 `;
 
 export default {
-  FORMATS
+  FORMATS,
 };

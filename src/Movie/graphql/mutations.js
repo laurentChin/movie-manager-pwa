@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 const ADD_MOVIE = gql`
   mutation AddMovie(
@@ -76,5 +76,5 @@ const DELETE_MOVIE = gql`
 export default {
   ADD_MOVIE,
   UPDATE_MOVIE,
-  DELETE_MOVIE
+  DELETE_MOVIE,
 };

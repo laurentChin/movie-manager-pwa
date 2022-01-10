@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 const LOG_IN = gql`
   query Login($email: String, $password: String) {
@@ -9,5 +9,5 @@ const LOG_IN = gql`
 `;
 
 export default {
-  LOG_IN
+  LOG_IN,
 };

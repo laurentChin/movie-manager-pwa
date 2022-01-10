@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import { gql } from "@apollo/client";
 
 const FETCH_USER = gql`
   query FetchUser($email: String) {

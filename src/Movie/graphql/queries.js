@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 const MOVIES = gql`
   query Movies($offset: Int, $limit: Int) {
@@ -30,8 +30,9 @@ const MOVIE = gql`
         name
         logo
       }
+    }
   }
-}`;
+`;
 
 const SEARCH = gql`
   query Explore($terms: String) {

@@ -1,18 +1,18 @@
 import { createUploadLink } from "apollo-upload-client";
-import { setContext } from "apollo-link-context";
+import { setContext } from "@apollo/client/link/context";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { GRAPHQL_ENDPONT, MOVIE_MANAGER_JWT } from "../Auth/constants";
 
 const httpLink = createUploadLink({
   uri: GRAPHQL_ENDPONT,
-  includeExtensions: true
+  includeExtensions: true,
 });
 
 const defaultOptions = {
   cache: new InMemoryCache(),
   query: {
-    fetchPolicy: "network-only"
-  }
+    fetchPolicy: "network-only",
+  },
 };
 
 let GraphQLClient;
@@ -20,7 +20,7 @@ let GraphQLClient;
 function createAnonymousGraphQLClient() {
   GraphQLClient = new ApolloClient({
     link: httpLink,
-    ...defaultOptions
+    ...defaultOptions,
   });
 }
 
@@ -30,13 +30,13 @@ function authenticateGraphQLClient(jwt) {
     return {
       headers: {
         ...headers,
-        authorization: `Bearer ${jwt}`
-      }
+        authorization: `Bearer ${jwt}`,
+      },
     };
   });
   GraphQLClient = new ApolloClient({
     link: authLink.concat(httpLink),
-    ...defaultOptions
+    ...defaultOptions,
   });
 }
 
@@ -49,5 +49,5 @@ if (localStorage.getItem(MOVIE_MANAGER_JWT)) {
 export {
   GraphQLClient,
   authenticateGraphQLClient,
-  createAnonymousGraphQLClient
+  createAnonymousGraphQLClient,
 };
