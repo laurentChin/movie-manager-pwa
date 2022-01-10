@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { Form } from "./Form";
 import { create, search, resetProposalList, selectProposal } from "./Actions";
@@ -7,13 +8,20 @@ import { fetchFormats } from "../Format";
 import { formValueSelector } from "redux-form";
 
 const CreationPage = ({ create, formats, fetchFormats, ...props }) => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (formats.length === 0) {
       fetchFormats();
     }
   });
 
-  return <Form onSubmit={create} formats={formats} {...props} />;
+  const handleSubmit = async (movie) => {
+    const {id} = await create(movie);
+    navigate(`/movies/${id}/update`);
+  }
+
+  return <Form onSubmit={handleSubmit} formats={formats} {...props} />;
 };
 
 const mapStateToProps = ({ format, movies, ...state }) => {

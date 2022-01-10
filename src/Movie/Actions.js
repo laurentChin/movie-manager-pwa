@@ -13,13 +13,12 @@ import {
   MOVIE_DELETE_PENDING,
   MOVIE_DELETE_SUCCESS,
   MOVIE_DELETE_FAILURE,
-  MOVIE_SELECT,
   MOVIE_SEARCH_PENDING,
   MOVIE_SEARCH_SUCCESS,
   MOVIE_SEARCH_FAILURE,
   RESET_PROPOSAL_LIST,
   MOVIE_SYNC,
-  PAGINATE_ITEMS
+  PAGINATE_ITEMS,
 } from "./ActionTypes";
 
 import { GraphQLClient } from "../core";
@@ -28,80 +27,87 @@ import { queries, mutations } from "./graphql";
 import { MOVIE_ITEMS_LIMIT } from "./constants";
 
 const fetch = (offset = 0, limit = MOVIE_ITEMS_LIMIT) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
-      type: MOVIES_REQUEST_PENDING
+      type: MOVIES_REQUEST_PENDING,
     });
 
     GraphQLClient.query({
       query: queries.MOVIES,
       variables: {
         offset,
-        limit
-      }
+        limit,
+      },
     })
-      .then(response => {
+      .then((response) => {
         const {
-          data: { movies }
+          data: { movies },
         } = response;
 
         dispatch({
           type: MOVIES_REQUEST_SUCCESS,
           payload: {
-            movies
-          }
+            movies,
+          },
         });
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch({
           type: MOVIES_REQUEST_FAILURE,
-          error
+          error,
         });
       });
   };
 };
 
 const create = ({ title, direction, releaseDate, poster, formats }) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
-      type: MOVIE_CREATION_PENDING
+      type: MOVIE_CREATION_PENDING,
     });
 
-    GraphQLClient.mutate({
+    console.log('create');
+
+    return GraphQLClient.mutate({
       mutation: mutations.ADD_MOVIE,
       variables: {
         title,
         direction,
         releaseDate,
-        ...(typeof poster === "string" ? {posterUrl: poster } : {poster: poster[0]}),
-        formats: formats.map(format => format.id)
-      }
+        ...(typeof poster === "string"
+          ? { posterUrl: poster }
+          : { poster: poster[0] }),
+        formats: formats.map((format) => format.id),
+      },
     })
-      .then(response => {
+      .then((response) => {
+        console.log({ response });
         const {
-          data: { addMovie: movie }
+          data: { addMovie: movie },
         } = response;
         dispatch({
           type: MOVIE_CREATION_SUCCESS,
           movie,
-          flashMessage: `'${movie.title}' has been created successfully.`
+          flashMessage: `'${movie.title}' has been created successfully.`,
         });
-        dispatch(edit(movie));
+
+        return movie;
       })
-      .catch(error => {
+      .catch((error) => {
+        console.log({error})
         dispatch({
           type: MOVIE_CREATION_FAILURE,
           error: error,
-          flashMessage: `'${title}' creation fails.`
+          flashMessage: `'${title}' creation fails.`,
         });
       });
   };
 };
 
 const update = ({ id, title, direction, releaseDate, poster, formats }) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
-      type: MOVIE_UPDATE_PENDING
+      type: MOVIE_UPDATE_PENDING,
     });
 
     GraphQLClient.mutate({
@@ -111,24 +117,26 @@ const update = ({ id, title, direction, releaseDate, poster, formats }) => {
         title,
         direction,
         releaseDate,
-        ...(typeof poster === "string" ? {posterUrl: poster } : {poster: poster[0]}),
+        ...(typeof poster === "string"
+          ? { posterUrl: poster }
+          : { poster: poster[0] }),
         formats: formats
-          .filter(format => format.id)
-          .map(format => parseInt(format.id))
-      }
+          .filter((format) => format.id)
+          .map((format) => parseInt(format.id)),
+      },
     })
-      .then(response => {
+      .then((response) => {
         const {
-          data: { updateMovie: movie }
+          data: { updateMovie: movie },
         } = response;
 
         dispatch({
           type: MOVIE_UPDATE_SUCCESS,
           movie,
-          flashMessage: `'${title}' has been updated successfully.`
+          flashMessage: `'${title}' has been updated successfully.`,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         if (
           error.graphQLErrors[0] &&
           error.graphQLErrors[0].extensions &&
@@ -138,13 +146,13 @@ const update = ({ id, title, direction, releaseDate, poster, formats }) => {
           dispatch({
             type: MOVIE_DELETE_SUCCESS,
             id,
-            flashMessage: `'${title}' has been previously deleted.`
+            flashMessage: `'${title}' has been previously deleted.`,
           });
         } else {
           dispatch({
             type: MOVIE_UPDATE_FAILURE,
             error,
-            flashMessage: `'${title}' update fails.`
+            flashMessage: `'${title}' update fails.`,
           });
         }
       });
@@ -152,27 +160,27 @@ const update = ({ id, title, direction, releaseDate, poster, formats }) => {
 };
 
 const remove = (id, title) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
-      type: MOVIE_DELETE_PENDING
+      type: MOVIE_DELETE_PENDING,
     });
 
     const successAction = {
       type: MOVIE_DELETE_SUCCESS,
       id: parseInt(id),
-      flashMessage: `'${title}' has been deleted successfully.`
+      flashMessage: `'${title}' has been deleted successfully.`,
     };
 
     GraphQLClient.mutate({
       mutation: mutations.DELETE_MOVIE,
       variables: {
-        id: parseInt(id)
-      }
+        id: parseInt(id),
+      },
     })
       .then(() => {
         dispatch(successAction);
       })
-      .catch(e => {
+      .catch((e) => {
         if (
           e.graphQLErrors[0] &&
           e.graphQLErrors[0].extensions &&
@@ -184,96 +192,85 @@ const remove = (id, title) => {
           dispatch({
             type: MOVIE_DELETE_FAILURE,
             error: e,
-            flashMessage: `'${title}' deletion fails.`
+            flashMessage: `'${title}' deletion fails.`,
           });
         }
       });
   };
 };
 
-const search = terms => {
-  return dispatch => {
+const search = (terms) => {
+  return (dispatch) => {
     dispatch({
-      type: MOVIE_SEARCH_PENDING
+      type: MOVIE_SEARCH_PENDING,
     });
 
     GraphQLClient.query({
       query: queries.SEARCH,
       variables: {
-        terms
-      }
+        terms,
+      },
     })
-      .then(response => {
+      .then((response) => {
         const {
-          data: { explore: results }
+          data: { explore: results },
         } = response;
 
         dispatch({
           type: MOVIE_SEARCH_SUCCESS,
           payload: {
-            results
-          }
+            results,
+          },
         });
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch({
           type: MOVIE_SEARCH_FAILURE,
-          error
+          error,
         });
       });
   };
 };
 
 const resetProposalList = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
-      type: RESET_PROPOSAL_LIST
+      type: RESET_PROPOSAL_LIST,
     });
   };
 };
 
 const selectProposal = (title, releaseDate, direction, poster) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(change("movie", "title", title));
     dispatch(change("movie", "releaseDate", releaseDate));
     dispatch(change("movie", "direction", direction));
     dispatch(change("movie", "poster", poster));
 
     dispatch({
-      type: RESET_PROPOSAL_LIST
+      type: RESET_PROPOSAL_LIST,
     });
   };
 };
 
-const edit = movie => {
-  return dispatch => {
-    dispatch({
-      type: MOVIE_SELECT,
-      payload: {
-        movie
-      }
-    });
-  };
-};
-
-const sync = movies => {
-  return dispatch => {
+const sync = (movies) => {
+  return (dispatch) => {
     dispatch({
       type: MOVIE_SYNC,
       payload: {
-        movies
-      }
+        movies,
+      },
     });
   };
 };
 
-const paginate = offset => {
-  return dispatch => {
+const paginate = (offset) => {
+  return (dispatch) => {
     dispatch({
       type: PAGINATE_ITEMS,
       payload: {
-        offset
-      }
+        offset,
+      },
     });
   };
 };
@@ -283,10 +280,9 @@ export {
   create,
   update,
   remove,
-  edit,
   search,
   resetProposalList,
   selectProposal,
   sync,
-  paginate
+  paginate,
 };

@@ -12,13 +12,11 @@ const MovieForm = ({
   formats,
   initialized,
   initialValues,
-  backToList,
   title,
   search,
   proposals,
   resetProposalList,
   selectProposal,
-  push,
   isUpdate
 }) => {
   const navigate = useNavigate();
@@ -51,9 +49,7 @@ const MovieForm = ({
           }
         />
         <Field name="poster" component={CoverInput} />
-        {push && (
-          <button onClick={() => navigate(HOME_PAGE)}>Go back to movie list</button>
-        )}
+        <button onClick={() => navigate(HOME_PAGE)}>Go back to movie list</button>
         <button type="submit">{initialized ? "Update" : "Create"}</button>
       </form>
       {proposals.length > 0 && (

@@ -5,7 +5,6 @@ import {
   MOVIE_CREATION_PENDING,
   MOVIE_CREATION_SUCCESS,
   MOVIE_CREATION_FAILURE,
-  MOVIE_SELECT,
   MOVIE_UPDATE_SUCCESS,
   MOVIE_DELETE_SUCCESS,
   MOVIE_SEARCH_SUCCESS,
@@ -20,7 +19,6 @@ const initialState = {
   items: [],
   offset: 0,
   limit: parseInt(process.env.REACT_APP_MOVIE_LIST_ITEM_LIMIT),
-  selected: null,
   isProcessingCreation: false,
   proposals: [],
   initialized: false
@@ -80,11 +78,6 @@ const movieReducer = (state = initialState, action) => {
 
           return movie;
         })
-      };
-    case MOVIE_SELECT:
-      return {
-        ...state,
-        selected: action.payload.movie
       };
     case MOVIE_SEARCH_SUCCESS:
       return {

@@ -8,17 +8,21 @@
   text-align: center;
   color: #000;
 
-  &[status="success"] {
-    background-color: #aed69b;
-  }
 
-  &[status="failure"] {
-    background-color: #e3665a;
-  }
+}
 
-  p {
-    margin: 5px 10px;
-  }
+.flash-message-container[status="success"] {
+  color: #fff;
+  font-weight: 600;
+   background-color: #aed69b;
+ }
+
+.flash-message-container[status="failure"] {
+   background-color: #e3665a;
+ }
+
+.flash-message-container p {
+  margin: 5px 10px;
 }
 
 @keyframes slide-in {

@@ -1,7 +1,6 @@
 import { createUploadLink } from "apollo-upload-client";
 import { setContext } from "apollo-link-context";
-import { ApolloClient } from "@apollo/client";
-import { InMemoryCache } from "apollo-cache-inmemory";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { GRAPHQL_ENDPONT, MOVIE_MANAGER_JWT } from "../Auth/constants";
 
 const httpLink = createUploadLink({

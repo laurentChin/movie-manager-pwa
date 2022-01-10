@@ -34,7 +34,6 @@ const Movie = ({ movie, edit, remove }) => {
       </section>
       <section className="options">
         <button onClick={() => {
-          edit(movie);
           navigate(`/movies/${movie.id}/update`)
 
         }}>Edit</button>
