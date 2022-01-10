@@ -7,7 +7,7 @@ import "./App.css";
 
 import Home from "./Home";
 import { LogInForm } from "./Auth";
-import { CreationPage, MovieRouter, UpdatePage } from "./Movie";
+import { MovieRouter } from "./Movie";
 import { Loader, FlashMessage } from "./core";
 import { Router as SignInRouter } from "./SignIn";
 

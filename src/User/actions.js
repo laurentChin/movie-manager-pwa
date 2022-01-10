@@ -1,4 +1,4 @@
-import jsonwentoken from "jsonwebtoken";
+import jsonwebtoken from "jsonwebtoken";
 
 import { GraphQLClient } from "../core";
 
@@ -13,7 +13,7 @@ export const fetchUser = () => {
   return (dispatch, getStore) => {
     const { auth } = getStore();
 
-    const { email } = jsonwentoken.decode(auth.jwt);
+    const { email } = jsonwebtoken.decode(auth.jwt);
     dispatch({
       type: FETCH_USER_PENDING
     });

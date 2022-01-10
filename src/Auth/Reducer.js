@@ -4,10 +4,12 @@ import {
   LOGIN_REQUEST_FAILURE
 } from "./ActionTypes";
 
+import { MOVIE_MANAGER_JWT } from "./constants";
+
 const initialState = {
   isFetching: false,
-  isAuthenticated: false,
-  jwt: null
+  isAuthenticated: !!localStorage.getItem(MOVIE_MANAGER_JWT),
+  jwt: localStorage.getItem(MOVIE_MANAGER_JWT)
 };
 
 const authReducer = (state = initialState, action) => {

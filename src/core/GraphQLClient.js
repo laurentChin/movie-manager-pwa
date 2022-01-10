@@ -2,9 +2,7 @@ import { createUploadLink } from "apollo-upload-client";
 import { setContext } from "apollo-link-context";
 import { ApolloClient } from "@apollo/client";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import localforage from "localforage";
-import { GRAPHQL_ENDPONT } from "../Auth/constants";
-import { PERSISTED_FULL_STORE_NAME } from "../constants";
+import { GRAPHQL_ENDPONT, MOVIE_MANAGER_JWT } from "../Auth/constants";
 
 const httpLink = createUploadLink({
   uri: GRAPHQL_ENDPONT,
@@ -28,6 +26,7 @@ function createAnonymousGraphQLClient() {
 }
 
 function authenticateGraphQLClient(jwt) {
+  localStorage.setItem(MOVIE_MANAGER_JWT, jwt);
   const authLink = setContext((_, { headers }) => {
     return {
       headers: {
@@ -42,22 +41,11 @@ function authenticateGraphQLClient(jwt) {
   });
 }
 
-createAnonymousGraphQLClient();
-
-localforage.getItem(PERSISTED_FULL_STORE_NAME).then(rawStore => {
-  if (!rawStore) {
-    createAnonymousGraphQLClient();
-    return;
-  }
-
-  const { auth: rawAuth } = JSON.parse(rawStore);
-  const { jwt } = JSON.parse(rawAuth);
-  if (jwt) {
-    authenticateGraphQLClient(jwt);
-  } else {
-    createAnonymousGraphQLClient();
-  }
-});
+if (localStorage.getItem(MOVIE_MANAGER_JWT)) {
+  authenticateGraphQLClient(localStorage.getItem(MOVIE_MANAGER_JWT));
+} else {
+  createAnonymousGraphQLClient();
+}
 
 export {
   GraphQLClient,
