@@ -66,8 +66,6 @@ const create = ({ title, direction, releaseDate, poster, formats }) => {
       type: MOVIE_CREATION_PENDING,
     });
 
-    console.log('create');
-
     return GraphQLClient.mutate({
       mutation: mutations.ADD_MOVIE,
       variables: {
@@ -81,7 +79,6 @@ const create = ({ title, direction, releaseDate, poster, formats }) => {
       },
     })
       .then((response) => {
-        console.log({ response });
         const {
           data: { addMovie: movie },
         } = response;
@@ -94,7 +91,6 @@ const create = ({ title, direction, releaseDate, poster, formats }) => {
         return movie;
       })
       .catch((error) => {
-        console.log({error})
         dispatch({
           type: MOVIE_CREATION_FAILURE,
           error: error,
@@ -181,9 +177,7 @@ const remove = (id, title) => {
         dispatch(successAction);
       })
       .catch((e) => {
-        if (
-          e.graphQLErrors[0]?.extensions?.code === 404
-        ) {
+        if (e.graphQLErrors[0]?.extensions?.code === 404) {
           dispatch(successAction);
         } else {
           dispatch({
