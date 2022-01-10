@@ -182,10 +182,7 @@ const remove = (id, title) => {
       })
       .catch((e) => {
         if (
-          e.graphQLErrors[0] &&
-          e.graphQLErrors[0].extensions &&
-          e.graphQLErrors[0].extensions.code &&
-          e.graphQLErrors[0].extensions.code === 404
+          e.graphQLErrors[0]?.extensions?.code === 404
         ) {
           dispatch(successAction);
         } else {
