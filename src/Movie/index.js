@@ -1,5 +1,5 @@
 import MovieList from "./components/List";
-import Movie from "./components/Item";
+import { Movie } from "./components/Movie";
 import CreationPage from "./CreationPage";
 import UpdatePage from "./UpdatePage";
 import MovieRouter from "./MovieRouter";

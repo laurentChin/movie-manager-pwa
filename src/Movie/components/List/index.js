@@ -2,7 +2,7 @@ import React from "react";
 
 import "./MovieList.css";
 
-import { Movie } from "../../containers";
+import { Movie } from "Movie/components/Movie";
 
 const MovieList = ({ movies, offset, limit, paginate = null }) => {
   const previousOffset = offset - limit >= 0 ? offset - limit : -1;
@@ -19,7 +19,7 @@ const MovieList = ({ movies, offset, limit, paginate = null }) => {
         </button>
       )}
       <div className="movie-list">
-        {movies.slice(offset, offset + limit).map(movie => {
+        {movies.slice(offset, offset + limit).map((movie) => {
           return <Movie key={movie.id} movie={movie} />;
         })}
       </div>
