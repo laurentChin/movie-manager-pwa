@@ -16,7 +16,6 @@ const MovieForm = ({
   search,
   proposals,
   resetProposalList,
-  selectProposal,
   isUpdate,
 }) => {
   const navigate = useNavigate();
@@ -57,11 +56,7 @@ const MovieForm = ({
         <button type="submit">{initialized ? "Update" : "Create"}</button>
       </form>
       {proposals.length > 0 && (
-        <ProposalList
-          proposals={proposals}
-          closeHandler={resetProposalList}
-          selectProposal={selectProposal}
-        />
+        <ProposalList proposals={proposals} closeHandler={resetProposalList} />
       )}
     </>
   );

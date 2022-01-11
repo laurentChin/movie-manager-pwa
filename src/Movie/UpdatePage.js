@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { formValueSelector } from "redux-form";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 import { Form } from "./Form";
-import { update, search, resetProposalList, selectProposal } from "./Actions";
+import { update, search, resetProposalList } from "./Actions";
 import { fetchFormats } from "../Format";
 import { fetchMovie } from "./graphql/client";
 
@@ -16,7 +16,7 @@ const UpdatePage = ({ update, formats, fetchFormats, ...props }) => {
       fetchFormats();
     }
 
-    fetchMovie(parseInt(params.id)).then(response => setMovie(response));
+    fetchMovie(parseInt(params.id)).then((response) => setMovie(response));
   }, [params]);
 
   return (
@@ -38,7 +38,7 @@ const mapStateToProps = ({ format, movies, ...state }) => {
     isFetchingFormat,
     formats,
     title: formValueSelector("movie")(state, "title"),
-    proposals
+    proposals,
   };
 };
 
@@ -47,10 +47,6 @@ const mapDispatchToProps = {
   update,
   search,
   resetProposalList,
-  selectProposal,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UpdatePage);
+export default connect(mapStateToProps, mapDispatchToProps)(UpdatePage);

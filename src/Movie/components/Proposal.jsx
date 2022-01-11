@@ -1,12 +1,17 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { selectProposal } from "Movie/Actions";
 
 import "./Proposal.css";
 
-export const Proposal = ({ title, releaseDate, direction, poster, select }) => {
+export const Proposal = ({ title, releaseDate, direction, poster }) => {
+  const dispatch = useDispatch();
   return (
     <div
       className="proposal"
-      onClick={() => select(title, releaseDate, direction, poster)}
+      onClick={() =>
+        dispatch(selectProposal(title, releaseDate, direction, poster))
+      }
     >
       <img src={poster} alt={title} width="100px" />
       <span className="proposal__title">{title}</span>

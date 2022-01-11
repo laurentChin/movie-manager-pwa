@@ -4,7 +4,7 @@ import { Proposal } from "Movie/components/Proposal";
 
 import "./ProposalList.css";
 
-export const ProposalList = ({ proposals, closeHandler, selectProposal }) => {
+export const ProposalList = ({ proposals, closeHandler }) => {
   return (
     <div className="proposal-list">
       <span className="proposal-list__close-btn" onClick={() => closeHandler()}>
@@ -17,7 +17,6 @@ export const ProposalList = ({ proposals, closeHandler, selectProposal }) => {
           releaseDate={releaseDate}
           direction={direction}
           poster={poster}
-          select={selectProposal}
         />
       ))}
     </div>

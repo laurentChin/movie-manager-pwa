@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { Form } from "./Form";
-import { create, search, resetProposalList, selectProposal } from "./Actions";
+import { create, search, resetProposalList } from "./Actions";
 import { fetchFormats } from "../Format";
 import { formValueSelector } from "redux-form";
 
@@ -17,9 +17,9 @@ const CreationPage = ({ create, formats, fetchFormats, ...props }) => {
   });
 
   const handleSubmit = async (movie) => {
-    const {id} = await create(movie);
+    const { id } = await create(movie);
     navigate(`/movies/${id}/update`);
-  }
+  };
 
   return <Form onSubmit={handleSubmit} formats={formats} {...props} />;
 };
@@ -33,7 +33,7 @@ const mapStateToProps = ({ format, movies, ...state }) => {
     formats,
     isProcessingCreation,
     title: formValueSelector("movie")(state, "title"),
-    proposals
+    proposals,
   };
 };
 
@@ -42,10 +42,6 @@ const mapDispatchToProps = {
   create,
   search,
   resetProposalList,
-  selectProposal,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CreationPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CreationPage);
