@@ -1,9 +1,15 @@
 {
   "parserOptions": {
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "baseUrl": "src"
   },
-  "extends": [
-    "prettier"
-  ]
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  },
+  "extends": ["react-app", "prettier"]
 }
