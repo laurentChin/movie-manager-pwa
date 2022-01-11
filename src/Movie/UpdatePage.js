@@ -38,11 +38,10 @@ const UpdatePage = ({ update, formats, fetchFormats, ...props }) => {
 };
 
 const mapStateToProps = ({ format, movies, ...state }) => {
-  const { isFetching: isFetchingFormat, formats } = format;
+  const { formats } = format;
   const { proposals } = movies;
 
   return {
-    isFetchingFormat,
     formats,
     title: formValueSelector("movie")(state, "title"),
     proposals,

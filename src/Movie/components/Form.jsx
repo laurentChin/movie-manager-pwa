@@ -1,6 +1,7 @@
-import React from "react";
-import { Field, reduxForm } from "redux-form";
+import React, { useEffect } from "react";
+import { Field, initialize, reduxForm } from "redux-form";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { FormatCheckboxGroup } from "../../Format/index";
 import { CoverInput } from "Core/components/CoverInput";
@@ -18,6 +19,13 @@ const Component = ({
   isUpdate,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (initialValues && !initialized) {
+      dispatch(initialize("movie", initialValues, true));
+    }
+  }, [initialValues, dispatch, initialized]);
 
   return (
     <>
