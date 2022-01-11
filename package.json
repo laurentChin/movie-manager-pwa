@@ -58,7 +58,7 @@
     "shipit-shared": "^4.4.2"
   },
   "lint-staged": {
-    "*.{js,jsx}": "eslint --cache --fix",
+    "*.{js,jsx}": "eslint --cache --fix --max-warnings=0",
     "*.{js,jsx,css,md}": "prettier --write"
   }
 }
