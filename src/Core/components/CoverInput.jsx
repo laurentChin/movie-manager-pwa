@@ -4,19 +4,19 @@ import "./CoverInput.css";
 
 const assetsUrl = process.env.REACT_APP_API_URL;
 
-class CoverInput extends Component {
+export class CoverInput extends Component {
   constructor(props) {
     super(props);
     this.poster = React.createRef();
   }
 
   onFileChangeHandler(reduxFormOnChangeHandler) {
-    return event => {
+    return (event) => {
       const file = event.target.files[0];
       reduxFormOnChangeHandler(file);
 
       const reader = new FileReader();
-      reader.onloadend = event => {
+      reader.onloadend = (event) => {
         this.poster.current.src = event.target.result;
       };
 
@@ -28,7 +28,9 @@ class CoverInput extends Component {
     const { input } = this.props;
     const poster = input.value;
     const { value, ...inputProps } = input;
-    const src = /^http[s]?:\/\//.test(value) ? value : `${assetsUrl}/uploads/${poster}`;
+    const src = /^http[s]?:\/\//.test(value)
+      ? value
+      : `${assetsUrl}/uploads/${poster}`;
     return (
       <div className="cover-input-container">
         <img src={src} alt="movie_poster" ref={this.poster} />
@@ -41,5 +43,3 @@ class CoverInput extends Component {
     );
   }
 }
-
-export default CoverInput;

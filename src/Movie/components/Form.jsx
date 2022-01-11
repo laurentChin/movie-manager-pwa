@@ -3,7 +3,7 @@ import { Field, reduxForm } from "redux-form";
 import { useNavigate } from "react-router-dom";
 
 import { FormatCheckboxGroup } from "../../Format/index";
-import { CoverInput } from "Movie/Form";
+import { CoverInput } from "Core/components/CoverInput";
 import { ProposalList } from "Movie/components/ProposalList";
 import { HOME_PAGE } from "../../constants";
 
