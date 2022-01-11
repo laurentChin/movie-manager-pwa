@@ -4,7 +4,7 @@ import { formValueSelector } from "redux-form";
 import { useParams } from "react-router-dom";
 
 import { Form } from "./Form";
-import { update, search, resetProposalList } from "./Actions";
+import { update, search } from "./Actions";
 import { fetchFormats } from "../Format";
 import { fetchMovie } from "./graphql/client";
 
@@ -46,7 +46,6 @@ const mapDispatchToProps = {
   fetchFormats,
   update,
   search,
-  resetProposalList,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdatePage);

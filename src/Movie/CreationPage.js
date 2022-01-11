@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { Form } from "./Form";
-import { create, search, resetProposalList } from "./Actions";
+import { create, search } from "./Actions";
 import { fetchFormats } from "../Format";
 import { formValueSelector } from "redux-form";
 
@@ -41,7 +41,6 @@ const mapDispatchToProps = {
   fetchFormats,
   create,
   search,
-  resetProposalList,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreationPage);
