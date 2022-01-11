@@ -2,9 +2,9 @@ import React from "react";
 
 import { Proposal } from "Movie/components/Proposal";
 
-import "./styles.css";
+import "./ProposalList.css";
 
-const ProposalList = ({ proposals, closeHandler, selectProposal }) => {
+export const ProposalList = ({ proposals, closeHandler, selectProposal }) => {
   return (
     <div className="proposal-list">
       <span className="proposal-list__close-btn" onClick={() => closeHandler()}>
@@ -23,5 +23,3 @@ const ProposalList = ({ proposals, closeHandler, selectProposal }) => {
     </div>
   );
 };
-
-export default ProposalList;

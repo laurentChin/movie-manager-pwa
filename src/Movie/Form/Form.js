@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { FormatCheckboxGroup } from "../../Format/index";
 import { CoverInput } from "./";
-import ProposalList from "../components/ProposalList";
+import { ProposalList } from "Movie/components/ProposalList";
 import { HOME_PAGE } from "../../constants";
 
 const MovieForm = ({
@@ -17,14 +17,16 @@ const MovieForm = ({
   proposals,
   resetProposalList,
   selectProposal,
-  isUpdate
+  isUpdate,
 }) => {
   const navigate = useNavigate();
 
   return (
     <>
       <form onSubmit={handleSubmit}>
-        {initialized && isUpdate && <Field name="id" component="input" type="hidden" />}
+        {initialized && isUpdate && (
+          <Field name="id" component="input" type="hidden" />
+        )}
         <div>
           <label htmlFor="title">Title</label>
           <Field name="title" component="input" type="text" required />
@@ -49,7 +51,9 @@ const MovieForm = ({
           }
         />
         <Field name="poster" component={CoverInput} />
-        <button onClick={() => navigate(HOME_PAGE)}>Go back to movie list</button>
+        <button onClick={() => navigate(HOME_PAGE)}>
+          Go back to movie list
+        </button>
         <button type="submit">{initialized ? "Update" : "Create"}</button>
       </form>
       {proposals.length > 0 && (
@@ -65,5 +69,5 @@ const MovieForm = ({
 
 export default reduxForm({
   form: "movie",
-  enableReinitialize: true
+  enableReinitialize: true,
 })(MovieForm);
