@@ -1,6 +1,6 @@
 import React from "react";
 
-import Proposal from "../Proposal";
+import { Proposal } from "Movie/components/Proposal";
 
 import "./styles.css";
 

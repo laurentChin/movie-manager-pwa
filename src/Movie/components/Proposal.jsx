@@ -1,8 +1,8 @@
 import React from "react";
 
-import "./styles.css";
+import "./Proposal.css";
 
-const Proposal = ({ title, releaseDate, direction, poster, select }) => {
+export const Proposal = ({ title, releaseDate, direction, poster, select }) => {
   return (
     <div
       className="proposal"
@@ -15,5 +15,3 @@ const Proposal = ({ title, releaseDate, direction, poster, select }) => {
     </div>
   );
 };
-
-export default Proposal;
