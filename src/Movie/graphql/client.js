@@ -1,4 +1,4 @@
-import { GraphQLClient } from "../../core";
+import { GraphQLClient } from "../../Core";
 import { queries } from "./index";
 
 export const fetchMovie = (id) => {
@@ -7,5 +7,5 @@ export const fetchMovie = (id) => {
     variables: {
       id,
     },
-  }).then(({data: {movie}}) => movie)
-}
+  }).then(({ data: { movie } }) => movie);
+};

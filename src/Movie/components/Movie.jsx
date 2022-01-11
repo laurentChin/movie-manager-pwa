@@ -7,7 +7,7 @@ import "./Movie.css";
 
 import { FormatList } from "Format";
 import { Duration } from "Duration";
-import { Image } from "core";
+import { Image } from "Core";
 import { remove } from "Movie/Actions";
 
 const assetsUrl = process.env.REACT_APP_API_URL;

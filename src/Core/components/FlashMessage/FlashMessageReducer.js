@@ -1,12 +1,12 @@
 import {
   FLASH_MESSAGE_SHOW,
-  FLASH_MESSAGE_HIDE
+  FLASH_MESSAGE_HIDE,
 } from "./FlashMessageActionTypes";
 
 const initialState = {
   show: false,
   message: "",
-  status: ""
+  status: "",
 };
 
 const flashMessageReducer = (state = initialState, action) => {
@@ -17,16 +17,16 @@ const flashMessageReducer = (state = initialState, action) => {
         ...state,
         show: true,
         message,
-        status
+        status,
       };
     case FLASH_MESSAGE_HIDE:
       return {
         ...state,
-        show: false
+        show: false,
       };
     default:
       return {
-        ...state
+        ...state,
       };
   }
 };

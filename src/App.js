@@ -8,7 +8,7 @@ import "./App.css";
 import Home from "./Home";
 import { LogInForm } from "./Auth";
 import { MovieRouter } from "./Movie";
-import { Loader, FlashMessage } from "./core";
+import { Loader, FlashMessage } from "./Core";
 import { Router as SignInRouter } from "./SignIn";
 
 class App extends Component {
@@ -47,14 +47,14 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { isAuthenticated } = state.auth;
   const { loading } = state.loader;
   const { show: showFlash } = state.flash;
   return {
     isAuthenticated,
     loading,
-    showFlash
+    showFlash,
   };
 };
 

@@ -5,16 +5,16 @@ const loaderReducer = (state = { loading: false }, action) => {
     case LOADER_HIDE:
       return {
         ...state,
-        loading: false
+        loading: false,
       };
     case LOADER_SHOW:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     default:
       return {
-        ...state
+        ...state,
       };
   }
 };

@@ -1,6 +1,6 @@
 import jwtDecode from "jwt-decode";
 
-import { GraphQLClient } from "../core";
+import { GraphQLClient } from "../Core";
 
 import { queries } from "./graphql";
 import {

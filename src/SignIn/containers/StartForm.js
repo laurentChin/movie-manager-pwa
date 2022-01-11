@@ -4,27 +4,24 @@ import { StartForm } from "../components";
 import { startSignIn } from "../redux/actions";
 import { startSelector } from "../redux/selectors";
 
-import { validatePasswordConfirmation } from "../../core/validators";
+import { validatePasswordConfirmation } from "../../Core/validators";
 import { LOGIN_PAGE } from "../../Auth/constants";
 import { Link } from "react-router-dom";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     validatePasswordConfirmation,
-    submitHandler: startSignIn => values => {
+    submitHandler: (startSignIn) => (values) => {
       const { email, password } = values;
       startSignIn(email, password);
     },
     startSuccess: startSelector(state),
-    logInLink: <Link to={LOGIN_PAGE}>Log In</Link>
+    logInLink: <Link to={LOGIN_PAGE}>Log In</Link>,
   };
 };
 
 const mapDispatchToProps = {
-  startSignIn
+  startSignIn,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StartForm);
+export default connect(mapStateToProps, mapDispatchToProps)(StartForm);

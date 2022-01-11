@@ -21,7 +21,7 @@ import {
   PAGINATE_ITEMS,
 } from "./ActionTypes";
 
-import { GraphQLClient } from "../core";
+import { GraphQLClient } from "../Core";
 import { queries, mutations } from "./graphql";
 
 import { MOVIE_ITEMS_LIMIT } from "./constants";

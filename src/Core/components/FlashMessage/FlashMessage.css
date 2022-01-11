@@ -7,19 +7,17 @@
   animation: slide-in 0.4s linear forwards, slide-out 0.4s 1s linear forwards;
   text-align: center;
   color: #000;
-
-
 }
 
 .flash-message-container[status="success"] {
   color: #fff;
   font-weight: 600;
-   background-color: #aed69b;
- }
+  background-color: #aed69b;
+}
 
 .flash-message-container[status="failure"] {
-   background-color: #e3665a;
- }
+  background-color: #e3665a;
+}
 
 .flash-message-container p {
   margin: 5px 10px;

@@ -23,10 +23,10 @@ class Loader extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { loading } = state.loader;
   return {
-    loading
+    loading,
   };
 };
 

@@ -1,33 +1,33 @@
 import {
   FETCH_FORMAT_LIST_PENDING,
   FETCH_FORMAT_LIST_SUCCESS,
-  FETCH_FORMAT_LIST_FAILURE
+  FETCH_FORMAT_LIST_FAILURE,
 } from "./ActionTypes";
 
-import { GraphQLClient } from "../core";
+import { GraphQLClient } from "../Core";
 import { queries } from "./graphql";
 
 const fetchFormats = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
-      type: FETCH_FORMAT_LIST_PENDING
+      type: FETCH_FORMAT_LIST_PENDING,
     });
     GraphQLClient.query({
-      query: queries.FORMATS
+      query: queries.FORMATS,
     })
-      .then(response => {
+      .then((response) => {
         const {
-          data: { getFormats: formats }
+          data: { getFormats: formats },
         } = response;
         dispatch({
           type: FETCH_FORMAT_LIST_SUCCESS,
-          formats
+          formats,
         });
       })
-      .catch(e => {
+      .catch((e) => {
         dispatch({
           type: FETCH_FORMAT_LIST_FAILURE,
-          error: e
+          error: e,
         });
       });
   };

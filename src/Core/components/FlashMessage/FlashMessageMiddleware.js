@@ -1,9 +1,9 @@
 import {
   FLASH_MESSAGE_SHOW,
-  FLASH_MESSAGE_HIDE
+  FLASH_MESSAGE_HIDE,
 } from "./FlashMessageActionTypes";
 
-const flashMessage = store => next => action => {
+const flashMessage = (store) => (next) => (action) => {
   if (!/(_PENDING|_SUCCESS|_FAILURE)$/.test(action.type)) {
     return next(action);
   }
@@ -14,12 +14,12 @@ const flashMessage = store => next => action => {
     store.dispatch({
       type: FLASH_MESSAGE_SHOW,
       message: action.flashMessage,
-      status: status.toLowerCase()
+      status: status.toLowerCase(),
     });
 
     setTimeout(() => {
       store.dispatch({
-        type: FLASH_MESSAGE_HIDE
+        type: FLASH_MESSAGE_HIDE,
       });
     }, 2500);
   }
