@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import "./Home.css";
@@ -8,12 +8,11 @@ import { fetch as fetchMovies } from "./Movie/Actions";
 import { fetchUser } from "./User/actions";
 import { fetch as fetchLogs } from "./Log/actions";
 import { MovieList } from "./Movie";
-import ConnectedMovieList from "./Movie/containers/MovieList";
 import SearchBox from "./Search/container/SearchBox";
+import { selectLimit, selectOffset } from "./Movie/Movie.selectors";
 
 const Home = ({
   movies,
-  offset,
   isFetching,
   fetchMovies,
   hasMoreToFetch,
@@ -22,8 +21,10 @@ const Home = ({
   jwt,
   fetchUser,
   fetchLogs,
-  scrollPosition
+  scrollPosition,
 }) => {
+  const offset = useSelector(selectOffset);
+  const limit = useSelector(selectLimit);
   useEffect(() => {
     fetchLogs();
   }, []);
@@ -54,7 +55,7 @@ const Home = ({
         )}
       </div>
       {!isFetching && movies.length > 0 && matches.length === 0 && (
-        <ConnectedMovieList movies={movies} />
+        <MovieList movies={movies} offset={offset} limit={limit} />
       )}
     </div>
   );
@@ -74,17 +75,14 @@ const mapStateToProps = ({ movies, user, search, auth }) => {
     count,
     matches,
     jwt,
-    scrollPosition
+    scrollPosition,
   };
 };
 
 const mapDispatchToProps = {
   fetchMovies,
   fetchUser,
-  fetchLogs
+  fetchLogs,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
