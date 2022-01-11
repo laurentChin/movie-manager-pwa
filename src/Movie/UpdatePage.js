@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { formValueSelector } from "redux-form";
 import { useParams } from "react-router-dom";
 
-import { Form } from "./Form";
+import { Form } from "Movie/components/Form";
 import { update, search } from "./Actions";
 import { fetchFormats } from "../Format";
 import { fetchMovie } from "./graphql/client";

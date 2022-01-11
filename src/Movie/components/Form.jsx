@@ -3,11 +3,11 @@ import { Field, reduxForm } from "redux-form";
 import { useNavigate } from "react-router-dom";
 
 import { FormatCheckboxGroup } from "../../Format/index";
-import { CoverInput } from "./";
+import { CoverInput } from "Movie/Form";
 import { ProposalList } from "Movie/components/ProposalList";
 import { HOME_PAGE } from "../../constants";
 
-const MovieForm = ({
+const Component = ({
   handleSubmit,
   formats,
   initialized,
@@ -59,7 +59,7 @@ const MovieForm = ({
   );
 };
 
-export default reduxForm({
+export const Form = reduxForm({
   form: "movie",
   enableReinitialize: true,
-})(MovieForm);
+})(Component);
