@@ -3,7 +3,7 @@ import { FormattedDate } from "react-intl";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import "./Movie.styles.css";
+import "./Movie.css";
 
 import { FormatList } from "Format";
 import { Duration } from "Duration";
