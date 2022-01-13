@@ -1,26 +1,33 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { selectMatches } from "Search/Search.selectors";
+
+import { reset, search } from "Search/actions";
+
 import "./SearchBox.css";
 
-const SearchBox = ({ search, reset, matches }) => {
+export const SearchBox = () => {
+  const dispatch = useDispatch();
   const [isSearching, setSearching] = useState(false);
   const [debounceTimeout, setDebounceTimeout] = useState(null);
+  const matches = useSelector(selectMatches);
 
   return (
     <div className="searchbox">
       <input
         type="search"
-        onChange={e => {
+        onChange={(e) => {
           const { value } = e.currentTarget;
           clearTimeout(debounceTimeout);
           const isFieldEmpty = !/\S/.test(value);
 
           setSearching(!isFieldEmpty && value.length >= 2);
-          if (value.length < 2) return reset();
-          if (isFieldEmpty) return reset();
+          if (value.length < 2 || isFieldEmpty) return dispatch(reset());
 
           setDebounceTimeout(
             setTimeout(() => {
-              search(value.trim());
+              dispatch(search(value.trim()));
             }, 400)
           );
         }}
@@ -29,5 +36,3 @@ const SearchBox = ({ search, reset, matches }) => {
     </div>
   );
 };
-
-export default SearchBox;

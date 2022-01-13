@@ -8,7 +8,7 @@ import { fetch as fetchMovies } from "./Movie/Actions";
 import { fetchUser } from "./User/actions";
 import { fetch as fetchLogs } from "./Log/actions";
 import { MovieList } from "./Movie";
-import SearchBox from "./Search/container/SearchBox";
+import { SearchBox } from "./Search/components/SearchBox";
 import { selectLimit, selectOffset } from "./Movie/Movie.selectors";
 
 const Home = ({
@@ -27,7 +27,7 @@ const Home = ({
   const limit = useSelector(selectLimit);
   useEffect(() => {
     fetchLogs();
-  }, []);
+  }, [fetchLogs]);
 
   useEffect(() => {
     fetchUser();
@@ -38,7 +38,7 @@ const Home = ({
     if (scrollPosition) {
       window.scrollTo(0, scrollPosition);
     }
-  }, [jwt, count, movies, scrollPosition]);
+  }, [jwt, count, movies, scrollPosition, fetchMovies, fetchUser]);
 
   return (
     <div className="home-container">
