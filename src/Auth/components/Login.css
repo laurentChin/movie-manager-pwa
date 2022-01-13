@@ -1,14 +1,47 @@
+.logInForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.logInForm form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.logInForm input {
+  width: 200px;
+  margin-left: 5px;
+  line-height: 25px;
+  margin-bottom: 15px;
+}
+
+.logInForm .formActions {
+  margin-top: 15px;
+  align-self: center;
+  display: flex;
+  justify-content: space-around;
+}
+
+.logInForm .formActions button {
+  cursor: pointer;
+  height: 44px;
+  border-radius: 20%;
+  border: 0;
+  padding: 5px 10px;
+}
+
+.logInForm form a {
+  align-self: center;
+}
+
 .login-options-container {
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  .facebook-login-btn {
-    background-color: #3b5998;
-    color: #fff;
-    padding: 5px;
-    border-radius: 4px;
-  }
 }

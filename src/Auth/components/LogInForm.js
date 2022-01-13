@@ -1,41 +1,60 @@
-import React from "react";
-import { Field, reduxForm } from "redux-form";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import { HOME_PAGE } from "../../constants";
+import { SIGN_IN_PAGE } from "SignIn/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { selectIsAuthenticated } from "Auth/selectors";
+import { logIn } from "Auth/Actions";
 
 import "./Login.css";
-import { Link, useNavigate } from "react-router-dom";
-import { HOME_PAGE } from "../../constants";
-import { SIGN_IN_PAGE } from "../../SignIn/constants";
 
-const LogInForm = ({
-  isAuthenticated,
-  handleSubmit,
-  submitHandler,
-  logIn,
-}) => {
-  const navigate = useNavigate()
+export const LogInForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  if(isAuthenticated) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+
+  if (isAuthenticated) {
     navigate(HOME_PAGE);
   }
 
   return (
-    <form onSubmit={handleSubmit(submitHandler(logIn))}>
-      <div className="formField">
-        <label htmlFor="email">E-mail address</label>
-        <Field name="email" component="input" type="email" required />
-      </div>
-      <div className="formField">
-        <label htmlFor="password">Password</label>
-        <Field name="password" component="input" type="password" required />
-      </div>
-      <div className="formActions">
-        <button type="submit">Log In</button>
-      </div>
-      <Link to={SIGN_IN_PAGE}>Create an account</Link>
-    </form>
-  )
+    <div className="logInForm">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          dispatch(logIn(email, password));
+        }}
+      >
+        <div className="formField">
+          <label htmlFor="email">E-mail address</label>
+          <input
+            name="email"
+            type="email"
+            required
+            value={email}
+            onChange={({ currentTarget: { value } }) => setEmail(value)}
+          />
+        </div>
+        <div className="formField">
+          <label htmlFor="password">Password</label>
+          <input
+            name="password"
+            type="password"
+            required
+            value={password}
+            onChange={({ currentTarget: { value } }) => setPassword(value)}
+          />
+        </div>
+        <div className="formActions">
+          <button type="submit">Log In</button>
+        </div>
+        <Link to={SIGN_IN_PAGE}>Create an account</Link>
+      </form>
+    </div>
+  );
 };
-
-export default reduxForm({
-  form: "logIn"
-})(LogInForm);

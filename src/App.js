@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import "./App.css";
 
 import Home from "./Home";
-import { LogInForm } from "./Auth";
+import { LogInForm } from "Auth/components/LogInForm";
 import { MovieRouter } from "./Movie";
 import { Loader, FlashMessage } from "./Core";
 import { Router as SignInRouter } from "./SignIn";
