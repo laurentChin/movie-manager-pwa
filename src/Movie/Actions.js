@@ -133,12 +133,7 @@ const update = ({ id, title, direction, releaseDate, poster, formats }) => {
         });
       })
       .catch((error) => {
-        if (
-          error.graphQLErrors[0] &&
-          error.graphQLErrors[0].extensions &&
-          error.graphQLErrors[0].extensions.code &&
-          error.graphQLErrors[0].extensions.code === 404
-        ) {
+        if (error.graphQLErrors[0]?.extensions?.code === 404) {
           dispatch({
             type: MOVIE_DELETE_SUCCESS,
             id,
