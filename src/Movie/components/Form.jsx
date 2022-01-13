@@ -8,8 +8,8 @@ import { CoverInput } from "Core/components/CoverInput";
 import { HOME_PAGE } from "../../constants";
 import { search } from "Movie/Actions";
 import { ProposalList } from "Movie/components/ProposalList";
-import { selectFormValues, selectProposalList } from "Movie/Movie.selectors";
-import { selectFormatList } from "Format/Format.selectors";
+import { selectFormValues, selectProposalList } from "Movie/selectors";
+import { selectFormatList } from "Format/selectors";
 
 const Component = ({ handleSubmit, initialized, initialValues, isUpdate }) => {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { selectMatches } from "Search/Search.selectors";
+import { selectMatches } from "Search/selectors";
 
 import { reset, search } from "Search/actions";
 

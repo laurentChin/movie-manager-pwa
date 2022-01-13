@@ -9,7 +9,7 @@ import { fetchUser } from "./User/actions";
 import { fetch as fetchLogs } from "./Log/actions";
 import { MovieList } from "./Movie";
 import { SearchBox } from "./Search/components/SearchBox";
-import { selectLimit, selectOffset } from "./Movie/Movie.selectors";
+import { selectLimit, selectOffset } from "./Movie/selectors";
 
 const Home = ({
   movies,

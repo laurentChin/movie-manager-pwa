@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { Form } from "Movie/components/Form";
 import { update } from "Movie/Actions";
 import { fetchMovie } from "Movie/graphql/client";
-import { selectMovies } from "Movie/Movie.selectors";
+import { selectMovies } from "Movie/selectors";
 
 export const UpdatePage = () => {
   const params = useParams();
