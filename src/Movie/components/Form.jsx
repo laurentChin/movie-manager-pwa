@@ -3,24 +3,27 @@ import { Field, initialize, reduxForm } from "redux-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { FormatCheckboxGroup } from "../../Format/index";
+import { fetchFormats, FormatCheckboxGroup } from "Format";
 import { CoverInput } from "Core/components/CoverInput";
-import { ProposalList } from "Movie/components/ProposalList";
 import { HOME_PAGE } from "../../constants";
 import { search } from "Movie/Actions";
-import { selectFormValues, selectProposalList } from "../Movie.selectors";
+import { ProposalList } from "Movie/components/ProposalList";
+import { selectFormValues, selectProposalList } from "Movie/Movie.selectors";
+import { selectFormatList } from "Format/Format.selectors";
 
-const Component = ({
-  handleSubmit,
-  formats,
-  initialized,
-  initialValues,
-  isUpdate,
-}) => {
+const Component = ({ handleSubmit, initialized, initialValues, isUpdate }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const proposals = useSelector(selectProposalList);
   const values = useSelector(selectFormValues);
+
+  const formats = useSelector(selectFormatList);
+
+  useEffect(() => {
+    if (formats.length === 0) {
+      dispatch(fetchFormats());
+    }
+  });
 
   useEffect(() => {
     if (initialValues && !initialized) {
