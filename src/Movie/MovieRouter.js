@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { CreationPage, UpdatePage } from "./";
+import { CreationPage } from "./pages/CreationPage";
+import { UpdatePage } from "./";
 
 const MovieRouter = ({ match }) => (
   <Routes>

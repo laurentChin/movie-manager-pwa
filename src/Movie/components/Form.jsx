@@ -1,25 +1,26 @@
 import React, { useEffect } from "react";
 import { Field, initialize, reduxForm } from "redux-form";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { FormatCheckboxGroup } from "../../Format/index";
 import { CoverInput } from "Core/components/CoverInput";
 import { ProposalList } from "Movie/components/ProposalList";
 import { HOME_PAGE } from "../../constants";
+import { search } from "Movie/Actions";
+import { selectFormValues, selectProposalList } from "../Movie.selectors";
 
 const Component = ({
   handleSubmit,
   formats,
   initialized,
   initialValues,
-  title,
-  search,
-  proposals,
   isUpdate,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const proposals = useSelector(selectProposalList);
+  const values = useSelector(selectFormValues);
 
   useEffect(() => {
     if (initialValues && !initialized) {
@@ -36,9 +37,14 @@ const Component = ({
         <div>
           <label htmlFor="title">Title</label>
           <Field name="title" component="input" type="text" required />
-          <span className="search" onClick={() => search(title)}>
-            search
-          </span>
+          {values?.title && (
+            <span
+              className="search"
+              onClick={() => dispatch(search(values.title))}
+            >
+              search
+            </span>
+          )}
         </div>
         <div>
           <label htmlFor="direction">Director</label>
