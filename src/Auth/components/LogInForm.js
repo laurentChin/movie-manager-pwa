@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { HOME_PAGE } from "../../constants";
-import { SIGN_IN_PAGE } from "SignIn/constants";
+import { SIGN_IN_PAGE } from "Auth/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsAuthenticated } from "Auth/selectors";
 import { logIn } from "Auth/Actions";
 
-import "./Login.css";
+import "./Form.css";
 
 export const LogInForm = () => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export const LogInForm = () => {
   }
 
   return (
-    <div className="logInForm">
+    <div className="authForm">
       <form
         onSubmit={(e) => {
           e.preventDefault();

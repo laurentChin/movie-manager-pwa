@@ -1,11 +1,10 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import { StartForm, FinishForm } from "./containers";
+import { FinishForm } from "./containers";
 
-export default ({ match }) => (
+export const SignInRouter = () => (
   <Routes>
-    <Route exact path={`${match.path}/start`} element={StartForm} />
-    <Route exact path={`${match.path}/finish`} element={FinishForm} />
+    <Route exact path="finish" element={FinishForm} />
   </Routes>
 );

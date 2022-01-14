@@ -1,4 +1,4 @@
-.logInForm {
+.authForm {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -6,27 +6,27 @@
   height: 100vh;
 }
 
-.logInForm form {
+.authForm form {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
-.logInForm input {
+.authForm input {
   width: 200px;
   margin-left: 5px;
   line-height: 25px;
   margin-bottom: 15px;
 }
 
-.logInForm .formActions {
+.authForm .formActions {
   margin-top: 15px;
   align-self: center;
   display: flex;
   justify-content: space-around;
 }
 
-.logInForm .formActions button {
+.authForm .formActions button {
   cursor: pointer;
   height: 44px;
   border-radius: 20%;
@@ -34,7 +34,7 @@
   padding: 5px 10px;
 }
 
-.logInForm form a {
+.authForm form a {
   align-self: center;
 }
 

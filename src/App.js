@@ -6,18 +6,18 @@ import { connect } from "react-redux";
 import "./App.css";
 
 import Home from "./Home";
-import { LogInForm } from "Auth/components/LogInForm";
 import { MovieRouter } from "./Movie";
 import { Loader, FlashMessage } from "./Core";
-import { Router as SignInRouter } from "./SignIn";
+import { SignInRouter } from "./SignIn/Router";
+import { AuthRouter } from "Auth/router";
 
 class App extends Component {
   componentDidMount() {
     if (
       !this.props.isAuthenticated &&
-      !/^\/login|signIn/.test(window.location.pathname)
+      !/^\/auth\/(log|sign)-in/.test(window.location.pathname)
     ) {
-      window.location.replace("/login");
+      window.location.replace("/auth/log-in");
     }
   }
 
@@ -36,8 +36,8 @@ class App extends Component {
             <Routes>
               <Route exact path="/" element={<Home />} />
               <Route path="movies/*" element={<MovieRouter />} />
-              <Route path="/signin" element={<SignInRouter />} />
-              <Route path="/login" element={<LogInForm />} />
+              <Route path="sign-in/*" element={<SignInRouter />} />
+              <Route path="auth/*" element={<AuthRouter />} />
             </Routes>
           </BrowserRouter>
         </div>
