@@ -9,20 +9,13 @@ import { fetchUser } from "User/actions";
 import { fetch as fetchLogs } from "Log/actions";
 import { MovieList } from "Movie";
 import { SearchBox } from "Search/components/SearchBox";
-import {
-  selectIsFetching,
-  selectLimit,
-  selectMovies,
-  selectOffset,
-} from "Movie/selectors";
+import { selectIsFetching, selectMovies } from "Movie/selectors";
 import { selectMovieCount } from "User/selectors";
 import { selectJwt } from "Auth/selectors";
 import { selectMatches } from "Search/selectors";
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const offset = useSelector(selectOffset);
-  const limit = useSelector(selectLimit);
   const movies = useSelector(selectMovies);
   const isFetching = useSelector(selectIsFetching);
   const userMovieCount = useSelector(selectMovieCount);
@@ -59,12 +52,10 @@ export const Home = () => {
         </Link>
       </div>
       <div className="results">
-        {matches.length > 0 && (
-          <MovieList offset={0} limit={matches.length} movies={matches} />
-        )}
+        {matches.length > 0 && <MovieList movies={matches} />}
       </div>
       {!isFetching && movies.length > 0 && matches.length === 0 && (
-        <MovieList movies={movies} offset={offset} limit={limit} />
+        <MovieList movies={movies} />
       )}
     </div>
   );

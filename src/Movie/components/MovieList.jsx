@@ -1,42 +1,14 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-
 import "./MovieList.css";
 
 import { Movie } from "Movie/components/Movie";
-import { paginate } from "Movie/Actions";
 
-export const MovieList = ({ movies, offset, limit }) => {
-  const dispatch = useDispatch();
-  const previousOffset = offset - limit >= 0 ? offset - limit : -1;
-  const nextOffset = offset + limit < movies.length ? offset + limit : null;
-
+export const MovieList = ({ movies }) => {
   return (
-    <>
-      {previousOffset >= 0 && paginate && (
-        <button
-          className="previous-btn"
-          onClick={() => dispatch(paginate(previousOffset))}
-        >
-          Previous
-        </button>
-      )}
-      <div className="movie-list">
-        {movies.slice(offset, offset + limit).map((movie) => {
-          return <Movie key={movie.id} movie={movie} />;
-        })}
-      </div>
-      {nextOffset && (
-        <button
-          className="next-btn"
-          onClick={() => {
-            window.scrollTo(0, 0);
-            dispatch(paginate(nextOffset));
-          }}
-        >
-          Next
-        </button>
-      )}
-    </>
+    <div className="movie-list">
+      {movies.map((movie) => {
+        return <Movie key={movie.id} movie={movie} />;
+      })}
+    </div>
   );
 };

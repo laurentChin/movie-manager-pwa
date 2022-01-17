@@ -1,0 +1,31 @@
+.picture-shadow-container {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.picture-shadow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 200%;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.1),
+    #ffffff,
+    rgba(0, 0, 0, 0.1),
+    #ffffff,
+    rgba(0, 0, 0, 0.1)
+  );
+  animation: shadow 1s infinite ease-out;
+}
+
+@keyframes shadow {
+  0% {
+    transform: translateX(-25%);
+  }
+
+  100% {
+    transform: translateX(25%);
+  }
+}
