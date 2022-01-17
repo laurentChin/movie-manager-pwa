@@ -1,24 +1,16 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 
 import "./FlashMessage.css";
+import { selectFlashStatus, selectMessage } from "Core/selectors";
 
-class FlashMessage extends Component {
-  render() {
-    const { message, status } = this.props;
+export const FlashMessage = () => {
+  const message = useSelector(selectMessage);
+  const status = useSelector(selectFlashStatus);
 
-    return (
-      <div className="flash-message-container" status={status}>
-        <p>{message}</p>
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    ...state.flash,
-  };
+  return (
+    <div className="flash-message-container" status={status}>
+      <p>{message}</p>
+    </div>
+  );
 };
-
-export default connect(mapStateToProps)(FlashMessage);

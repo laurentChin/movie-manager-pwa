@@ -7,7 +7,7 @@ import "./App.css";
 
 import Home from "./Home";
 import { MovieRouter } from "./Movie";
-import { FlashMessage } from "./Core";
+import { FlashMessage } from "Core/components/FlashMessage/FlashMessage";
 import { Loader } from "Core/components/Loader/Loader";
 import { AuthRouter } from "Auth/router";
 
