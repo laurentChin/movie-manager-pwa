@@ -22,7 +22,8 @@ import {
 } from "./ActionTypes";
 
 import { GraphQLClient } from "../Core";
-import { queries, mutations } from "./graphql";
+import * as queries from "Movie/graphql/queries";
+import * as mutations from "Movie/graphql/mutations";
 
 import { MOVIE_ITEMS_LIMIT } from "./constants";
 

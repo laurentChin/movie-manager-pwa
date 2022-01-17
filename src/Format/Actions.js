@@ -5,7 +5,7 @@ import {
 } from "./ActionTypes";
 
 import { GraphQLClient } from "../Core";
-import { queries } from "./graphql";
+import { FORMATS } from "Format/graphql/queries";
 
 const fetchFormats = () => {
   return (dispatch) => {
@@ -13,7 +13,7 @@ const fetchFormats = () => {
       type: FETCH_FORMAT_LIST_PENDING,
     });
     GraphQLClient.query({
-      query: queries.FORMATS,
+      query: FORMATS,
     })
       .then((response) => {
         const {

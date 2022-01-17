@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const FORMATS = gql`
+export const FORMATS = gql`
   query Formats {
     getFormats {
       id
@@ -9,7 +9,3 @@ const FORMATS = gql`
     }
   }
 `;
-
-export default {
-  FORMATS,
-};

@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const ADD_MOVIE = gql`
+export const ADD_MOVIE = gql`
   mutation AddMovie(
     $title: String
     $direction: String
@@ -31,7 +31,7 @@ const ADD_MOVIE = gql`
   }
 `;
 
-const UPDATE_MOVIE = gql`
+export const UPDATE_MOVIE = gql`
   mutation UpdateMovie(
     $id: ID
     $title: String
@@ -64,7 +64,7 @@ const UPDATE_MOVIE = gql`
   }
 `;
 
-const DELETE_MOVIE = gql`
+export const DELETE_MOVIE = gql`
   mutation DeleteMovie($id: ID) {
     deleteMovie(id: $id) {
       id
@@ -72,9 +72,3 @@ const DELETE_MOVIE = gql`
     }
   }
 `;
-
-export default {
-  ADD_MOVIE,
-  UPDATE_MOVIE,
-  DELETE_MOVIE,
-};

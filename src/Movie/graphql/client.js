@@ -1,9 +1,9 @@
 import { GraphQLClient } from "../../Core";
-import { queries } from "./index";
+import { MOVIE } from "./queries";
 
 export const fetchMovie = (id) => {
   return GraphQLClient.query({
-    query: queries.MOVIE,
+    query: MOVIE,
     variables: {
       id,
     },

@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const MOVIES = gql`
+export const MOVIES = gql`
   query Movies($offset: Int, $limit: Int) {
     movies(offset: $offset, limit: $limit) {
       id
@@ -17,7 +17,7 @@ const MOVIES = gql`
   }
 `;
 
-const MOVIE = gql`
+export const MOVIE = gql`
   query Movie($id: Int) {
     movie(id: $id) {
       id
@@ -34,7 +34,7 @@ const MOVIE = gql`
   }
 `;
 
-const SEARCH = gql`
+export const SEARCH = gql`
   query Explore($terms: String) {
     explore(terms: $terms) {
       title
@@ -44,9 +44,3 @@ const SEARCH = gql`
     }
   }
 `;
-
-export default {
-  MOVIES,
-  MOVIE,
-  SEARCH,
-};

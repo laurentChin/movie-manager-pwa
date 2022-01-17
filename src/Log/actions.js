@@ -5,7 +5,7 @@ import {
 } from "./actionTypes";
 
 import { GraphQLClient } from "../Core";
-import { queries } from "./graphql";
+import { LOGS } from "Log/graphql/queries";
 
 const fetch = () => {
   return (dispatch, getStore) => {
@@ -18,7 +18,7 @@ const fetch = () => {
     } = getStore();
 
     const query = {
-      query: queries.LOGS,
+      query: LOGS,
     };
 
     if (history.length > 0) {

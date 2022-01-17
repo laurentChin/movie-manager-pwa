@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const LOGS = gql`
+export const LOGS = gql`
   query FetchLogs($createdAt: String) {
     logs(createdAt: $createdAt) {
       model
@@ -10,5 +10,3 @@ const LOGS = gql`
     }
   }
 `;
-
-export default { LOGS };

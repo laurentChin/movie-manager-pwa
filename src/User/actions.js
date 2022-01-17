@@ -2,7 +2,7 @@ import jwtDecode from "jwt-decode";
 
 import { GraphQLClient } from "../Core";
 
-import { queries } from "./graphql";
+import { FETCH_USER } from "User/graphql/queries";
 import {
   FETCH_USER_FAILURE,
   FETCH_USER_PENDING,
@@ -19,7 +19,7 @@ export const fetchUser = () => {
     });
 
     GraphQLClient.query({
-      query: queries.FETCH_USER,
+      query: FETCH_USER,
       variables: {
         email,
       },

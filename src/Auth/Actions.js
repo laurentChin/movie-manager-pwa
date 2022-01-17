@@ -6,7 +6,7 @@ import {
 
 import { GraphQLClient, authenticateGraphQLClient } from "../Core";
 
-import { queries } from "./graphql";
+import { LOG_IN } from "Auth/graphql/queries";
 import { fetchUser } from "../User/actions";
 
 export const logIn = (email, password) => {
@@ -16,7 +16,7 @@ export const logIn = (email, password) => {
     });
 
     GraphQLClient.query({
-      query: queries.LOG_IN,
+      query: LOG_IN,
       variables: {
         email,
         password,

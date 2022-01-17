@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const FETCH_USER = gql`
+export const FETCH_USER = gql`
   query FetchUser($email: String) {
     getUser(email: $email) {
       count
@@ -8,5 +8,3 @@ const FETCH_USER = gql`
     }
   }
 `;
-
-export default { FETCH_USER };
