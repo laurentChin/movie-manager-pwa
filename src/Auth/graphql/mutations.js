@@ -7,3 +7,11 @@ export const SIGN_IN = gql`
     }
   }
 `;
+
+export const VALIDATE_TOKEN = gql`
+  mutation ValidateToken($token: String) {
+    validateToken(token: $token) {
+      email
+    }
+  }
+`;

@@ -8,7 +8,6 @@ import "./App.css";
 import Home from "./Home";
 import { MovieRouter } from "./Movie";
 import { Loader, FlashMessage } from "./Core";
-import { SignInRouter } from "./SignIn/Router";
 import { AuthRouter } from "Auth/router";
 
 class App extends Component {
@@ -36,7 +35,6 @@ class App extends Component {
             <Routes>
               <Route exact path="/" element={<Home />} />
               <Route path="movies/*" element={<MovieRouter />} />
-              <Route path="sign-in/*" element={<SignInRouter />} />
               <Route path="auth/*" element={<AuthRouter />} />
             </Routes>
           </BrowserRouter>

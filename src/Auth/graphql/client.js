@@ -9,3 +9,11 @@ export const startSignIn = (email, password) =>
       password,
     },
   });
+
+export const finishSignIn = (token) =>
+  GraphQLClient.mutate({
+    mutation: mutations.VALIDATE_TOKEN,
+    variables: {
+      token,
+    },
+  });
