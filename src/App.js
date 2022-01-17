@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import "./App.css";
 
-import Home from "./Home";
+import { Home } from "Home";
 import { MovieRouter } from "./Movie";
 import { FlashMessage } from "Core/components/FlashMessage/FlashMessage";
 import { Loader } from "Core/components/Loader/Loader";

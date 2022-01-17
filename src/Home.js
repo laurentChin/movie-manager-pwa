@@ -1,50 +1,59 @@
 import React, { useEffect } from "react";
-import { connect, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import "./Home.css";
 
-import { fetch as fetchMovies } from "./Movie/Actions";
-import { fetchUser } from "./User/actions";
-import { fetch as fetchLogs } from "./Log/actions";
-import { MovieList } from "./Movie";
-import { SearchBox } from "./Search/components/SearchBox";
-import { selectLimit, selectOffset } from "./Movie/selectors";
+import { fetch as fetchMovies } from "Movie/Actions";
+import { fetchUser } from "User/actions";
+import { fetch as fetchLogs } from "Log/actions";
+import { MovieList } from "Movie";
+import { SearchBox } from "Search/components/SearchBox";
+import {
+  selectIsFetching,
+  selectLimit,
+  selectMovies,
+  selectOffset,
+} from "Movie/selectors";
+import { selectMovieCount } from "User/selectors";
+import { selectJwt } from "Auth/selectors";
+import { selectMatches } from "Search/selectors";
 
-const Home = ({
-  movies,
-  isFetching,
-  fetchMovies,
-  hasMoreToFetch,
-  count,
-  matches,
-  jwt,
-  fetchUser,
-  fetchLogs,
-  scrollPosition,
-}) => {
+export const Home = () => {
+  const dispatch = useDispatch();
   const offset = useSelector(selectOffset);
   const limit = useSelector(selectLimit);
-  useEffect(() => {
-    fetchLogs();
-  }, [fetchLogs]);
+  const movies = useSelector(selectMovies);
+  const isFetching = useSelector(selectIsFetching);
+  const userMovieCount = useSelector(selectMovieCount);
+  const jwt = useSelector(selectJwt);
+  const matches = useSelector(selectMatches);
 
   useEffect(() => {
-    fetchUser();
-    if (movies.length === 0 && count > 0) {
-      fetchMovies(0, count);
+    if (jwt) {
+      dispatch(fetchUser());
     }
+  }, [jwt, dispatch]);
 
-    if (scrollPosition) {
-      window.scrollTo(0, scrollPosition);
+  useEffect(() => {
+    if (jwt) {
+      dispatch(fetchLogs());
     }
-  }, [jwt, count, movies, scrollPosition, fetchMovies, fetchUser]);
+  }, [jwt, dispatch]);
+
+  useEffect(() => {
+    if (jwt && movies.length === 0 && userMovieCount > 0) {
+      dispatch(fetchMovies(0, userMovieCount));
+    }
+  }, [userMovieCount, movies, jwt, dispatch]);
+
+  if (!jwt) return null;
 
   return (
     <div className="home-container">
       <div className="toolbox">
         <SearchBox />
-        <span className="movie-count">Count: {count}</span>
+        <span className="movie-count">Count: {userMovieCount}</span>
         <Link to="/movies/create" className="add-movie-btn">
           +
         </Link>
@@ -60,29 +69,3 @@ const Home = ({
     </div>
   );
 };
-
-const mapStateToProps = ({ movies, user, search, auth }) => {
-  const { isFetching, items, offset, hasMoreToFetch, scrollPosition } = movies;
-  const { count } = user;
-  const { matches } = search;
-  const { jwt } = auth;
-
-  return {
-    isFetching,
-    movies: items,
-    offset,
-    hasMoreToFetch,
-    count,
-    matches,
-    jwt,
-    scrollPosition,
-  };
-};
-
-const mapDispatchToProps = {
-  fetchMovies,
-  fetchUser,
-  fetchLogs,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
