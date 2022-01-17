@@ -17,7 +17,7 @@
 .movie-item .picture-shadow-container {
   grid-area: picture;
   justify-self: center;
-  width: 150px;
+  width: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,11 +94,13 @@
   }
 
   .movie-item picture,
+  .movie-item .picture-shadow-container,
   .movie-item__content {
     width: 100%;
   }
 
-  .movie-item picture {
+  .movie-item picture,
+  .movie-item .picture-shadow-container {
     z-index: 0;
     grid-row: 1 / span 3;
   }
@@ -142,7 +144,8 @@
     margin: 0;
   }
 
-  .movie-item picture {
+  .movie-item picture,
+  .movie-item .picture-shadow-container {
     grid-area: picture;
     justify-self: center;
     grid-row: 1 / span 2;
