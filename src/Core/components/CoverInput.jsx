@@ -1,45 +1,40 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./CoverInput.css";
 
 const assetsUrl = process.env.REACT_APP_API_URL;
 
-export class CoverInput extends Component {
-  constructor(props) {
-    super(props);
-    this.poster = React.createRef();
-  }
+export const CoverInput = ({ value, onChange }) => {
+  const [source, setSource] = useState("");
 
-  onFileChangeHandler(reduxFormOnChangeHandler) {
-    return (event) => {
-      const file = event.target.files[0];
-      reduxFormOnChangeHandler(file);
+  useEffect(() => {
+    if (value) {
+      setSource(
+        /^http[s]?:\/\//.test(value) ? value : `${assetsUrl}/uploads/${value}`
+      );
+    }
+  }, [value]);
 
-      const reader = new FileReader();
-      reader.onloadend = (event) => {
-        this.poster.current.src = event.target.result;
-      };
-
-      reader.readAsDataURL(file);
+  const showPreview = (file) => {
+    const reader = new FileReader();
+    reader.onloadend = (event) => {
+      setSource(event.target.result);
     };
-  }
 
-  render() {
-    const { input } = this.props;
-    const poster = input.value;
-    const { value, ...inputProps } = input;
-    const src = /^http[s]?:\/\//.test(value)
-      ? value
-      : `${assetsUrl}/uploads/${poster}`;
-    return (
-      <div className="cover-input-container">
-        <img src={src} alt="movie_poster" ref={this.poster} />
-        <input
-          type="file"
-          {...inputProps}
-          onChange={this.onFileChangeHandler(input.onChange)}
-        />
-      </div>
-    );
-  }
-}
+    reader.readAsDataURL(file);
+  };
+
+  return (
+    <div className="cover-input-container">
+      <img src={source} alt="movie_poster" />
+      <input
+        type="file"
+        onChange={(event) => {
+          const file = event.target.files[0];
+          onChange(file);
+          showPreview(file);
+        }}
+      />
+    </div>
+  );
+};

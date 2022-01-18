@@ -5,7 +5,7 @@ import { Proposal } from "Movie/components/Proposal";
 
 import "./ProposalList.css";
 
-export const ProposalList = ({ proposals }) => {
+export const ProposalList = ({ proposals, onSelect }) => {
   const dispatch = useDispatch();
 
   return (
@@ -23,6 +23,7 @@ export const ProposalList = ({ proposals }) => {
           releaseDate={releaseDate}
           direction={direction}
           poster={poster}
+          onSelect={onSelect}
         />
       ))}
     </div>

@@ -9,10 +9,10 @@ export const CreationPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = async (movie) => {
+  const onSubmit = async (movie) => {
     const { id } = await dispatch(create(movie));
     navigate(`/movies/${id}/update`);
   };
 
-  return <Form onSubmit={handleSubmit} />;
+  return <Form onSubmit={onSubmit} />;
 };

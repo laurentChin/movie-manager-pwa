@@ -1,5 +1,3 @@
-import { change } from "redux-form";
-
 import {
   MOVIES_REQUEST_PENDING,
   MOVIES_REQUEST_SUCCESS,
@@ -75,7 +73,7 @@ const create = ({ title, direction, releaseDate, poster, formats }) => {
         releaseDate,
         ...(typeof poster === "string"
           ? { posterUrl: poster }
-          : { poster: poster[0] }),
+          : { poster: poster }),
         formats: formats.map((format) => format.id),
       },
     })
@@ -116,7 +114,7 @@ const update = ({ id, title, direction, releaseDate, poster, formats }) => {
         releaseDate,
         ...(typeof poster === "string"
           ? { posterUrl: poster }
-          : { poster: poster[0] }),
+          : { poster: poster }),
         formats: formats
           .filter((format) => format.id)
           .map((format) => parseInt(format.id)),
@@ -227,19 +225,6 @@ const resetProposalList = () => {
   };
 };
 
-const selectProposal = (title, releaseDate, direction, poster) => {
-  return (dispatch) => {
-    dispatch(change("movie", "title", title));
-    dispatch(change("movie", "releaseDate", releaseDate));
-    dispatch(change("movie", "direction", direction));
-    dispatch(change("movie", "poster", poster));
-
-    dispatch({
-      type: RESET_PROPOSAL_LIST,
-    });
-  };
-};
-
 const sync = (movies) => {
   return (dispatch) => {
     dispatch({
@@ -269,7 +254,6 @@ export {
   remove,
   search,
   resetProposalList,
-  selectProposal,
   sync,
   paginate,
 };

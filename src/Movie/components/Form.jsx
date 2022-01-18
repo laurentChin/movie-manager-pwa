@@ -1,21 +1,24 @@
-import React, { useEffect } from "react";
-import { Field, initialize, reduxForm } from "redux-form";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchFormats, FormatCheckboxGroup } from "Format";
-import { CoverInput } from "Core/components/CoverInput";
 import { HOME_PAGE } from "../../constants";
+
+import { fetchFormats } from "Format";
+import { FormatCheckboxGroup } from "Format/FormatCheckboxGroup";
+
+import { selectFormatList } from "Format/selectors";
+import { CoverInput } from "Core/components/CoverInput";
+
 import { search } from "Movie/Actions";
 import { ProposalList } from "Movie/components/ProposalList";
-import { selectFormValues, selectProposalList } from "Movie/selectors";
-import { selectFormatList } from "Format/selectors";
+import { selectProposalList } from "Movie/selectors";
 
-const Component = ({ handleSubmit, initialized, initialValues, isUpdate }) => {
+export const Form = ({ onSubmit, initialValues }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const proposals = useSelector(selectProposalList);
-  const values = useSelector(selectFormValues);
+  const [movie, setMovie] = useState({});
 
   const formats = useSelector(selectFormatList);
 
@@ -26,24 +29,44 @@ const Component = ({ handleSubmit, initialized, initialValues, isUpdate }) => {
   });
 
   useEffect(() => {
-    if (initialValues && !initialized) {
-      dispatch(initialize("movie", initialValues, true));
+    if (initialValues) {
+      setMovie(initialValues);
     }
-  }, [initialValues, dispatch, initialized]);
+  }, [initialValues]);
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        {initialized && isUpdate && (
-          <Field name="id" component="input" type="hidden" />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit(movie);
+        }}
+      >
+        {movie.id && (
+          <input
+            name="id"
+            type="hidden"
+            value={movie.id}
+            onChange={({ currentTarget: { value: id } }) =>
+              setMovie({ ...movie, id })
+            }
+          />
         )}
         <div>
           <label htmlFor="title">Title</label>
-          <Field name="title" component="input" type="text" required />
-          {values?.title && (
+          <input
+            name="title"
+            type="text"
+            required
+            value={movie.title || ""}
+            onChange={({ currentTarget: { value: title } }) =>
+              setMovie({ ...movie, title })
+            }
+          />
+          {movie.title && (
             <span
               className="search"
-              onClick={() => dispatch(search(values.title))}
+              onClick={() => dispatch(search(movie.title))}
             >
               search
             </span>
@@ -51,32 +74,48 @@ const Component = ({ handleSubmit, initialized, initialValues, isUpdate }) => {
         </div>
         <div>
           <label htmlFor="direction">Director</label>
-          <Field name="direction" component="input" type="text" />
+          <input
+            name="direction"
+            type="text"
+            value={movie.direction || ""}
+            onChange={({ currentTarget: { value: direction } }) =>
+              setMovie({ ...movie, direction })
+            }
+          />
         </div>
         <div>
           <label htmlFor="releaseDate">Release date</label>
-          <Field name="releaseDate" component="input" type="date" />
+          <input
+            name="releaseDate"
+            type="date"
+            value={movie.releaseDate || ""}
+            onChange={({ currentTarget: { value: releaseDate } }) =>
+              setMovie({ ...movie, releaseDate })
+            }
+          />
         </div>
-        <Field
-          name="formats"
-          component={FormatCheckboxGroup}
-          formats={formats}
-          selection={
-            initialized && initialValues.formats ? initialValues.formats : []
-          }
+        <div>
+          <FormatCheckboxGroup
+            formats={formats}
+            initialValues={movie.formats || []}
+            onChange={(changes) => setMovie({ ...movie, formats: changes })}
+          />
+        </div>
+        <CoverInput
+          onChange={(poster) => setMovie({ ...movie, poster })}
+          value={movie.poster || ""}
         />
-        <Field name="poster" component={CoverInput} />
         <button onClick={() => navigate(HOME_PAGE)}>
           Go back to movie list
         </button>
-        <button type="submit">{initialized ? "Update" : "Create"}</button>
+        <button type="submit">{initialValues ? "Update" : "Create"}</button>
       </form>
-      {proposals.length > 0 && <ProposalList proposals={proposals} />}
+      {proposals.length > 0 && (
+        <ProposalList
+          proposals={proposals}
+          onSelect={(proposal) => setMovie({ ...movie, ...proposal })}
+        />
+      )}
     </>
   );
 };
-
-export const Form = reduxForm({
-  form: "movie",
-  enableReinitialize: true,
-})(Component);
