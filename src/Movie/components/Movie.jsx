@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FormattedDate } from "react-intl";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -29,8 +29,10 @@ export const Movie = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const movieEltRef = useRef();
+
   return (
-    <div className="movie-item" data-item-id={id}>
+    <div className="movie-item" data-item-id={id} ref={movieEltRef}>
       <Image
         src={`${assetsUrl}/uploads/${poster}`}
         alt={title}
@@ -54,6 +56,10 @@ export const Movie = ({
         <button
           onClick={() => {
             navigate(`/movies/${id}/update`);
+            window.sessionStorage.setItem(
+              "scrollPos",
+              movieEltRef.current.offsetTop
+            );
           }}
         >
           Edit

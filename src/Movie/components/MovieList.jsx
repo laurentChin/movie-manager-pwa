@@ -32,6 +32,11 @@ export const MovieList = ({ movies }) => {
     toggleImages();
     window.addEventListener("scroll", toggleImages);
 
+    if (window.sessionStorage.getItem("scrollPos")) {
+      window.scrollTo(0, parseInt(window.sessionStorage.getItem("scrollPos")));
+      window.sessionStorage.removeItem("scrollPos");
+    }
+
     return () => {
       window.removeEventListener("scroll", toggleImages);
     };
