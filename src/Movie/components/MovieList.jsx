@@ -25,7 +25,7 @@ export const MovieList = ({ movies }) => {
           []
         )
       );
-    }, 40);
+    }, 250);
   }, [setMoviesInViewport, bottomBoundary]);
 
   useEffect(() => {
