@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React from "react";
 import { FormattedDate } from "react-intl";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -24,36 +24,17 @@ export const Movie = ({
     formats,
     synopsis,
   },
+  showImage = false,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const movieEl = useRef(null);
-  const [isVisible, setVisibility] = useState(false);
-
-  const bottomBoundary = window.innerHeight;
-
-  const toggleImage = useCallback(() => {
-    const { top, bottom } = movieEl.current.getBoundingClientRect();
-    setVisibility(bottom > 0 && top < bottomBoundary);
-  }, [movieEl, bottomBoundary]);
-
-  useEffect(() => {
-    if (movieEl.current) {
-      toggleImage();
-      window.addEventListener("scroll", toggleImage);
-    }
-
-    return () => {
-      window.removeEventListener("scroll", toggleImage);
-    };
-  }, [movieEl, toggleImage]);
 
   return (
-    <div className="movie-item" ref={movieEl}>
+    <div className="movie-item" data-item-id={id}>
       <Image
         src={`${assetsUrl}/uploads/${poster}`}
         alt={title}
-        isVisible={isVisible}
+        isVisible={showImage}
       />
       <section className="movie-item__content">
         <h3>{title}</h3>
