@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 
 import Root from "./Root";
 import "./index.css";
@@ -17,4 +17,4 @@ if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
     .catch(() => {});
 }
 
-ReactDOM.render(<Root />, document.getElementById("root"));
+createRoot(document.getElementById("root")).render(<Root />);
