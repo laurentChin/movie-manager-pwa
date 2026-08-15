@@ -1,25 +1,23 @@
-import React, { Component } from "react";
+import React from "react";
 
-class CSVInput extends Component {
-  onChangeHandler(reduxFormOnChangeHandler) {
-    return event => {
-      const file = event.target.files[0];
-      reduxFormOnChangeHandler(file);
-    };
-  }
+function onChangeHandler(reduxFormOnChangeHandler) {
+  return (event) => {
+    const file = event.target.files[0];
+    reduxFormOnChangeHandler(file);
+  };
+}
 
-  render() {
-    const { input } = this.props;
-    delete input.value;
-    return (
-      <input
-        type="file"
-        {...input}
-        onChange={this.onChangeHandler(input.onChange)}
-        accept=".csv"
-      />
-    );
-  }
+function CSVInput({ input }) {
+  // eslint-disable-next-line no-unused-vars
+  const { value, ...inputWithoutValue } = input;
+  return (
+    <input
+      type="file"
+      {...inputWithoutValue}
+      onChange={onChangeHandler(input.onChange)}
+      accept=".csv"
+    />
+  );
 }
 
 export default CSVInput;

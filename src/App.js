@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { connect } from "react-redux";
@@ -11,39 +11,36 @@ import { FlashMessage } from "Core/components/FlashMessage/FlashMessage";
 import { Loader } from "Core/components/Loader/Loader";
 import { AuthRouter } from "Auth/router";
 
-class App extends Component {
-  componentDidMount() {
+function App({ isAuthenticated, loading, showFlash }) {
+  useEffect(() => {
     if (
-      !this.props.isAuthenticated &&
+      !isAuthenticated &&
       !/^\/auth\/(log|sign)-in/.test(window.location.pathname)
     ) {
       window.location.replace("/auth/log-in");
     }
+  }, [isAuthenticated]);
+
+  let className = "main-container";
+  if (loading) {
+    className = `${className} ${className}--hidden`;
   }
 
-  render() {
-    const { loading, showFlash } = this.props;
-    let className = "main-container";
-    if (loading) {
-      className = `${className} ${className}--hidden`;
-    }
-
-    return (
-      <>
-        {showFlash && <FlashMessage />}
-        <div className={className}>
-          <BrowserRouter>
-            <Routes>
-              <Route exact path="/" element={<Home />} />
-              <Route path="movies/*" element={<MovieRouter />} />
-              <Route path="auth/*" element={<AuthRouter />} />
-            </Routes>
-          </BrowserRouter>
-        </div>
-        <Loader />
-      </>
-    );
-  }
+  return (
+    <>
+      {showFlash && <FlashMessage />}
+      <div className={className}>
+        <BrowserRouter>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route path="movies/*" element={<MovieRouter />} />
+            <Route path="auth/*" element={<AuthRouter />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+      <Loader />
+    </>
+  );
 }
 
 const mapStateToProps = (state) => {
