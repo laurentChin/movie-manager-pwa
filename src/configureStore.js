@@ -1,5 +1,5 @@
 import { createStore, compose, applyMiddleware } from "redux";
-import thunkMiddleware from "redux-thunk";
+import { thunk as thunkMiddleware } from "redux-thunk";
 
 import { loaderMiddleware, flashMessageMiddleware } from "./Core";
 import { middleware as logMiddleware } from "./Log";
