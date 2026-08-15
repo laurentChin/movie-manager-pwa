@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - run: bun run build
+        env:
+          REACT_APP_GQL_SERVER: ${{ vars.REACT_APP_GQL_SERVER }}
+          REACT_APP_API_URL: ${{ vars.REACT_APP_API_URL }}
+          REACT_APP_MOVIE_LIST_ITEM_LIMIT: ${{ vars.REACT_APP_MOVIE_LIST_ITEM_LIMIT }}

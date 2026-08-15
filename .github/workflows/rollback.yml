@@ -1,0 +1,41 @@
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: "Release to redeploy (git SHA of a previous successful deploy -- see /var/www/movie-manager/pwa/releases on the server, or past Deploy workflow runs)"
+        required: true
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repoint current to the given release, health-check
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_SSH_HOST }}
+          username: ${{ secrets.DEPLOY_SSH_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            set -e
+            cd /var/www/movie-manager/pwa
+            if [ ! -d "releases/${{ inputs.release }}" ]; then
+              echo "releases/${{ inputs.release }} does not exist on this server -- nothing to roll back to"
+              exit 1
+            fi
+            ln -sfn "releases/${{ inputs.release }}" current
+
+            for i in $(seq 1 10); do
+              if curl -sf https://mm.laurentjanet.fr > /dev/null; then
+                echo "Health check passed"
+                exit 0
+              fi
+              sleep 3
+            done
+            echo "Health check failed after rollback"
+            exit 1

@@ -1,0 +1,91 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [master]
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+env:
+  RELEASES_DIR: /var/www/movie-manager/pwa/releases
+  RELEASE: ${{ github.event.workflow_run.head_sha }}
+
+jobs:
+  build:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - run: bun run build
+        env:
+          REACT_APP_GQL_SERVER: ${{ vars.REACT_APP_GQL_SERVER }}
+          REACT_APP_API_URL: ${{ vars.REACT_APP_API_URL }}
+          REACT_APP_MOVIE_LIST_ITEM_LIMIT: ${{ vars.REACT_APP_MOVIE_LIST_ITEM_LIMIT }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: build/
+          retention-days: 1
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: build/
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "${{ secrets.DEPLOY_SSH_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Upload build to a new release directory
+        run: |
+          ssh -i ~/.ssh/deploy_key "${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}" \
+            "mkdir -p '${{ env.RELEASES_DIR }}/${{ env.RELEASE }}'"
+          rsync -az --delete -e "ssh -i ~/.ssh/deploy_key" \
+            build/ "${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}:${{ env.RELEASES_DIR }}/${{ env.RELEASE }}/"
+
+      - name: Activate release, prune old ones, health-check
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_SSH_HOST }}
+          username: ${{ secrets.DEPLOY_SSH_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            set -e
+            cd /var/www/movie-manager/pwa
+            ln -sfn "releases/${{ env.RELEASE }}" current
+
+            # Keep the 5 most recent releases so rollback has somewhere to
+            # go; prune the rest.
+            cd releases
+            ls -1dt */ | tail -n +6 | xargs -r rm -rf
+
+            for i in $(seq 1 10); do
+              if curl -sf https://mm.laurentjanet.fr > /dev/null; then
+                echo "Health check passed"
+                exit 0
+              fi
+              sleep 3
+            done
+            echo "Health check failed after deploy -- consider running the rollback workflow"
+            exit 1
