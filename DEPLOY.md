@@ -40,7 +40,3 @@ No registry credentials needed — nothing gets pulled from a registry.
 ## Rollback
 
 Actions tab → **Rollback** workflow → _Run workflow_ → enter the release to redeploy (a commit SHA — visible in `<deploy_path>/releases/` on the server, or in past **Deploy** workflow runs). Fails fast with a clear message if that release directory doesn't exist on the server (e.g. already pruned).
-
-## What's not migrated yet
-
-`shipitfile.js` (the old `shipit-cli` deploy, which built directly on the server) is kept in the repo for now as a fallback until this pipeline is confirmed working in production. Remove it (and the `shipit-*` devDependencies) once a real deploy + rollback have both been exercised successfully.
