@@ -3,8 +3,13 @@ name: CI
 on:
   push:
     branches: [master]
-    paths-ignore:
-      - "**.md"
+    paths:
+      - "src/**"
+      - "public/**"
+      - "scripts/**"
+      - "bunfig.toml"
+      - "package.json"
+      - "bun.lock"
   pull_request:
 
 jobs:
