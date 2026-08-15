@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "bun ./public/index.html",
-    "build": "react-scripts build",
+    "build": "bun run scripts/build.js",
     "test": "bun test",
     "prepare": "husky install"
   },
@@ -43,6 +43,8 @@
   "devDependencies": {
     "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "husky": "^7.0.4",
     "lint-staged": "^12.1.7",
     "postcss-nested": "^5.0.6",
