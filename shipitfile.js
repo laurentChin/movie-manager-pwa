@@ -1,4 +1,4 @@
-module.exports = shipit => {
+module.exports = (shipit) => {
   require("shipit-deploy")(shipit);
   require("shipit-shared")(shipit);
 
@@ -8,13 +8,13 @@ module.exports = shipit => {
       repositoryUrl: "https://github.com/laurentChin/movie-manager-pwa.git",
       shared: {
         overwrite: true,
-        files: ["./.env"]
-      }
+        files: ["./.env"],
+      },
     },
     production: {
       servers: "laurent@kimsufi",
-      key: "~/.ssh/id_rsa.pub"
-    }
+      key: "~/.ssh/id_rsa.pub",
+    },
   });
 
   shipit.on("updated", () => {
@@ -22,8 +22,8 @@ module.exports = shipit => {
   });
 
   shipit.blTask("install", async () => {
-    await shipit.remote(`cd ${shipit.releasePath} && yarn install`);
-    await shipit.remote(`cd ${shipit.releasePath} && yarn run build`);
+    await shipit.remote(`cd ${shipit.releasePath} && bun install`);
+    await shipit.remote(`cd ${shipit.releasePath} && bun run build`);
     await shipit.remote(`chmod +x ${shipit.releasePath}`);
   });
 };
