@@ -2,6 +2,8 @@
 
 CI/CD runs through GitHub Actions (`.github/workflows/ci.yml`, `deploy.yml`, `rollback.yml`). On every push to `master` that passes CI, the app is built (`bun run build`, static files only — no container, no runtime dependency on the server beyond a web server able to serve static files) and uploaded to a new release directory on the production server. No Docker: this is a pure static site, so there's nothing to run on the server at all.
 
+Deploy is chained off CI's `workflow_run` completing, so it only fires for pushes CI actually ran for. CI's `push` trigger is restricted to paths that affect the built app (`src/**`, `public/**`, `scripts/**`, `bunfig.toml`, `package.json`, `bun.lock`) — changes limited to docs, tests, or CI workflows themselves don't trigger a deploy. PRs still run CI unconditionally, for visibility.
+
 ## How it works
 
 - Each deploy builds `build/` on the GitHub Actions runner and `rsync`s its **contents directly** into `<deploy_path>/releases/<commit-sha>/` on the server — a release directory holds only the built files, nothing else.
