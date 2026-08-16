@@ -1,7 +1,7 @@
 .loader-overlay {
   position: fixed;
   top: -100vh;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: var(--color-overlay);
   width: 100vw;
   height: 100vh;
   z-index: 1;
@@ -23,7 +23,7 @@
   width: 5px;
   height: 5px;
   border-radius: 5px;
-  background-color: #fff;
+  background-color: var(--color-text-primary);
   margin-right: 5px;
   animation: blink 1s infinite;
 }

@@ -1,6 +1,8 @@
 .format {
   font-size: 9px;
   text-transform: uppercase;
-  height: 10px;
-  filter: drop-shadow(0 0 1px #fff);
+  height: 14px;
+  padding: 2px 3px;
+  background-color: var(--color-surface-raised);
+  border-radius: var(--radius-sm);
 }
