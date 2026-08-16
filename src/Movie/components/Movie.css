@@ -196,7 +196,7 @@
     margin: auto;
     width: min(720px, calc(100vw - 64px));
     height: auto;
-    max-height: 85vh;
+    max-height: 415px;
     border-radius: var(--radius-md);
     box-shadow: 0 20px 60px var(--color-shadow);
   }
@@ -218,4 +218,12 @@
 ::view-transition-old(*),
 ::view-transition-new(*) {
   animation-duration: 0.32s;
+}
+
+/* Only the poster morphs; everything else swaps instantly instead of
+   cross-fading, so the two animations don't compete visually. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
