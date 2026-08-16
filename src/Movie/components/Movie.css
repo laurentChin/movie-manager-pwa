@@ -207,3 +207,15 @@
     max-height: none;
   }
 }
+
+/* View transition (poster morph from grid to dialog): the whole
+   dialog still cross-fades in with the default root transition, so
+   it appears together with the poster instead of the poster catching
+   up afterwards. Only the pacing is tuned. */
+
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 0.28s;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}

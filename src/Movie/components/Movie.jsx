@@ -12,70 +12,6 @@ import { Image } from "Core";
 import { remove } from "Movie/Actions";
 
 const assetsUrl = process.env.REACT_APP_API_URL;
-const POSTER_FLIP_MS = 280;
-const POSTER_FLIP_EASING = "cubic-bezier(0.2, 0, 0, 1)";
-
-const prefersReducedMotion = () =>
-  window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-
-// FLIP (First-Last-Invert-Play): make `el`, which is already at its
-// resting position, appear to start from `fromRect` and animate to
-// rest. Cheap because it only ever transforms this one element.
-const flipFrom = (el, fromRect, onDone) => {
-  if (!el || !fromRect || prefersReducedMotion()) {
-    onDone?.();
-    return;
-  }
-
-  const toRect = el.getBoundingClientRect();
-  const deltaX = fromRect.left - toRect.left;
-  const deltaY = fromRect.top - toRect.top;
-  const scaleX = fromRect.width / toRect.width;
-  const scaleY = fromRect.height / toRect.height;
-
-  el.style.transformOrigin = "top left";
-  el.style.transition = "none";
-  el.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`;
-  el.offsetHeight; // eslint-disable-line no-unused-expressions -- force reflow
-  el.style.transition = `transform ${POSTER_FLIP_MS}ms ${POSTER_FLIP_EASING}`;
-  el.style.transform = "";
-
-  const cleanup = () => {
-    el.style.transition = "";
-    el.style.transformOrigin = "";
-    el.removeEventListener("transitionend", cleanup);
-    onDone?.();
-  };
-  el.addEventListener("transitionend", cleanup, { once: true });
-};
-
-// Reverse of flipFrom: animate `el` from its resting position to look
-// like `targetRect`, then call onDone (typically to hide/close it).
-const flipToward = (el, targetRect, onDone) => {
-  if (!el || !targetRect || prefersReducedMotion()) {
-    onDone?.();
-    return;
-  }
-
-  const fromRect = el.getBoundingClientRect();
-  const deltaX = targetRect.left - fromRect.left;
-  const deltaY = targetRect.top - fromRect.top;
-  const scaleX = targetRect.width / fromRect.width;
-  const scaleY = targetRect.height / fromRect.height;
-
-  el.style.transformOrigin = "top left";
-  el.style.transition = `transform ${POSTER_FLIP_MS}ms ${POSTER_FLIP_EASING}`;
-  el.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`;
-
-  const cleanup = () => {
-    el.style.transition = "";
-    el.style.transformOrigin = "";
-    el.style.transform = "";
-    el.removeEventListener("transitionend", cleanup);
-    onDone?.();
-  };
-  el.addEventListener("transitionend", cleanup, { once: true });
-};
 
 export const Movie = ({
   movie: {
@@ -96,35 +32,36 @@ export const Movie = ({
 
   const movieEltRef = useRef();
   const dialogRef = useRef();
-  const gridPosterRef = useRef();
-  const dialogPosterRef = useRef();
   const [isOpen, setIsOpen] = useState(false);
   const titleId = useId();
 
   const posterSrc = `${assetsUrl}/uploads/${poster}`;
+  const posterTransitionName = `movie-poster-${id}`;
 
-  const openDialog = async () => {
-    const gridRect = gridPosterRef.current.getBoundingClientRect();
+  const setDialogOpen = async (open) => {
+    const applyDomChanges = () => {
+      if (open) {
+        dialogRef.current.showModal();
+      }
+      flushSync(() => setIsOpen(open));
+      if (!open) {
+        dialogRef.current.close();
+      }
+    };
 
-    // Make sure the dialog's poster is decoded before it's shown,
-    // otherwise it would pop in mid-flip.
-    const preload = new window.Image();
-    preload.src = posterSrc;
-    await (preload.decode ? preload.decode().catch(() => {}) : null);
+    if (open) {
+      // Make sure the dialog's poster is already decoded before the
+      // transition captures it, otherwise it briefly snapshots empty.
+      const preload = new window.Image();
+      preload.src = posterSrc;
+      await (preload.decode ? preload.decode().catch(() => {}) : null);
+    }
 
-    dialogRef.current.showModal();
-    flushSync(() => setIsOpen(true));
-
-    flipFrom(dialogPosterRef.current, gridRect);
-  };
-
-  const closeDialog = () => {
-    const gridRect = gridPosterRef.current.getBoundingClientRect();
-
-    flipToward(dialogPosterRef.current, gridRect, () => {
-      dialogRef.current.close();
-      setIsOpen(false);
-    });
+    if (document.startViewTransition) {
+      document.startViewTransition(applyDomChanges);
+    } else {
+      applyDomChanges();
+    }
   };
 
   return (
@@ -134,9 +71,14 @@ export const Movie = ({
         className="movie-item"
         data-item-id={id}
         ref={movieEltRef}
-        onClick={openDialog}
+        onClick={() => setDialogOpen(true)}
       >
-        <span className="movie-item__poster" ref={gridPosterRef}>
+        <span
+          className="movie-item__poster"
+          style={{
+            viewTransitionName: isOpen ? undefined : posterTransitionName,
+          }}
+        >
           <Image src={posterSrc} alt="" isVisible={showImage} />
         </span>
         <span className="movie-item__caption">
@@ -151,22 +93,27 @@ export const Movie = ({
         aria-labelledby={titleId}
         onCancel={(event) => {
           event.preventDefault();
-          closeDialog();
+          setDialogOpen(false);
         }}
         onClick={(event) => {
           if (event.target === dialogRef.current) {
-            closeDialog();
+            setDialogOpen(false);
           }
         }}
       >
-        <div className="movie-dialog__poster" ref={dialogPosterRef}>
+        <div
+          className="movie-dialog__poster"
+          style={{
+            viewTransitionName: isOpen ? posterTransitionName : undefined,
+          }}
+        >
           <Image src={posterSrc} alt={title} isVisible={isOpen} />
         </div>
         <div className="movie-dialog__content">
           <button
             type="button"
             className="movie-dialog__close"
-            onClick={closeDialog}
+            onClick={() => setDialogOpen(false)}
             aria-label="Close"
           >
             &times;
