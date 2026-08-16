@@ -18,7 +18,7 @@ import { DESKTOP_QUERY } from "Movie/constants";
 const SEARCH_MIN_LENGTH = 3;
 const SEARCH_DEBOUNCE_MS = 400;
 
-export const Form = ({ onSubmit, initialValues }) => {
+export const Form = ({ onSubmit, initialValues, isUpdate }) => {
   const dispatch = useDispatch();
   const proposals = useSelector(selectProposalList);
   const [movie, setMovie] = useState(initialValues || {});
@@ -29,6 +29,17 @@ export const Form = ({ onSubmit, initialValues }) => {
   const skipNextSearchRef = useRef(false);
 
   const formats = useSelector(selectFormatList);
+
+  // Only enforced on creation: existing movies may already be missing
+  // a field, and disabling Update for them would block fixing anything
+  // else about the record until that unrelated field is backfilled.
+  const isComplete =
+    !!movie.poster &&
+    !!(movie.title || "").trim() &&
+    !!(movie.direction || "").trim() &&
+    !!movie.releaseDate &&
+    (movie.formats || []).length > 0;
+  const canSubmit = isUpdate || isComplete;
 
   useEffect(() => {
     if (formats.length === 0) {
@@ -101,7 +112,7 @@ export const Form = ({ onSubmit, initialValues }) => {
                 name="title"
                 type="text"
                 placeholder=" "
-                required
+                required={!isUpdate}
                 value={movie.title || ""}
                 onChange={({ currentTarget: { value: title } }) =>
                   setMovie({ ...movie, title })
@@ -124,6 +135,7 @@ export const Form = ({ onSubmit, initialValues }) => {
                 name="direction"
                 type="text"
                 placeholder=" "
+                required={!isUpdate}
                 value={movie.direction || ""}
                 onChange={({ currentTarget: { value: direction } }) =>
                   setMovie({ ...movie, direction })
@@ -137,6 +149,7 @@ export const Form = ({ onSubmit, initialValues }) => {
                 name="releaseDate"
                 type="date"
                 placeholder=" "
+                required={!isUpdate}
                 value={movie.releaseDate || ""}
                 onChange={({ currentTarget: { value: releaseDate } }) =>
                   setMovie({ ...movie, releaseDate })
@@ -152,7 +165,11 @@ export const Form = ({ onSubmit, initialValues }) => {
           </div>
         </div>
         <div className="movie-form__actions">
-          <button type="submit" className="movie-form__submit">
+          <button
+            type="submit"
+            className="movie-form__submit"
+            disabled={!canSubmit}
+          >
             {initialValues ? "Update" : "Create"}
           </button>
         </div>

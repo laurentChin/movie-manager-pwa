@@ -107,3 +107,9 @@
   font-weight: 600;
   cursor: pointer;
 }
+
+.movie-form__submit:disabled {
+  background-color: var(--color-border);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
