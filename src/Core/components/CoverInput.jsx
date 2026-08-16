@@ -1,40 +1,71 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import "./CoverInput.css";
 
 const assetsUrl = process.env.REACT_APP_API_URL;
 
 export const CoverInput = ({ value, onChange }) => {
-  const [source, setSource] = useState("");
+  const [previewSource, setPreviewSource] = useState(null);
+  const fileInputRef = useRef();
 
-  useEffect(() => {
-    if (value) {
-      setSource(
-        /^http[s]?:\/\//.test(value) ? value : `${assetsUrl}/uploads/${value}`
-      );
-    }
-  }, [value]);
+  const remoteSource = value
+    ? /^http[s]?:\/\//.test(value)
+      ? value
+      : `${assetsUrl}/uploads/${value}`
+    : "";
+  const source = previewSource || remoteSource;
 
   const showPreview = (file) => {
     const reader = new FileReader();
     reader.onloadend = (event) => {
-      setSource(event.target.result);
+      setPreviewSource(event.target.result);
     };
 
     reader.readAsDataURL(file);
   };
 
+  const clear = (event) => {
+    event.preventDefault();
+    setPreviewSource(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+    onChange(null);
+  };
+
   return (
-    <div className="cover-input-container">
-      <img src={source} alt="movie_poster" />
-      <input
-        type="file"
-        onChange={(event) => {
-          const file = event.target.files[0];
-          onChange(file);
-          showPreview(file);
-        }}
-      />
-    </div>
+    <span className="cover-input">
+      <label className="cover-input__control">
+        {source ? (
+          <img src={source} alt="" />
+        ) : (
+          <span className="cover-input__placeholder">No poster</span>
+        )}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          className="cover-input__file"
+          onChange={(event) => {
+            const file = event.target.files[0];
+            if (!file) {
+              return;
+            }
+            onChange(file);
+            showPreview(file);
+          }}
+        />
+      </label>
+      {source && (
+        <button
+          type="button"
+          className="cover-input__clear"
+          onClick={clear}
+          aria-label="Remove poster"
+        >
+          &times;
+        </button>
+      )}
+    </span>
   );
 };

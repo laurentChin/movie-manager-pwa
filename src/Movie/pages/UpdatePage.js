@@ -23,6 +23,7 @@ export const UpdatePage = () => {
 
   return (
     <Form
+      key={movie?.id || "loading"}
       onSubmit={(data) => dispacth(update(data))}
       initialValues={movie}
       isUpdate

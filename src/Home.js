@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import "./Home.css";
 
@@ -16,6 +16,7 @@ import { selectMatches } from "Search/selectors";
 
 export const Home = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const movies = useSelector(selectMovies);
   const isFetching = useSelector(selectIsFetching);
   const userMovieCount = useSelector(selectMovieCount);
@@ -47,7 +48,11 @@ export const Home = () => {
       <div className="toolbox">
         <SearchBox />
         <span className="movie-count">Count: {userMovieCount}</span>
-        <Link to="/movies/create" className="add-movie-btn">
+        <Link
+          to="/movies/create"
+          state={{ backgroundLocation: location }}
+          className="add-movie-btn"
+        >
           +
         </Link>
       </div>

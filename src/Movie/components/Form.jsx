@@ -1,26 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { HOME_PAGE } from "../../constants";
+import "./Form.css";
 
 import { fetchFormats } from "Format";
 import { FormatCheckboxGroup } from "Format/FormatCheckboxGroup";
 
 import { selectFormatList } from "Format/selectors";
 import { CoverInput } from "Core/components/CoverInput";
+import { useMediaQuery } from "Core/useMediaQuery";
 
-import { search } from "Movie/Actions";
-import { ProposalList } from "Movie/components/ProposalList";
+import { search, resetProposalList } from "Movie/Actions";
+import { SuggestionsPanel } from "Movie/components/SuggestionsPanel";
 import { selectProposalList } from "Movie/selectors";
+import { DESKTOP_QUERY } from "Movie/constants";
 
-export const Form = ({ onSubmit, initialValues }) => {
-  const navigate = useNavigate();
+const SEARCH_MIN_LENGTH = 3;
+const SEARCH_DEBOUNCE_MS = 400;
+
+export const Form = ({ onSubmit, initialValues, isUpdate }) => {
   const dispatch = useDispatch();
   const proposals = useSelector(selectProposalList);
-  const [movie, setMovie] = useState({});
+  const [movie, setMovie] = useState(initialValues || {});
+  const isDesktop = useMediaQuery(DESKTOP_QUERY);
+  // Selecting a suggestion fills title/direction with values long
+  // enough to re-trigger the debounced search below; skip that one
+  // cycle so picking a result doesn't immediately search again.
+  const skipNextSearchRef = useRef(false);
 
   const formats = useSelector(selectFormatList);
+
+  // Only enforced on creation: existing movies may already be missing
+  // a field, and disabling Update for them would block fixing anything
+  // else about the record until that unrelated field is backfilled.
+  const isComplete =
+    !!movie.poster &&
+    !!(movie.title || "").trim() &&
+    !!(movie.direction || "").trim() &&
+    !!movie.releaseDate &&
+    (movie.formats || []).length > 0;
+  const canSubmit = isUpdate || isComplete;
 
   useEffect(() => {
     if (formats.length === 0) {
@@ -29,14 +48,43 @@ export const Form = ({ onSubmit, initialValues }) => {
   });
 
   useEffect(() => {
-    if (initialValues) {
-      setMovie(initialValues);
+    if (!isDesktop) {
+      return undefined;
     }
-  }, [initialValues]);
+
+    if (skipNextSearchRef.current) {
+      skipNextSearchRef.current = false;
+      return undefined;
+    }
+
+    const title = (movie.title || "").trim();
+    const direction = (movie.direction || "").trim();
+
+    // Title takes precedence (it's the field the manual mobile
+    // button is tied to); director only drives the search once the
+    // user is typing there without a usable title.
+    let terms;
+    let byDirector = false;
+    if (title.length >= SEARCH_MIN_LENGTH) {
+      terms = title;
+    } else if (direction.length >= SEARCH_MIN_LENGTH) {
+      terms = direction;
+      byDirector = true;
+    } else {
+      return undefined;
+    }
+
+    const timeoutId = setTimeout(() => {
+      dispatch(search(terms, byDirector));
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => clearTimeout(timeoutId);
+  }, [isDesktop, movie.title, movie.direction, dispatch]);
 
   return (
     <>
       <form
+        className="movie-form"
         onSubmit={(e) => {
           e.preventDefault();
           onSubmit(movie);
@@ -52,70 +100,88 @@ export const Form = ({ onSubmit, initialValues }) => {
             }
           />
         )}
-        <div>
-          <label htmlFor="title">Title</label>
-          <input
-            name="title"
-            type="text"
-            required
-            value={movie.title || ""}
-            onChange={({ currentTarget: { value: title } }) =>
-              setMovie({ ...movie, title })
-            }
+        <div className="movie-form__body">
+          <CoverInput
+            onChange={(poster) => setMovie({ ...movie, poster })}
+            value={movie.poster || ""}
           />
-          {movie.title && (
-            <span
-              className="search"
-              onClick={() => dispatch(search(movie.title))}
-            >
-              search
-            </span>
-          )}
+          <div className="movie-form__fields">
+            <div className="formField">
+              <input
+                id="title"
+                name="title"
+                type="text"
+                placeholder=" "
+                required={!isUpdate}
+                value={movie.title || ""}
+                onChange={({ currentTarget: { value: title } }) =>
+                  setMovie({ ...movie, title })
+                }
+              />
+              <label htmlFor="title">Title</label>
+              {!isDesktop && movie.title && (
+                <button
+                  type="button"
+                  className="movie-form__search"
+                  onClick={() => dispatch(search(movie.title))}
+                >
+                  Search
+                </button>
+              )}
+            </div>
+            <div className="formField">
+              <input
+                id="direction"
+                name="direction"
+                type="text"
+                placeholder=" "
+                required={!isUpdate}
+                value={movie.direction || ""}
+                onChange={({ currentTarget: { value: direction } }) =>
+                  setMovie({ ...movie, direction })
+                }
+              />
+              <label htmlFor="direction">Director</label>
+            </div>
+            <div className="formField formField--date">
+              <input
+                id="releaseDate"
+                name="releaseDate"
+                type="date"
+                placeholder=" "
+                required={!isUpdate}
+                value={movie.releaseDate || ""}
+                onChange={({ currentTarget: { value: releaseDate } }) =>
+                  setMovie({ ...movie, releaseDate })
+                }
+              />
+              <label htmlFor="releaseDate">Release date</label>
+            </div>
+            <FormatCheckboxGroup
+              formats={formats}
+              initialValues={movie.formats || []}
+              onChange={(changes) => setMovie({ ...movie, formats: changes })}
+            />
+          </div>
         </div>
-        <div>
-          <label htmlFor="direction">Director</label>
-          <input
-            name="direction"
-            type="text"
-            value={movie.direction || ""}
-            onChange={({ currentTarget: { value: direction } }) =>
-              setMovie({ ...movie, direction })
-            }
-          />
+        <div className="movie-form__actions">
+          <button
+            type="submit"
+            className="movie-form__submit"
+            disabled={!canSubmit}
+          >
+            {initialValues ? "Update" : "Create"}
+          </button>
         </div>
-        <div>
-          <label htmlFor="releaseDate">Release date</label>
-          <input
-            name="releaseDate"
-            type="date"
-            value={movie.releaseDate || ""}
-            onChange={({ currentTarget: { value: releaseDate } }) =>
-              setMovie({ ...movie, releaseDate })
-            }
-          />
-        </div>
-        <div>
-          <FormatCheckboxGroup
-            formats={formats}
-            initialValues={movie.formats || []}
-            onChange={(changes) => setMovie({ ...movie, formats: changes })}
-          />
-        </div>
-        <CoverInput
-          onChange={(poster) => setMovie({ ...movie, poster })}
-          value={movie.poster || ""}
-        />
-        <button onClick={() => navigate(HOME_PAGE)}>
-          Go back to movie list
-        </button>
-        <button type="submit">{initialValues ? "Update" : "Create"}</button>
       </form>
-      {proposals.length > 0 && (
-        <ProposalList
-          proposals={proposals}
-          onSelect={(proposal) => setMovie({ ...movie, ...proposal })}
-        />
-      )}
+      <SuggestionsPanel
+        proposals={proposals}
+        onSelect={(proposal) => {
+          skipNextSearchRef.current = true;
+          setMovie({ ...movie, ...proposal });
+          dispatch(resetProposalList());
+        }}
+      />
     </>
   );
 };

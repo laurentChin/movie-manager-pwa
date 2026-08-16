@@ -35,8 +35,8 @@ export const MOVIE = gql`
 `;
 
 export const SEARCH = gql`
-  query Explore($terms: String) {
-    explore(terms: $terms) {
+  query Explore($terms: String, $byDirector: Boolean) {
+    explore(terms: $terms, byDirector: $byDirector) {
       title
       direction
       releaseDate

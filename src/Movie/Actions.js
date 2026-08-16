@@ -74,7 +74,7 @@ const create = ({ title, direction, releaseDate, poster, formats }) => {
         ...(typeof poster === "string"
           ? { posterUrl: poster }
           : { poster: poster }),
-        formats: formats.map((format) => format.id),
+        formats: (formats || []).map((format) => format.id),
       },
     })
       .then((response) => {
@@ -115,7 +115,7 @@ const update = ({ id, title, direction, releaseDate, poster, formats }) => {
         ...(typeof poster === "string"
           ? { posterUrl: poster }
           : { poster: poster }),
-        formats: formats
+        formats: (formats || [])
           .filter((format) => format.id)
           .map((format) => parseInt(format.id)),
       },
@@ -184,7 +184,7 @@ const remove = (id, title) => {
   };
 };
 
-const search = (terms) => {
+const search = (terms, byDirector = false) => {
   return (dispatch) => {
     dispatch({
       type: MOVIE_SEARCH_PENDING,
@@ -194,6 +194,7 @@ const search = (terms) => {
       query: queries.SEARCH,
       variables: {
         terms,
+        byDirector,
       },
     })
       .then((response) => {
