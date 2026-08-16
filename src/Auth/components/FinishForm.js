@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import { LOGIN_PAGE } from "Auth/constants";
 import { finishSignIn } from "Auth/graphql/client";
+
+import "./Form.css";
 
 const INITIAL = "initial";
 const SUCCESS = "success";
@@ -10,14 +12,10 @@ const FAILURE = "failure";
 
 export const FinishForm = () => {
   const location = useLocation();
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(() =>
+    location.search ? location.search.replace("?token=", "") : ""
+  );
   const [status, setStatus] = useState(INITIAL);
-
-  useEffect(() => {
-    if (location.search) {
-      setToken(location.search.replace("?token=", ""));
-    }
-  }, [location, setToken]);
 
   return (
     <div className="authForm">
@@ -38,8 +36,10 @@ export const FinishForm = () => {
           <div className="formField">
             <label htmlFor="token">Account validation token</label>
             <input
+              id="token"
               name="token"
               type="text"
+              placeholder=" "
               onChange={({ currentTarget: { value } }) => setToken(value)}
               value={token}
               required
