@@ -147,25 +147,60 @@
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
-  /* Extra clearance so scrolled content never sits under the delete
+  /* Top clearance for the back chevron (mobile only - see below);
+     bottom clearance so scrolled content never sits under the delete
      button, which floats over the dialog rather than scrolling with
      this pane. */
-  padding: 20px 20px 56px;
+  padding: 56px 20px 56px;
 }
 
+/* Mobile: this reads as a dedicated page rather than a dialog, so
+   the control is a plain back chevron - no pill/background - same
+   treatment as the creation and update pages' own back control. */
 .movie-dialog__close {
   position: absolute;
   top: 12px;
-  right: 12px;
+  left: 12px;
+  z-index: 1;
   width: 32px;
   height: 32px;
+  padding: 0;
   border: 0;
-  border-radius: 50%;
-  background-color: var(--color-overlay);
-  color: var(--color-text-primary);
-  font-size: 18px;
-  line-height: 1;
+  background: none;
   cursor: pointer;
+}
+
+.movie-dialog__close::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid var(--color-text-primary);
+  border-bottom: 2px solid var(--color-text-primary);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+@media all and (min-width: 768px) {
+  .movie-dialog__close {
+    top: 12px;
+    left: auto;
+    right: 12px;
+    border-radius: 50%;
+    background-color: var(--color-overlay);
+    color: var(--color-text-primary);
+    font-size: 18px;
+  }
+
+  .movie-dialog__close::before {
+    content: "\00d7";
+    position: static;
+    width: auto;
+    height: auto;
+    border: 0;
+    transform: none;
+  }
 }
 
 .movie-dialog__content h2 {
@@ -300,6 +335,13 @@
     flex: 0 0 280px;
     align-self: flex-start;
     height: auto;
+  }
+
+  /* The close control goes back to a plain top-right ×, clear of the
+     title via its own right margin - no need for the mobile
+     chevron's extra top clearance. */
+  .movie-dialog__content {
+    padding: 20px 20px 56px;
   }
 
   /* The poster sits to the left of the content pane here (row

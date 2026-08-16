@@ -97,9 +97,7 @@ export const MovieDialog = ({
                 className="movie-dialog__close"
                 onClick={resetEditing}
                 aria-label="Cancel editing"
-              >
-                &times;
-              </button>
+              />
               <Form
                 initialValues={movie}
                 isUpdate
@@ -144,9 +142,7 @@ export const MovieDialog = ({
                   className="movie-dialog__close"
                   onClick={onClose}
                   aria-label="Close"
-                >
-                  &times;
-                </button>
+                />
                 <h2 id={titleId}>{movie.title}</h2>
                 {movie.originalTitle && <small>{movie.originalTitle}</small>}
                 {movie.direction && <small>{movie.direction}</small>}
