@@ -3,8 +3,28 @@
   flex-direction: column;
   align-items: stretch;
   width: 100%;
-  padding: 24px;
+  /* Extra clearance under the close/back button so it never sits on
+     top of the first field. */
+  padding: 56px 24px 24px;
   overflow-y: auto;
+}
+
+.movie-form__body {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.movie-form__fields {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.movie-form__fields .formField:last-child {
+  margin-bottom: 0;
 }
 
 .movie-form .formField {
@@ -71,28 +91,17 @@
 }
 
 .movie-form__actions {
-  display: flex;
-  gap: 10px;
   margin-top: 8px;
 }
 
-.movie-form__cancel,
 .movie-form__submit {
-  flex: 1;
+  width: 100%;
   height: 44px;
   border: 0;
   border-radius: var(--radius-sm);
+  background-color: var(--color-accent);
+  color: var(--color-bg);
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-}
-
-.movie-form__cancel {
-  background-color: var(--color-surface-raised);
-  color: var(--color-text-primary);
-}
-
-.movie-form__submit {
-  background-color: var(--color-accent);
-  color: var(--color-bg);
 }

@@ -24,27 +24,22 @@ export const CoverInput = ({ value, onChange }) => {
   };
 
   return (
-    <div className="cover-input">
-      <div className="cover-input__preview">
-        {source ? (
-          <img src={source} alt="" />
-        ) : (
-          <span className="cover-input__placeholder">No poster</span>
-        )}
-      </div>
-      <label className="cover-input__button">
-        Choose a poster
-        <input
-          type="file"
-          accept="image/*"
-          className="cover-input__file"
-          onChange={(event) => {
-            const file = event.target.files[0];
-            onChange(file);
-            showPreview(file);
-          }}
-        />
-      </label>
-    </div>
+    <label className="cover-input">
+      {source ? (
+        <img src={source} alt="" />
+      ) : (
+        <span className="cover-input__placeholder">No poster</span>
+      )}
+      <input
+        type="file"
+        accept="image/*"
+        className="cover-input__file"
+        onChange={(event) => {
+          const file = event.target.files[0];
+          onChange(file);
+          showPreview(file);
+        }}
+      />
+    </label>
   );
 };

@@ -44,9 +44,7 @@ export const CreationPage = () => {
         className="movie-creation-dialog__close"
         onClick={close}
         aria-label="Close"
-      >
-        &times;
-      </button>
+      />
       <Form onSubmit={onSubmit} />
     </dialog>
   );

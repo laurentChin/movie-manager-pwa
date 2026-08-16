@@ -50,26 +50,32 @@
   cursor: pointer;
 }
 
+/* Mobile: a full page, so the control reads as "back" (an arrow),
+   not "close" (a cross). */
+.movie-creation-dialog__close::before {
+  content: "\2190";
+}
+
+/* When the suggestions panel is open it's the rightmost content, so
+   keep the button clear of it by its known fixed width instead of
+   sitting at the dialog's own (now variable) right edge. */
+.movie-creation-dialog[open]:has(.suggestions-panel[open])
+  .movie-creation-dialog__close {
+  right: calc(280px + 12px);
+}
+
 @media all and (min-width: 768px) {
   .movie-creation-dialog[open] {
     margin: auto;
-    width: 420px;
+    width: 80vw;
     height: auto;
-    max-height: 85vh;
+    max-height: 60vh;
     border-radius: var(--radius-md);
     box-shadow: 0 20px 60px var(--color-shadow);
     animation: none;
-    transition: width 0.3s ease;
   }
 
-  .movie-creation-dialog[open]:has(.suggestions-panel[open]) {
-    width: 700px;
-  }
-
-  /* Keep the close button pinned to the form column's corner instead
-     of the whole dialog's, which grows to fit the suggestions panel. */
-  .movie-creation-dialog__close {
-    right: auto;
-    left: 376px;
+  .movie-creation-dialog__close::before {
+    content: "\00d7";
   }
 }
