@@ -41,19 +41,25 @@
   z-index: 1;
   width: 32px;
   height: 32px;
+  padding: 0;
   border: 0;
-  border-radius: 50%;
-  background-color: var(--color-overlay);
-  color: var(--color-text-primary);
-  font-size: 18px;
-  line-height: 1;
+  background: none;
   cursor: pointer;
 }
 
-/* Mobile: a full page, so the control reads as "back" (an arrow) in
-   its top-left corner, not "close" (a cross) top-right. */
+/* Mobile: a full page, so the control reads as "back" - a plain
+   chevron, no pill/background, its tip lined up with the form's own
+   left padding (24px) rather than the button's own edge. */
 .movie-creation-dialog__close::before {
-  content: "\2190";
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid var(--color-text-primary);
+  border-bottom: 2px solid var(--color-text-primary);
+  transform: translateY(-50%) rotate(45deg);
 }
 
 @media all and (min-width: 768px) {
@@ -68,13 +74,25 @@
   }
 
   .movie-creation-dialog__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     left: auto;
     /* The suggestions panel is now a permanent 30%-wide column, so
        keep the button clear of it instead of the dialog's own edge. */
     right: calc(30% + 12px);
+    border-radius: 50%;
+    background-color: var(--color-overlay);
+    color: var(--color-text-primary);
+    font-size: 18px;
   }
 
   .movie-creation-dialog__close::before {
     content: "\00d7";
+    position: static;
+    width: auto;
+    height: auto;
+    border: 0;
+    transform: none;
   }
 }
