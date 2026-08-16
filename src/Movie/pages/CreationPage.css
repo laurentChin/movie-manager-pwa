@@ -1,6 +1,9 @@
 .movie-creation-dialog {
   padding: 0;
   border: 0;
+  /* The UA stylesheet defaults <dialog> to overflow:auto, which would
+     clip the close button where it overhangs the corner below. */
+  overflow: visible;
   background: none;
 }
 
