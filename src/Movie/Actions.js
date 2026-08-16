@@ -161,7 +161,7 @@ const remove = (id, title) => {
       flashMessage: `'${title}' has been deleted successfully.`,
     };
 
-    GraphQLClient.mutate({
+    return GraphQLClient.mutate({
       mutation: mutations.DELETE_MOVIE,
       variables: {
         id: parseInt(id),
