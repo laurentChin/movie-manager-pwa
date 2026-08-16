@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { CreationPage } from "./pages/CreationPage";
 import { UpdatePage } from "./pages/UpdatePage";
 
-const MovieRouter = ({ match }) => (
+const MovieRouter = () => (
   <Routes>
     <Route exact path="create" element={<CreationPage />} />
     <Route path=":id/update" element={<UpdatePage />} />

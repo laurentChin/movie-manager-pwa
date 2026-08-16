@@ -9,7 +9,7 @@ export const FlashMessage = () => {
   const status = useSelector(selectFlashStatus);
 
   return (
-    <div className="flash-message-container" status={status}>
+    <div className="flash-message-container" data-status={status}>
       <p>{message}</p>
     </div>
   );
