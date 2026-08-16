@@ -1,2 +1,5 @@
 [serve.static]
 env = "REACT_APP_*"
+
+[test]
+preload = ["./test/setup.js", "./test/setup-matchers.js"]

@@ -1,18 +1,26 @@
 .movie-list {
   display: grid;
-  grid-row-gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.movie-list__item {
+  min-width: 0;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 280px;
 }
 
 @media all and (min-width: 500px) {
   .movie-list {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    grid-gap: 10px;
-    grid-template-rows: initial;
   }
 }
 
 @media all and (min-width: 980px) {
   .movie-list {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 }

@@ -3,6 +3,14 @@
   text-transform: uppercase;
   height: 14px;
   padding: 2px 3px;
-  background-color: var(--color-surface-raised);
+  background-color: var(--color-badge-bg);
   border-radius: var(--radius-sm);
+}
+
+/* This particular logo's own colors already read fine on a dark
+   surface, so it only needs a thin outline for definition instead of
+   the white backing plate the others rely on for contrast. */
+.format[src$="/4K.svg"] {
+  background-color: transparent;
+  border: 1px solid var(--color-text-primary);
 }

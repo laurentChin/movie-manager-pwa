@@ -8,9 +8,7 @@ function FormatList({ formats }) {
   return (
     <div className="format-list">
       {formats.map((format) => {
-        return (
-          <Format key={format.id} label={format.name} logo={format.logo} />
-        );
+        return <Format key={format.id} name={format.name} logo={format.logo} />;
       })}
     </div>
   );
