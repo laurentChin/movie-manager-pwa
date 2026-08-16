@@ -30,7 +30,12 @@ export const UpdatePage = () => {
     dialogRef.current.showModal();
   }, []);
 
-  const close = () => navigate(HOME_PAGE);
+  // Reopens the movie's own detail dialog/page on Home (the same
+  // mechanism CreationPage uses after creating a movie) instead of
+  // just dropping back to the bare grid, since that's where editing
+  // is normally entered from in the first place.
+  const close = () =>
+    navigate(HOME_PAGE, { state: { openMovieId: params.id } });
 
   return (
     <dialog
