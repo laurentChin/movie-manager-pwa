@@ -33,8 +33,10 @@ export const LogInForm = () => {
         <div className="formField">
           <label htmlFor="email">E-mail address</label>
           <input
+            id="email"
             name="email"
             type="email"
+            placeholder=" "
             required
             value={email}
             onChange={({ currentTarget: { value } }) => setEmail(value)}
@@ -43,8 +45,10 @@ export const LogInForm = () => {
         <div className="formField">
           <label htmlFor="password">Password</label>
           <input
+            id="password"
             name="password"
             type="password"
+            placeholder=" "
             required
             value={password}
             onChange={({ currentTarget: { value } }) => setPassword(value)}

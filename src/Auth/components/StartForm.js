@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { startSignIn } from "Auth/graphql/client";
@@ -15,18 +15,9 @@ export const StartForm = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [processStatus, setProcessStatus] = useState(INITIAL);
-  const [passwordMatch, setPasswordMatch] = useState(false);
-  const [isFormValid, setFormValidity] = useState(false);
 
-  useEffect(() => {
-    setFormValidity(!!(email && passwordMatch));
-  }, [email, passwordMatch, setFormValidity]);
-
-  useEffect(() => {
-    if (password && passwordConfirmation) {
-      setPasswordMatch(password === passwordConfirmation);
-    }
-  }, [password, passwordConfirmation]);
+  const passwordMatch = !!password && password === passwordConfirmation;
+  const isFormValid = !!email && passwordMatch;
 
   return (
     <div className="authForm">
@@ -48,8 +39,10 @@ export const StartForm = () => {
           <div className="formField">
             <label htmlFor="email">E-mail address</label>
             <input
+              id="email"
               name="email"
               type="email"
+              placeholder=" "
               onChange={({ currentTarget: { value } }) => setEmail(value)}
               required
             />
@@ -57,8 +50,10 @@ export const StartForm = () => {
           <div className="formField">
             <label htmlFor="password">Password</label>
             <input
+              id="password"
               name="password"
               type="password"
+              placeholder=" "
               onChange={({ currentTarget: { value } }) => setPassword(value)}
               required
             />
@@ -66,8 +61,10 @@ export const StartForm = () => {
           <div className="formField">
             <label htmlFor="passwordConfirm">Password confirm</label>
             <input
+              id="passwordConfirm"
               name="passwordConfirm"
               type="password"
+              placeholder=" "
               onChange={({ currentTarget: { value } }) =>
                 setPasswordConfirmation(value)
               }
