@@ -222,13 +222,12 @@
 /* Deliberately understated next to Edit: an outline that fills in
    only once the user confirms, rather than a same-weight red button
    sitting right next to the primary action. Floats over the dialog
-   (not the scrollable content pane) so it stays put, bottom-center
-   on the mobile full page and bottom-right once the dialog is a
-   floating card on desktop. */
+   (not the scrollable content pane) so it stays put, bottom-right on
+   both the mobile full page and the desktop floating card. */
 .movie-dialog__delete {
   position: absolute;
+  right: 16px;
   bottom: 16px;
-  left: 50%;
   z-index: 1;
   overflow: hidden;
   padding: 0 16px;
@@ -240,7 +239,6 @@
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transform: translateX(-50%);
   /* Kept in sync with the fill below: the button's onTransitionEnd
      handler listens for this color transition to know the fill has
      finished, so a confirm click is only accepted once it's visibly
@@ -255,7 +253,7 @@
   z-index: -1;
   background-color: var(--color-danger);
   transform: scaleX(0);
-  transform-origin: left;
+  transform-origin: right;
   transition: transform 0.7s ease;
 }
 
@@ -282,12 +280,6 @@
     flex: 0 0 280px;
     align-self: flex-start;
     height: auto;
-  }
-
-  .movie-dialog__delete {
-    left: auto;
-    right: 16px;
-    transform: none;
   }
 }
 
