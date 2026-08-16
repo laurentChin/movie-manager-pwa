@@ -49,11 +49,16 @@ export const Movie = ({
       // showModal() promotes the dialog to the browser's top layer.
       // Do this *before* starting the transition so the transition's
       // own pseudo-element tree - inserted into the top layer right
-      // after - stacks above it instead of underneath.
+      // after - stacks above it instead of underneath. Give the
+      // browser a full frame to settle that promotion first, so it
+      // isn't racing the transition's own setup within the same task.
       dialogRef.current.showModal();
       const applyOpenState = () => flushSync(() => setIsOpen(true));
 
       if (document.startViewTransition) {
+        await new Promise((resolve) =>
+          requestAnimationFrame(() => requestAnimationFrame(resolve))
+        );
         document.startViewTransition(applyOpenState);
       } else {
         applyOpenState();
