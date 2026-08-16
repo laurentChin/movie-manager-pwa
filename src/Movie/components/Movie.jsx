@@ -38,7 +38,7 @@ export const Movie = ({
   const posterSrc = `${assetsUrl}/uploads/${poster}`;
   const posterTransitionName = `movie-poster-${id}`;
 
-  const setDialogOpen = (open) => {
+  const setDialogOpen = async (open) => {
     const applyDomChanges = () => {
       if (open) {
         dialogRef.current.showModal();
@@ -48,6 +48,14 @@ export const Movie = ({
         dialogRef.current.close();
       }
     };
+
+    if (open) {
+      // Make sure the dialog's poster is already decoded before the
+      // transition captures it, otherwise it briefly snapshots empty.
+      const preload = new window.Image();
+      preload.src = posterSrc;
+      await (preload.decode ? preload.decode().catch(() => {}) : null);
+    }
 
     if (document.startViewTransition) {
       document.startViewTransition(applyDomChanges);

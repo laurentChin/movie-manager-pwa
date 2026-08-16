@@ -3,7 +3,7 @@
   position: relative;
   display: block;
   width: 100%;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 27 / 40;
   padding: 0;
   border: 0;
   border-radius: var(--radius-md);
@@ -94,7 +94,7 @@
 .movie-dialog__poster {
   position: relative;
   flex: 0 0 auto;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 27 / 40;
   max-height: 45vh;
   overflow: hidden;
 }
@@ -203,6 +203,19 @@
 
   .movie-dialog__poster {
     flex: 0 0 280px;
+    align-self: flex-start;
     max-height: none;
   }
+}
+
+/* View transition (poster morph from grid to dialog) */
+
+::view-transition-group(*) {
+  animation-duration: 0.32s;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 0.32s;
 }
