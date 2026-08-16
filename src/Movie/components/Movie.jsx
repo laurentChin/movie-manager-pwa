@@ -39,28 +39,37 @@ export const Movie = ({
   const posterTransitionName = `movie-poster-${id}`;
 
   const setDialogOpen = async (open) => {
-    const applyDomChanges = () => {
-      if (open) {
-        dialogRef.current.showModal();
-      }
-      flushSync(() => setIsOpen(open));
-      if (!open) {
-        dialogRef.current.close();
-      }
-    };
-
     if (open) {
       // Make sure the dialog's poster is already decoded before the
       // transition captures it, otherwise it briefly snapshots empty.
       const preload = new window.Image();
       preload.src = posterSrc;
       await (preload.decode ? preload.decode().catch(() => {}) : null);
+
+      // showModal() promotes the dialog to the browser's top layer.
+      // Do this *before* starting the transition so the transition's
+      // own pseudo-element tree - inserted into the top layer right
+      // after - stacks above it instead of underneath.
+      dialogRef.current.showModal();
+      const applyOpenState = () => flushSync(() => setIsOpen(true));
+
+      if (document.startViewTransition) {
+        document.startViewTransition(applyOpenState);
+      } else {
+        applyOpenState();
+      }
+      return;
     }
 
+    const applyClosedState = () => {
+      flushSync(() => setIsOpen(false));
+      dialogRef.current.close();
+    };
+
     if (document.startViewTransition) {
-      document.startViewTransition(applyDomChanges);
+      document.startViewTransition(applyClosedState);
     } else {
-      applyDomChanges();
+      applyClosedState();
     }
   };
 

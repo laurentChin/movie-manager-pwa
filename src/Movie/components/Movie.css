@@ -219,10 +219,3 @@
   animation-duration: 0.28s;
   animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
 }
-
-/* dialog.showModal() runs inside the transition callback, so the
-   dialog is promoted to the top layer after the transition's own
-   pseudo-element tree, which would otherwise stack it underneath. */
-::view-transition {
-  z-index: 2147483647;
-}
