@@ -18,6 +18,14 @@ import { DESKTOP_QUERY } from "Movie/constants";
 const SEARCH_MIN_LENGTH = 3;
 const SEARCH_DEBOUNCE_MS = 400;
 
+const areFormatsEqual = (a = [], b = []) => {
+  if (a.length !== b.length) {
+    return false;
+  }
+  const idsA = new Set(a.map((format) => String(format.id)));
+  return b.every((format) => idsA.has(String(format.id)));
+};
+
 export const Form = ({ onSubmit, initialValues, isUpdate }) => {
   const dispatch = useDispatch();
   const proposals = useSelector(selectProposalList);
@@ -36,6 +44,13 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
     !!(movie.direction || "").trim() &&
     !!movie.releaseDate &&
     (movie.formats || []).length > 0;
+
+  const hasChanged =
+    (movie.title || "") !== (initialValues?.title || "") ||
+    (movie.direction || "") !== (initialValues?.direction || "") ||
+    (movie.releaseDate || "") !== (initialValues?.releaseDate || "") ||
+    movie.poster !== initialValues?.poster ||
+    !areFormatsEqual(movie.formats || [], initialValues?.formats || []);
 
   useEffect(() => {
     if (formats.length === 0) {
@@ -164,7 +179,7 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
           <button
             type="submit"
             className="movie-form__submit"
-            disabled={!isComplete}
+            disabled={!isComplete || !hasChanged}
           >
             {initialValues ? "Update" : "Create"}
           </button>
