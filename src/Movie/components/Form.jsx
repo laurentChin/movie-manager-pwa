@@ -48,15 +48,23 @@ export const Form = ({ onSubmit, initialValues }) => {
 
     const title = (movie.title || "").trim();
     const direction = (movie.direction || "").trim();
-    if (
-      title.length < SEARCH_MIN_LENGTH &&
-      direction.length < SEARCH_MIN_LENGTH
-    ) {
+
+    // Title takes precedence (it's the field the manual mobile
+    // button is tied to); director only drives the search once the
+    // user is typing there without a usable title.
+    let terms;
+    let byDirector = false;
+    if (title.length >= SEARCH_MIN_LENGTH) {
+      terms = title;
+    } else if (direction.length >= SEARCH_MIN_LENGTH) {
+      terms = direction;
+      byDirector = true;
+    } else {
       return undefined;
     }
 
     const timeoutId = setTimeout(() => {
-      dispatch(search([title, direction].filter(Boolean).join(" ")));
+      dispatch(search(terms, byDirector));
     }, SEARCH_DEBOUNCE_MS);
 
     return () => clearTimeout(timeoutId);

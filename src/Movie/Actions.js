@@ -184,7 +184,7 @@ const remove = (id, title) => {
   };
 };
 
-const search = (terms) => {
+const search = (terms, byDirector = false) => {
   return (dispatch) => {
     dispatch({
       type: MOVIE_SEARCH_PENDING,
@@ -194,6 +194,7 @@ const search = (terms) => {
       query: queries.SEARCH,
       variables: {
         terms,
+        byDirector,
       },
     })
       .then((response) => {
