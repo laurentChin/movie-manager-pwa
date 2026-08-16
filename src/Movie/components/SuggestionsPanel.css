@@ -56,6 +56,9 @@
 }
 
 .suggestions-panel__placeholder {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 0;
   padding: 16px;
   color: var(--color-text-muted);

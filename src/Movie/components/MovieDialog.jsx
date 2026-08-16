@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 
 import { FormatList } from "Format";
 import { Duration } from "Duration";
-import { Image } from "Core";
+import { Image, Spinner } from "Core";
 import { useMediaQuery } from "Core/useMediaQuery";
 import { remove, update } from "Movie/Actions";
 import { Form } from "Movie/components/Form";
@@ -31,6 +31,7 @@ export const MovieDialog = ({
   // The fill animation must finish before a click actually confirms,
   // otherwise a fast double-click deletes before the user sees it arm.
   const [readyToConfirm, setReadyToConfirm] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   // Same idea for Edit: the fill plays out before it actually leaves
   // for edit mode, rather than swapping the instant it's clicked.
   const [isEnteringEdit, setIsEnteringEdit] = useState(false);
@@ -41,6 +42,7 @@ export const MovieDialog = ({
   const resetConfirmation = () => {
     setConfirmingDelete(false);
     setReadyToConfirm(false);
+    setIsDeleting(false);
   };
 
   const resetEditing = () => {
@@ -57,7 +59,7 @@ export const MovieDialog = ({
   }
 
   useEffect(() => {
-    if (!confirmingDelete) {
+    if (!confirmingDelete || isDeleting) {
       return undefined;
     }
 
@@ -69,7 +71,7 @@ export const MovieDialog = ({
 
     document.addEventListener("click", handleOutsideClick);
     return () => document.removeEventListener("click", handleOutsideClick);
-  }, [confirmingDelete]);
+  }, [confirmingDelete, isDeleting]);
 
   return createPortal(
     <dialog
@@ -192,6 +194,7 @@ export const MovieDialog = ({
                   ? "movie-dialog__delete movie-dialog__delete--confirming"
                   : "movie-dialog__delete"
               }
+              disabled={isDeleting}
               onClick={async () => {
                 if (!confirmingDelete) {
                   setConfirmingDelete(true);
@@ -200,6 +203,7 @@ export const MovieDialog = ({
                 if (!readyToConfirm) {
                   return;
                 }
+                setIsDeleting(true);
                 await dispatch(remove(movie.id, movie.title));
                 onClose();
               }}
@@ -212,7 +216,13 @@ export const MovieDialog = ({
                 }
               }}
             >
-              {confirmingDelete ? "Confirm deletion" : "Delete"}
+              {isDeleting ? (
+                <Spinner />
+              ) : confirmingDelete ? (
+                "Confirm deletion"
+              ) : (
+                "Delete"
+              )}
             </button>
           )}
         </>
