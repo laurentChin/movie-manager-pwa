@@ -30,16 +30,12 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
 
   const formats = useSelector(selectFormatList);
 
-  // Only enforced on creation: existing movies may already be missing
-  // a field, and disabling Update for them would block fixing anything
-  // else about the record until that unrelated field is backfilled.
   const isComplete =
     !!movie.poster &&
     !!(movie.title || "").trim() &&
     !!(movie.direction || "").trim() &&
     !!movie.releaseDate &&
     (movie.formats || []).length > 0;
-  const canSubmit = isUpdate || isComplete;
 
   useEffect(() => {
     if (formats.length === 0) {
@@ -48,7 +44,7 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
   });
 
   useEffect(() => {
-    if (!isDesktop) {
+    if (!isDesktop || isUpdate) {
       return undefined;
     }
 
@@ -79,7 +75,7 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
     }, SEARCH_DEBOUNCE_MS);
 
     return () => clearTimeout(timeoutId);
-  }, [isDesktop, movie.title, movie.direction, dispatch]);
+  }, [isDesktop, isUpdate, movie.title, movie.direction, dispatch]);
 
   return (
     <>
@@ -112,14 +108,14 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
                 name="title"
                 type="text"
                 placeholder=" "
-                required={!isUpdate}
+                required
                 value={movie.title || ""}
                 onChange={({ currentTarget: { value: title } }) =>
                   setMovie({ ...movie, title })
                 }
               />
               <label htmlFor="title">Title</label>
-              {!isDesktop && movie.title && (
+              {!isDesktop && !isUpdate && movie.title && (
                 <button
                   type="button"
                   className="movie-form__search"
@@ -135,7 +131,7 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
                 name="direction"
                 type="text"
                 placeholder=" "
-                required={!isUpdate}
+                required
                 value={movie.direction || ""}
                 onChange={({ currentTarget: { value: direction } }) =>
                   setMovie({ ...movie, direction })
@@ -149,7 +145,7 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
                 name="releaseDate"
                 type="date"
                 placeholder=" "
-                required={!isUpdate}
+                required
                 value={movie.releaseDate || ""}
                 onChange={({ currentTarget: { value: releaseDate } }) =>
                   setMovie({ ...movie, releaseDate })
@@ -168,20 +164,22 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
           <button
             type="submit"
             className="movie-form__submit"
-            disabled={!canSubmit}
+            disabled={!isComplete}
           >
             {initialValues ? "Update" : "Create"}
           </button>
         </div>
       </form>
-      <SuggestionsPanel
-        proposals={proposals}
-        onSelect={(proposal) => {
-          skipNextSearchRef.current = true;
-          setMovie({ ...movie, ...proposal });
-          dispatch(resetProposalList());
-        }}
-      />
+      {!isUpdate && (
+        <SuggestionsPanel
+          proposals={proposals}
+          onSelect={(proposal) => {
+            skipNextSearchRef.current = true;
+            setMovie({ ...movie, ...proposal });
+            dispatch(resetProposalList());
+          }}
+        />
+      )}
     </>
   );
 };

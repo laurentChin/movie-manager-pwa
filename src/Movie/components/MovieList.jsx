@@ -129,6 +129,7 @@ export const MovieList = ({ movies }) => {
         movie={selectedMovie}
         isOpen={isDialogOpen}
         onClose={closeDialog}
+        onMovieUpdated={setSelectedMovie}
       />
     </>
   );

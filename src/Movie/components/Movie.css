@@ -201,60 +201,69 @@
   line-height: 1.5;
 }
 
-.movie-dialog__actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.movie-dialog__actions button {
-  flex: 1;
-  height: 44px;
-  border: 0;
-  border-radius: var(--radius-sm);
-  background-color: var(--color-info);
-  color: var(--color-text-primary);
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-/* Deliberately understated next to Edit: an outline that fills in
-   only once the user confirms, rather than a same-weight red button
-   sitting right next to the primary action. Floats over the dialog
-   (not the scrollable content pane) so it stays put, bottom-right on
-   both the mobile full page and the desktop floating card. */
+/* Deliberately understated: an outline that fills in only once
+   activated, rather than a solid button competing with the poster
+   for attention. Both float over the dialog (not the scrollable
+   content pane) so they stay put - Edit bottom-left, Delete
+   bottom-right - on both the mobile full page and the desktop
+   floating card. */
+.movie-dialog__edit,
 .movie-dialog__delete {
   position: absolute;
-  right: 16px;
   bottom: 16px;
   z-index: 1;
   overflow: hidden;
   padding: 0 16px;
   height: 36px;
-  border: 1px solid var(--color-danger);
   border-radius: var(--radius-sm);
   background-color: transparent;
-  color: var(--color-danger);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   /* Kept in sync with the fill below: the button's onTransitionEnd
      handler listens for this color transition to know the fill has
-     finished, so a confirm click is only accepted once it's visibly
-     complete. */
+     finished before acting on the click. */
   transition: color 0.7s ease;
 }
 
+.movie-dialog__edit::before,
 .movie-dialog__delete::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-color: var(--color-danger);
   transform: scaleX(0);
-  transform-origin: right;
   transition: transform 0.7s ease;
+}
+
+.movie-dialog__edit {
+  left: 16px;
+  border: 1px solid var(--color-info);
+  color: var(--color-info);
+}
+
+.movie-dialog__edit::before {
+  background-color: var(--color-info);
+  transform-origin: left;
+}
+
+.movie-dialog__edit--active {
+  color: var(--color-text-primary);
+}
+
+.movie-dialog__edit--active::before {
+  transform: scaleX(1);
+}
+
+.movie-dialog__delete {
+  right: 16px;
+  border: 1px solid var(--color-danger);
+  color: var(--color-danger);
+}
+
+.movie-dialog__delete::before {
+  background-color: var(--color-danger);
+  transform-origin: right;
 }
 
 .movie-dialog__delete--confirming {
@@ -263,6 +272,17 @@
 
 .movie-dialog__delete--confirming::before {
   transform: scaleX(1);
+}
+
+/* Edit mode swaps the read-only markup for the shared Form, so it
+   needs the same roomy proportions as the creation dialog rather
+   than the compact read-only card's. */
+.movie-dialog__edit-body {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 @media all and (min-width: 768px) {
@@ -280,6 +300,11 @@
     flex: 0 0 280px;
     align-self: flex-start;
     height: auto;
+  }
+
+  .movie-dialog--editing[open] {
+    width: 80vw;
+    max-height: 60vh;
   }
 }
 
