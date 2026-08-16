@@ -9,21 +9,21 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  height: 32px;
+  height: 40px;
   padding: 0 14px;
   border: 1px solid var(--color-border);
   border-radius: 999px;
   background-color: var(--color-surface-raised);
-  color: var(--color-text-secondary);
-  font-size: 13px;
   cursor: pointer;
 }
 
 .format-checkbox-group label:has(input:checked) {
   border-color: var(--color-accent);
   background-color: var(--color-accent);
-  color: var(--color-bg);
-  font-weight: 600;
+}
+
+.format-checkbox-group .format {
+  height: 20px;
 }
 
 .format-checkbox-group input {
