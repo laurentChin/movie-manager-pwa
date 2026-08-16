@@ -3,6 +3,6 @@
   text-transform: uppercase;
   height: 14px;
   padding: 2px 3px;
-  background-color: var(--color-surface-raised);
+  background-color: var(--color-badge-bg);
   border-radius: var(--radius-sm);
 }

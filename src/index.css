@@ -21,6 +21,11 @@
   --color-overlay: rgb(0 0 0 / 60%);
   --color-shadow: rgb(0 0 0 / 45%);
 
+  /* Neutral backing plate for third-party logos (format badges, ...)
+     whose own artwork isn't guaranteed to have contrast against a
+     dark surface. */
+  --color-badge-bg: #fff;
+
   --radius-sm: 4px;
   --radius-md: 8px;
 }
