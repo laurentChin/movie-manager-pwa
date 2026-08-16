@@ -86,6 +86,7 @@ export const Movie = ({
           className="movie-item__poster"
           style={{
             viewTransitionName: isOpen ? undefined : posterTransitionName,
+            visibility: isOpen ? "hidden" : "visible",
           }}
         >
           <Image src={posterSrc} alt="" isVisible={showImage} />
