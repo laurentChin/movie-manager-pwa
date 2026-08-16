@@ -13,7 +13,7 @@ import { useMediaQuery } from "Core/useMediaQuery";
 
 import { search, resetProposalList } from "Movie/Actions";
 import { SuggestionsPanel } from "Movie/components/SuggestionsPanel";
-import { selectProposalList } from "Movie/selectors";
+import { selectIsSearching, selectProposalList } from "Movie/selectors";
 import { DESKTOP_QUERY } from "Movie/constants";
 
 const SEARCH_MIN_LENGTH = 3;
@@ -30,6 +30,7 @@ const areFormatsEqual = (a = [], b = []) => {
 export const Form = ({ onSubmit, initialValues, isUpdate }) => {
   const dispatch = useDispatch();
   const proposals = useSelector(selectProposalList);
+  const isSearching = useSelector(selectIsSearching);
   const [movie, setMovie] = useState(initialValues || {});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isDesktop = useMediaQuery(DESKTOP_QUERY);
@@ -195,6 +196,7 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
       {!isUpdate && (
         <SuggestionsPanel
           proposals={proposals}
+          isSearching={isSearching}
           onSelect={(proposal) => {
             skipNextSearchRef.current = true;
             setMovie({ ...movie, ...proposal });

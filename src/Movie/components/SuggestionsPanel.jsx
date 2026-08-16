@@ -5,17 +5,20 @@ import "./SuggestionsPanel.css";
 
 import { resetProposalList } from "Movie/Actions";
 import { Proposal } from "Movie/components/Proposal";
+import { Spinner } from "Core/components/Spinner";
 import { useMediaQuery } from "Core/useMediaQuery";
 import { DESKTOP_QUERY } from "Movie/constants";
 
-export const SuggestionsPanel = ({ proposals, onSelect }) => {
+export const SuggestionsPanel = ({ proposals, isSearching, onSelect }) => {
   const dispatch = useDispatch();
   const dialogRef = useRef();
   const isDesktop = useMediaQuery(DESKTOP_QUERY);
   const hasProposals = proposals.length > 0;
   // On desktop the panel is a permanent part of the layout; on mobile
-  // it's a bottom sheet that only appears once there's something to show.
-  const isOpen = isDesktop || hasProposals;
+  // it's a bottom sheet that opens for a result set or to show the
+  // search itself is in progress, and otherwise stays closed (a
+  // search that comes back empty just closes it again).
+  const isOpen = isDesktop || hasProposals || isSearching;
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -61,7 +64,12 @@ export const SuggestionsPanel = ({ proposals, onSelect }) => {
           </button>
         </div>
       )}
-      {hasProposals ? (
+      {isSearching ? (
+        <p className="suggestions-panel__placeholder">
+          <Spinner />
+          Searching…
+        </p>
+      ) : hasProposals ? (
         <ul className="suggestions-panel__list">
           {proposals.map(({ title, releaseDate, direction, poster }) => (
             <Proposal
