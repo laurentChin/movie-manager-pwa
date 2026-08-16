@@ -41,6 +41,12 @@
       "globals": {
         "Bun": "readonly"
       }
+    },
+    {
+      "files": ["**/*.spec.js", "test/**"],
+      "env": {
+        "jest": true
+      }
     }
   ]
 }
