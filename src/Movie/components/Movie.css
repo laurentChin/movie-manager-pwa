@@ -147,16 +147,19 @@
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
-  /* Top clearance for the back chevron (mobile only - see below);
-     bottom clearance so scrolled content never sits under the delete
+  /* Extra clearance so scrolled content never sits under the delete
      button, which floats over the dialog rather than scrolling with
      this pane. */
-  padding: 56px 20px 56px;
+  padding: 20px 20px 56px;
 }
 
 /* Mobile: this reads as a dedicated page rather than a dialog, so
    the control is a plain back chevron - no pill/background - same
-   treatment as the creation and update pages' own back control. */
+   treatment as the creation and update pages' own back control.
+   Positioned against the dialog itself (a sibling of the poster and
+   content panes, not nested in either) so it sits at the actual
+   top-left of the page, over the poster, rather than being pinned to
+   wherever the content pane happens to start below it. */
 .movie-dialog__close {
   position: absolute;
   top: 12px;
@@ -335,13 +338,6 @@
     flex: 0 0 280px;
     align-self: flex-start;
     height: auto;
-  }
-
-  /* The close control goes back to a plain top-right ×, clear of the
-     title via its own right margin - no need for the mobile
-     chevron's extra top clearance. */
-  .movie-dialog__content {
-    padding: 20px 20px 56px;
   }
 
   /* The poster sits to the left of the content pane here (row
