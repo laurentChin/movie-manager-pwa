@@ -26,8 +26,12 @@ export const CreationPage = () => {
   const close = () => navigate(HOME_PAGE);
 
   const onSubmit = async (movie) => {
-    const { id } = await dispatch(create(movie));
-    navigate(`/movies/${id}/update`);
+    const created = await dispatch(create(movie));
+    // Home's MovieList picks this up on mount to open the new movie's
+    // own detail dialog/page, the same way it restores scroll
+    // position after coming back from the update page.
+    window.sessionStorage.setItem("openMovieId", created.id);
+    navigate(HOME_PAGE);
   };
 
   return (

@@ -69,6 +69,20 @@ export const MovieList = ({ movies }) => {
     }
   };
 
+  useEffect(() => {
+    const openMovieId = window.sessionStorage.getItem("openMovieId");
+    if (!openMovieId) {
+      return;
+    }
+    window.sessionStorage.removeItem("openMovieId");
+
+    const movieToOpen = movies.find((movie) => movie.id === openMovieId);
+    if (movieToOpen) {
+      selectMovie(movieToOpen);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [movies]);
+
   const closeDialog = () => {
     const applyClosedState = () => {
       flushSync(() => setIsDialogOpen(false));
