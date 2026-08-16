@@ -302,6 +302,15 @@
     height: auto;
   }
 
+  /* The poster sits to the left of the content pane here (row
+     layout), so left:16px (correct on mobile, where content spans
+     the full width below the poster) would otherwise land the
+     button on top of the poster image instead of the content pane
+     it belongs to. */
+  .movie-dialog__edit {
+    left: calc(280px + 16px);
+  }
+
   .movie-dialog--editing[open] {
     width: 80vw;
     max-height: 60vh;
