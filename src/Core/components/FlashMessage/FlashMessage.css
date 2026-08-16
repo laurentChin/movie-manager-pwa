@@ -6,17 +6,19 @@
   width: 100vw;
   animation: slide-in 0.4s linear forwards, slide-out 0.4s 1s linear forwards;
   text-align: center;
-  color: #000;
+  color: var(--color-text-primary);
 }
 
 .flash-message-container[status="success"] {
-  color: #fff;
+  color: var(--color-bg);
   font-weight: 600;
-  background-color: #aed69b;
+  background-color: var(--color-accent);
 }
 
 .flash-message-container[status="failure"] {
-  background-color: #e3665a;
+  color: var(--color-bg);
+  font-weight: 600;
+  background-color: var(--color-danger);
 }
 
 .flash-message-container p {

@@ -1,9 +1,11 @@
 .format-list {
   margin-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .format-list .format {
-  margin-right: 4px;
   display: inline-block;
   vertical-align: middle;
 }

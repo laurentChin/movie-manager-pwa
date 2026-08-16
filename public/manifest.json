@@ -13,8 +13,8 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
+    "theme_color": "#15171c",
+    "background_color": "#15171c",
     "start_url": "https://mm.laurentjanet.fr",
     "display": "standalone"
 }
