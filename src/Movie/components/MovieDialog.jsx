@@ -34,19 +34,28 @@ export const MovieDialog = ({ dialogRef, movie, isOpen, onClose }) => {
     >
       {movie && (
         <>
-          <div
-            className="movie-dialog__poster"
-            style={{
-              viewTransitionName: isOpen
-                ? ACTIVE_POSTER_TRANSITION_NAME
-                : undefined,
-            }}
-          >
-            <Image
-              src={`${assetsUrl}/uploads/${movie.poster}`}
-              alt={movie.title}
-              isVisible={isOpen}
-            />
+          <div className="movie-dialog__poster">
+            <div className="movie-dialog__poster-backdrop" aria-hidden="true">
+              <Image
+                src={`${assetsUrl}/uploads/${movie.poster}`}
+                alt=""
+                isVisible={isOpen}
+              />
+            </div>
+            <div
+              className="movie-dialog__poster-frame"
+              style={{
+                viewTransitionName: isOpen
+                  ? ACTIVE_POSTER_TRANSITION_NAME
+                  : undefined,
+              }}
+            >
+              <Image
+                src={`${assetsUrl}/uploads/${movie.poster}`}
+                alt={movie.title}
+                isVisible={isOpen}
+              />
+            </div>
           </div>
           <div className="movie-dialog__content">
             <button
