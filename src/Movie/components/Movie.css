@@ -207,23 +207,3 @@
     max-height: none;
   }
 }
-
-/* View transition (poster morph from grid to dialog) */
-
-::view-transition-group(*) {
-  animation-duration: 0.32s;
-  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
-}
-
-::view-transition-old(*),
-::view-transition-new(*) {
-  animation-duration: 0.32s;
-}
-
-/* Only the poster morphs; everything else swaps instantly instead of
-   cross-fading, so the two animations don't compete visually. */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
