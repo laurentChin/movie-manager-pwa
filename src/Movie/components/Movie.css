@@ -147,7 +147,10 @@
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
-  padding: 20px;
+  /* Extra clearance so scrolled content never sits under the delete
+     button, which floats over the dialog rather than scrolling with
+     this pane. */
+  padding: 20px 20px 56px;
 }
 
 .movie-dialog__close {
@@ -209,18 +212,59 @@
   height: 44px;
   border: 0;
   border-radius: var(--radius-sm);
+  background-color: var(--color-info);
   color: var(--color-text-primary);
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
 }
 
-.movie-dialog__actions button:first-child {
-  background-color: var(--color-info);
+/* Deliberately understated next to Edit: an outline that fills in
+   only once the user confirms, rather than a same-weight red button
+   sitting right next to the primary action. Floats over the dialog
+   (not the scrollable content pane) so it stays put, bottom-center
+   on the mobile full page and bottom-right once the dialog is a
+   floating card on desktop. */
+.movie-dialog__delete {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  z-index: 1;
+  overflow: hidden;
+  padding: 0 16px;
+  height: 36px;
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--color-danger);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transform: translateX(-50%);
+  /* Kept in sync with the fill below: the button's onTransitionEnd
+     handler listens for this color transition to know the fill has
+     finished, so a confirm click is only accepted once it's visibly
+     complete. */
+  transition: color 0.7s ease;
 }
 
-.movie-dialog__actions button:last-child {
+.movie-dialog__delete::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background-color: var(--color-danger);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.7s ease;
+}
+
+.movie-dialog__delete--confirming {
+  color: var(--color-text-primary);
+}
+
+.movie-dialog__delete--confirming::before {
+  transform: scaleX(1);
 }
 
 @media all and (min-width: 768px) {
@@ -238,6 +282,12 @@
     flex: 0 0 280px;
     align-self: flex-start;
     height: auto;
+  }
+
+  .movie-dialog__delete {
+    left: auto;
+    right: 16px;
+    transform: none;
   }
 }
 

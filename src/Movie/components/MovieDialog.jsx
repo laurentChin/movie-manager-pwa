@@ -1,4 +1,4 @@
-import React, { useId } from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { FormattedDate } from "react-intl";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,39 @@ export const MovieDialog = ({ dialogRef, movie, isOpen, onClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const titleId = useId();
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  // The fill animation must finish before a click actually confirms,
+  // otherwise a fast double-click deletes before the user sees it arm.
+  const [readyToConfirm, setReadyToConfirm] = useState(false);
+  const [confirmingForMovieId, setConfirmingForMovieId] = useState(movie?.id);
+  const deleteButtonRef = useRef(null);
+
+  const resetConfirmation = () => {
+    setConfirmingDelete(false);
+    setReadyToConfirm(false);
+  };
+
+  // A movie change (new selection, or the dialog closing) always
+  // means the previous confirmation no longer applies.
+  if (movie?.id !== confirmingForMovieId) {
+    setConfirmingForMovieId(movie?.id);
+    resetConfirmation();
+  }
+
+  useEffect(() => {
+    if (!confirmingDelete) {
+      return undefined;
+    }
+
+    const handleOutsideClick = (event) => {
+      if (!deleteButtonRef.current?.contains(event.target)) {
+        resetConfirmation();
+      }
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+    return () => document.removeEventListener("click", handleOutsideClick);
+  }, [confirmingDelete]);
 
   return createPortal(
     <dialog
@@ -92,21 +125,38 @@ export const MovieDialog = ({ dialogRef, movie, isOpen, onClose }) => {
               >
                 Edit
               </button>
-              <button
-                type="button"
-                onClick={() => {
-                  const confirm = window.confirm(
-                    `Are you sure want to delete '${movie.title}' (${movie.direction} - ${movie.releaseDate}) ?`
-                  );
-                  if (confirm) {
-                    dispatch(remove(movie.id, movie.title));
-                  }
-                }}
-              >
-                Delete
-              </button>
             </div>
           </div>
+          <button
+            ref={deleteButtonRef}
+            type="button"
+            className={
+              confirmingDelete
+                ? "movie-dialog__delete movie-dialog__delete--confirming"
+                : "movie-dialog__delete"
+            }
+            onClick={async () => {
+              if (!confirmingDelete) {
+                setConfirmingDelete(true);
+                return;
+              }
+              if (!readyToConfirm) {
+                return;
+              }
+              await dispatch(remove(movie.id, movie.title));
+              onClose();
+            }}
+            onTransitionEnd={(event) => {
+              if (
+                event.target === event.currentTarget &&
+                event.propertyName === "color"
+              ) {
+                setReadyToConfirm(true);
+              }
+            }}
+          >
+            {confirmingDelete ? "Confirm deletion" : "Delete"}
+          </button>
         </>
       )}
     </dialog>,
