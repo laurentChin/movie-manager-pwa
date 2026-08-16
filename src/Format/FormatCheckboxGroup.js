@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 export const FormatCheckboxGroup = ({ initialValues, formats, onChange }) => {
   const [values, setValues] = useState(initialValues || []);
+  const [syncedInitialValues, setSyncedInitialValues] = useState(initialValues);
 
-  useEffect(() => {
-    if (initialValues) {
-      setValues(initialValues);
-    }
-  }, [initialValues]);
+  if (initialValues && initialValues !== syncedInitialValues) {
+    setSyncedInitialValues(initialValues);
+    setValues(initialValues);
+  }
 
   const changeHandler = (event) => {
     const { value: selection } = event.target;

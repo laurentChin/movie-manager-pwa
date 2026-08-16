@@ -1,12 +1,12 @@
 import {
   FETCH_LOG_LIST_PENDING,
   FETCH_LOG_LIST_SUCCESS,
-  FETCH_LOG_LIST_FAILURE
+  FETCH_LOG_LIST_FAILURE,
 } from "./actionTypes";
 
 const initialState = {
   isFetching: false,
-  history: []
+  history: [],
 };
 
 const logReducer = (state = initialState, action) => {
@@ -14,19 +14,20 @@ const logReducer = (state = initialState, action) => {
     case FETCH_LOG_LIST_PENDING:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
       };
-    case FETCH_LOG_LIST_SUCCESS:
+    case FETCH_LOG_LIST_SUCCESS: {
       const { history } = action.payload;
       return {
         ...state,
         history,
-        isFetching: false
+        isFetching: false,
       };
+    }
     case FETCH_LOG_LIST_FAILURE:
       return {
         ...state,
-        isFetching: false
+        isFetching: false,
       };
     default:
       return state;
