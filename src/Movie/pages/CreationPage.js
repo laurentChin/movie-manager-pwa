@@ -51,7 +51,9 @@ export const CreationPage = () => {
         onClick={close}
         aria-label="Close"
       />
-      <Form onSubmit={onSubmit} />
+      <div className="movie-creation-dialog__body">
+        <Form onSubmit={onSubmit} />
+      </div>
     </dialog>
   );
 };
