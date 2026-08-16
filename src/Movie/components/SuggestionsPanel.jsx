@@ -5,13 +5,17 @@ import "./SuggestionsPanel.css";
 
 import { resetProposalList } from "Movie/Actions";
 import { Proposal } from "Movie/components/Proposal";
+import { useMediaQuery } from "Core/useMediaQuery";
+import { DESKTOP_QUERY } from "Movie/constants";
 
 export const SuggestionsPanel = ({ proposals, onSelect }) => {
   const dispatch = useDispatch();
   const dialogRef = useRef();
-  const isOpen = proposals.length > 0;
-
-  const close = () => dispatch(resetProposalList());
+  const isDesktop = useMediaQuery(DESKTOP_QUERY);
+  const hasProposals = proposals.length > 0;
+  // On desktop the panel is a permanent part of the layout; on mobile
+  // it's a bottom sheet that only appears once there's something to show.
+  const isOpen = isDesktop || hasProposals;
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -25,7 +29,7 @@ export const SuggestionsPanel = ({ proposals, onSelect }) => {
   }, [isOpen]);
 
   useEffect(() => {
-    if (!isOpen) {
+    if (isDesktop || !isOpen) {
       return undefined;
     }
 
@@ -37,7 +41,7 @@ export const SuggestionsPanel = ({ proposals, onSelect }) => {
 
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [isOpen, dispatch]);
+  }, [isOpen, isDesktop, dispatch]);
 
   return (
     <dialog
@@ -45,24 +49,39 @@ export const SuggestionsPanel = ({ proposals, onSelect }) => {
       className="suggestions-panel"
       aria-label="Search results"
     >
-      <div className="suggestions-panel__header">
-        <span>Suggestions</span>
-        <button type="button" onClick={close} aria-label="Close">
-          &times;
-        </button>
-      </div>
-      <ul className="suggestions-panel__list">
-        {proposals.map(({ title, releaseDate, direction, poster }) => (
-          <Proposal
-            key={`${poster}_${title}_${releaseDate}`}
-            title={title}
-            releaseDate={releaseDate}
-            direction={direction}
-            poster={poster}
-            onSelect={onSelect}
-          />
-        ))}
-      </ul>
+      {!isDesktop && (
+        <div className="suggestions-panel__header">
+          <span>Suggestions</span>
+          <button
+            type="button"
+            onClick={() => dispatch(resetProposalList())}
+            aria-label="Close"
+          >
+            &times;
+          </button>
+        </div>
+      )}
+      {hasProposals ? (
+        <ul className="suggestions-panel__list">
+          {proposals.map(({ title, releaseDate, direction, poster }) => (
+            <Proposal
+              key={`${poster}_${title}_${releaseDate}`}
+              title={title}
+              releaseDate={releaseDate}
+              direction={direction}
+              poster={poster}
+              onSelect={onSelect}
+            />
+          ))}
+        </ul>
+      ) : (
+        isDesktop && (
+          <p className="suggestions-panel__placeholder">
+            Type at least 3 characters in the title or director field to see
+            suggestions.
+          </p>
+        )
+      )}
     </dialog>
   );
 };

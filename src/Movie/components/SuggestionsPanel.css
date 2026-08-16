@@ -55,11 +55,20 @@
   list-style: none;
 }
 
+.suggestions-panel__placeholder {
+  margin: 0;
+  padding: 16px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 @media all and (min-width: 768px) {
   .suggestions-panel[open] {
     position: static;
     inset: auto;
-    width: 280px;
+    flex: 0 0 30%;
+    width: auto;
     max-width: none;
     height: 100%;
     max-height: none;

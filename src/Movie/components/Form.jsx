@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./Form.css";
@@ -8,15 +8,25 @@ import { FormatCheckboxGroup } from "Format/FormatCheckboxGroup";
 
 import { selectFormatList } from "Format/selectors";
 import { CoverInput } from "Core/components/CoverInput";
+import { useMediaQuery } from "Core/useMediaQuery";
 
 import { search, resetProposalList } from "Movie/Actions";
 import { SuggestionsPanel } from "Movie/components/SuggestionsPanel";
 import { selectProposalList } from "Movie/selectors";
+import { DESKTOP_QUERY } from "Movie/constants";
+
+const SEARCH_MIN_LENGTH = 3;
+const SEARCH_DEBOUNCE_MS = 400;
 
 export const Form = ({ onSubmit, initialValues }) => {
   const dispatch = useDispatch();
   const proposals = useSelector(selectProposalList);
   const [movie, setMovie] = useState(initialValues || {});
+  const isDesktop = useMediaQuery(DESKTOP_QUERY);
+  // Selecting a suggestion fills title/direction with values long
+  // enough to re-trigger the debounced search below; skip that one
+  // cycle so picking a result doesn't immediately search again.
+  const skipNextSearchRef = useRef(false);
 
   const formats = useSelector(selectFormatList);
 
@@ -25,6 +35,32 @@ export const Form = ({ onSubmit, initialValues }) => {
       dispatch(fetchFormats());
     }
   });
+
+  useEffect(() => {
+    if (!isDesktop) {
+      return undefined;
+    }
+
+    if (skipNextSearchRef.current) {
+      skipNextSearchRef.current = false;
+      return undefined;
+    }
+
+    const title = (movie.title || "").trim();
+    const direction = (movie.direction || "").trim();
+    if (
+      title.length < SEARCH_MIN_LENGTH &&
+      direction.length < SEARCH_MIN_LENGTH
+    ) {
+      return undefined;
+    }
+
+    const timeoutId = setTimeout(() => {
+      dispatch(search([title, direction].filter(Boolean).join(" ")));
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => clearTimeout(timeoutId);
+  }, [isDesktop, movie.title, movie.direction, dispatch]);
 
   return (
     <>
@@ -64,7 +100,7 @@ export const Form = ({ onSubmit, initialValues }) => {
                 }
               />
               <label htmlFor="title">Title</label>
-              {movie.title && (
+              {!isDesktop && movie.title && (
                 <button
                   type="button"
                   className="movie-form__search"
@@ -116,6 +152,7 @@ export const Form = ({ onSubmit, initialValues }) => {
       <SuggestionsPanel
         proposals={proposals}
         onSelect={(proposal) => {
+          skipNextSearchRef.current = true;
           setMovie({ ...movie, ...proposal });
           dispatch(resetProposalList());
         }}

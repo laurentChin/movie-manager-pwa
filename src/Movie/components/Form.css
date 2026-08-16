@@ -1,8 +1,10 @@
 .movie-form {
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
   align-items: stretch;
   width: 100%;
+  min-width: 0;
   /* Extra clearance under the close/back button so it never sits on
      top of the first field. */
   padding: 56px 24px 24px;
