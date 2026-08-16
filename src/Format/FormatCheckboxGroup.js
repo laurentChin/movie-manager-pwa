@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import "./FormatCheckboxGroup.css";
+
 export const FormatCheckboxGroup = ({ initialValues, formats, onChange }) => {
   const [values, setValues] = useState(initialValues || []);
   const [syncedInitialValues, setSyncedInitialValues] = useState(initialValues);
@@ -25,7 +27,7 @@ export const FormatCheckboxGroup = ({ initialValues, formats, onChange }) => {
   };
 
   return (
-    <div>
+    <div className="format-checkbox-group">
       {formats.map((format) => (
         <label key={format.id}>
           <input

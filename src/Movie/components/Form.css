@@ -1,0 +1,98 @@
+.movie-form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.movie-form .formField {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.movie-form .formField input {
+  width: 100%;
+  height: 52px;
+  padding: 22px 12px 8px;
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  font-size: 15px;
+}
+
+.movie-form .formField input:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.movie-form .formField label {
+  position: absolute;
+  left: 13px;
+  top: 16px;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--color-text-secondary);
+  pointer-events: none;
+  transition: top 0.15s ease, font-size 0.15s ease, color 0.15s ease;
+}
+
+.movie-form .formField:has(input:focus) label,
+.movie-form .formField:has(input:not(:placeholder-shown)) label {
+  top: 6px;
+  font-size: 11px;
+  color: var(--color-accent);
+}
+
+/* Native date inputs don't reliably report :placeholder-shown across
+   browsers, so keep the label permanently floated instead of relying
+   on that state. */
+.movie-form .formField--date label {
+  top: 6px;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+.movie-form__search {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  height: 32px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-info);
+  color: var(--color-text-primary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.movie-form__actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.movie-form__cancel,
+.movie-form__submit {
+  flex: 1;
+  height: 44px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.movie-form__cancel {
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-primary);
+}
+
+.movie-form__submit {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+}

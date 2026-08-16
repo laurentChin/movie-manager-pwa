@@ -10,14 +10,23 @@ export const Proposal = ({
   onSelect,
 }) => {
   return (
-    <div
-      className="proposal"
-      onClick={() => onSelect({ title, releaseDate, direction, poster })}
-    >
-      <img src={poster} alt={title} width="100px" />
-      <span className="proposal__title">{title}</span>
-      <span className="proposal__releaseDate">{releaseDate}</span>
-      <span className="proposal__direction">{direction}</span>
-    </div>
+    <li className="proposal">
+      <button
+        type="button"
+        className="proposal__button"
+        onClick={() => onSelect({ title, releaseDate, direction, poster })}
+      >
+        <img src={poster} alt="" className="proposal__poster" />
+        <span className="proposal__details">
+          <span className="proposal__title">{title}</span>
+          {direction && (
+            <span className="proposal__direction">{direction}</span>
+          )}
+          {releaseDate && (
+            <span className="proposal__release-date">{releaseDate}</span>
+          )}
+        </span>
+      </button>
+    </li>
   );
 };

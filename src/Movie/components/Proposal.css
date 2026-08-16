@@ -1,26 +1,52 @@
 .proposal {
-  display: grid;
-  grid-template-areas:
-    "picture title"
-    "picture releaseDate"
-    "picture direction";
-  grid-template-columns: 100px 1fr;
-  grid-column-gap: 5px;
-  margin-bottom: 10px;
+  list-style: none;
 }
 
-.proposal img {
-  grid-area: picture;
+.proposal__button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.proposal__button:hover,
+.proposal__button:focus-visible {
+  background-color: var(--color-surface-raised);
+}
+
+.proposal__poster {
+  flex: 0 0 auto;
+  width: 40px;
+  aspect-ratio: 27 / 40;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-raised);
+}
+
+.proposal__details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .proposal__title {
-  grid-area: title;
+  overflow: hidden;
+  color: var(--color-text-primary);
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.proposal__releaseDate {
-  grid-area: releaseDate;
-}
-
-.proposal__direction {
-  grid-area: direction;
+.proposal__direction,
+.proposal__release-date {
+  color: var(--color-text-secondary);
+  font-size: 12px;
 }
