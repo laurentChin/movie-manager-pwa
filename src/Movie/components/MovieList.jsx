@@ -43,7 +43,7 @@ export const MovieList = ({ movies }) => {
   }, [toggleImages]);
 
   return (
-    <div className="movie-list">
+    <ul className="movie-list">
       {movies.map((movie) => {
         return (
           <Movie
@@ -53,6 +53,6 @@ export const MovieList = ({ movies }) => {
           />
         );
       })}
-    </div>
+    </ul>
   );
 };
