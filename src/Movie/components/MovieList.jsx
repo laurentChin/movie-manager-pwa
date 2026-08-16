@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./MovieList.css";
 
 import { Movie } from "Movie/components/Movie";
@@ -9,6 +10,8 @@ const assetsUrl = process.env.REACT_APP_API_URL;
 let timeoutID = null;
 
 export const MovieList = ({ movies }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const bottomBoundary = window.innerHeight;
   const [moviesInViewport, setMoviesInViewport] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -69,6 +72,26 @@ export const MovieList = ({ movies }) => {
     }
   };
 
+  useEffect(() => {
+    // Travels through navigation state rather than sessionStorage:
+    // this component never unmounts between the creation dialog
+    // opening and closing (it's the grid visible behind it), so an
+    // effect watching the Redux movie list would fire as soon as the
+    // movie is created - before CreationPage got a chance to record
+    // anything - and never get another chance to notice it later.
+    const openMovieId = location.state?.openMovieId;
+    if (!openMovieId) {
+      return;
+    }
+
+    const movieToOpen = movies.find((movie) => movie.id === openMovieId);
+    if (movieToOpen) {
+      selectMovie(movieToOpen);
+    }
+    navigate(location.pathname, { replace: true, state: {} });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.state, movies]);
+
   const closeDialog = () => {
     const applyClosedState = () => {
       flushSync(() => setIsDialogOpen(false));
@@ -106,6 +129,7 @@ export const MovieList = ({ movies }) => {
         movie={selectedMovie}
         isOpen={isDialogOpen}
         onClose={closeDialog}
+        onMovieUpdated={setSelectedMovie}
       />
     </>
   );

@@ -26,8 +26,16 @@ export const CreationPage = () => {
   const close = () => navigate(HOME_PAGE);
 
   const onSubmit = async (movie) => {
-    const { id } = await dispatch(create(movie));
-    navigate(`/movies/${id}/update`);
+    const created = await dispatch(create(movie));
+    // MovieList (already mounted behind this dialog on both mobile
+    // and desktop) picks this up via useLocation to open the new
+    // movie's own detail dialog/page. It has to travel through the
+    // navigation itself rather than sessionStorage: MovieList never
+    // unmounts here, so its effects are watching the Redux movie
+    // list, which updates (via the dispatch above) before we'd get a
+    // chance to write anything to a side channel - by the time it's
+    // written, nothing would be listening for it anymore.
+    navigate(HOME_PAGE, { state: { openMovieId: created.id } });
   };
 
   return (

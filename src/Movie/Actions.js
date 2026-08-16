@@ -105,7 +105,7 @@ const update = ({ id, title, direction, releaseDate, poster, formats }) => {
       type: MOVIE_UPDATE_PENDING,
     });
 
-    GraphQLClient.mutate({
+    return GraphQLClient.mutate({
       mutation: mutations.UPDATE_MOVIE,
       variables: {
         id: parseInt(id),
@@ -130,6 +130,8 @@ const update = ({ id, title, direction, releaseDate, poster, formats }) => {
           movie,
           flashMessage: `'${title}' has been updated successfully.`,
         });
+
+        return movie;
       })
       .catch((error) => {
         if (error.graphQLErrors[0]?.extensions?.code === 404) {

@@ -18,6 +18,14 @@ import { DESKTOP_QUERY } from "Movie/constants";
 const SEARCH_MIN_LENGTH = 3;
 const SEARCH_DEBOUNCE_MS = 400;
 
+const areFormatsEqual = (a = [], b = []) => {
+  if (a.length !== b.length) {
+    return false;
+  }
+  const idsA = new Set(a.map((format) => String(format.id)));
+  return b.every((format) => idsA.has(String(format.id)));
+};
+
 export const Form = ({ onSubmit, initialValues, isUpdate }) => {
   const dispatch = useDispatch();
   const proposals = useSelector(selectProposalList);
@@ -30,16 +38,19 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
 
   const formats = useSelector(selectFormatList);
 
-  // Only enforced on creation: existing movies may already be missing
-  // a field, and disabling Update for them would block fixing anything
-  // else about the record until that unrelated field is backfilled.
   const isComplete =
     !!movie.poster &&
     !!(movie.title || "").trim() &&
     !!(movie.direction || "").trim() &&
     !!movie.releaseDate &&
     (movie.formats || []).length > 0;
-  const canSubmit = isUpdate || isComplete;
+
+  const hasChanged =
+    (movie.title || "") !== (initialValues?.title || "") ||
+    (movie.direction || "") !== (initialValues?.direction || "") ||
+    (movie.releaseDate || "") !== (initialValues?.releaseDate || "") ||
+    movie.poster !== initialValues?.poster ||
+    !areFormatsEqual(movie.formats || [], initialValues?.formats || []);
 
   useEffect(() => {
     if (formats.length === 0) {
@@ -48,7 +59,7 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
   });
 
   useEffect(() => {
-    if (!isDesktop) {
+    if (!isDesktop || isUpdate) {
       return undefined;
     }
 
@@ -79,7 +90,7 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
     }, SEARCH_DEBOUNCE_MS);
 
     return () => clearTimeout(timeoutId);
-  }, [isDesktop, movie.title, movie.direction, dispatch]);
+  }, [isDesktop, isUpdate, movie.title, movie.direction, dispatch]);
 
   return (
     <>
@@ -112,14 +123,14 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
                 name="title"
                 type="text"
                 placeholder=" "
-                required={!isUpdate}
+                required
                 value={movie.title || ""}
                 onChange={({ currentTarget: { value: title } }) =>
                   setMovie({ ...movie, title })
                 }
               />
               <label htmlFor="title">Title</label>
-              {!isDesktop && movie.title && (
+              {!isDesktop && !isUpdate && movie.title && (
                 <button
                   type="button"
                   className="movie-form__search"
@@ -135,7 +146,7 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
                 name="direction"
                 type="text"
                 placeholder=" "
-                required={!isUpdate}
+                required
                 value={movie.direction || ""}
                 onChange={({ currentTarget: { value: direction } }) =>
                   setMovie({ ...movie, direction })
@@ -149,7 +160,7 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
                 name="releaseDate"
                 type="date"
                 placeholder=" "
-                required={!isUpdate}
+                required
                 value={movie.releaseDate || ""}
                 onChange={({ currentTarget: { value: releaseDate } }) =>
                   setMovie({ ...movie, releaseDate })
@@ -168,20 +179,22 @@ export const Form = ({ onSubmit, initialValues, isUpdate }) => {
           <button
             type="submit"
             className="movie-form__submit"
-            disabled={!canSubmit}
+            disabled={!isComplete || !hasChanged}
           >
             {initialValues ? "Update" : "Create"}
           </button>
         </div>
       </form>
-      <SuggestionsPanel
-        proposals={proposals}
-        onSelect={(proposal) => {
-          skipNextSearchRef.current = true;
-          setMovie({ ...movie, ...proposal });
-          dispatch(resetProposalList());
-        }}
-      />
+      {!isUpdate && (
+        <SuggestionsPanel
+          proposals={proposals}
+          onSelect={(proposal) => {
+            skipNextSearchRef.current = true;
+            setMovie({ ...movie, ...proposal });
+            dispatch(resetProposalList());
+          }}
+        />
+      )}
     </>
   );
 };
