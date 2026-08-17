@@ -1,55 +1,34 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./MovieList.css";
 
 import { Movie } from "Movie/components/Movie";
 import { MovieDialog } from "Movie/components/MovieDialog";
+import { useVirtualizedGrid } from "Movie/useVirtualizedGrid";
 
 const assetsUrl = process.env.REACT_APP_API_URL;
-let timeoutID = null;
 
 export const MovieList = ({ movies }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const bottomBoundary = window.innerHeight;
-  const [moviesInViewport, setMoviesInViewport] = useState([]);
+  const {
+    gridRef,
+    mountRange,
+    visibleRange,
+    topSpacerHeight,
+    bottomSpacerHeight,
+  } = useVirtualizedGrid(movies.length);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const dialogRef = useRef();
 
-  const toggleImages = useCallback(() => {
-    clearTimeout(timeoutID);
-    timeoutID = setTimeout(() => {
-      setMoviesInViewport(
-        Array.from(document.querySelectorAll("[data-item-id]")).reduce(
-          (acc, element) => {
-            const { top, bottom } = element.getBoundingClientRect();
-            if (bottom > 0 && top < bottomBoundary) {
-              acc = [...acc, element.dataset.itemId];
-            }
-
-            return acc;
-          },
-          []
-        )
-      );
-    }, 250);
-  }, [setMoviesInViewport, bottomBoundary]);
-
   useEffect(() => {
-    toggleImages();
-    window.addEventListener("scroll", toggleImages);
-
     if (window.sessionStorage.getItem("scrollPos")) {
       window.scrollTo(0, parseInt(window.sessionStorage.getItem("scrollPos")));
       window.sessionStorage.removeItem("scrollPos");
     }
-
-    return () => {
-      window.removeEventListener("scroll", toggleImages);
-    };
-  }, [toggleImages]);
+  }, []);
 
   const selectMovie = async (movie) => {
     // Make sure the dialog's poster is already decoded before the
@@ -110,19 +89,36 @@ export const MovieList = ({ movies }) => {
 
   return (
     <>
-      <ul className="movie-list">
-        {movies.map((movie) => {
+      <ul className="movie-list" ref={gridRef}>
+        {topSpacerHeight > 0 && (
+          <li
+            className="movie-list__spacer"
+            aria-hidden="true"
+            style={{ "--spacer-height": `${topSpacerHeight}px` }}
+          />
+        )}
+        {movies.slice(mountRange.start, mountRange.end).map((movie, i) => {
+          const index = mountRange.start + i;
           return (
             <Movie
               key={movie.id}
               movie={movie}
-              showImage={moviesInViewport.includes(movie.id)}
+              showImage={
+                index >= visibleRange.start && index < visibleRange.end
+              }
               isActive={selectedMovie?.id === movie.id}
               isDialogOpen={isDialogOpen}
               onSelect={() => selectMovie(movie)}
             />
           );
         })}
+        {bottomSpacerHeight > 0 && (
+          <li
+            className="movie-list__spacer"
+            aria-hidden="true"
+            style={{ "--spacer-height": `${bottomSpacerHeight}px` }}
+          />
+        )}
       </ul>
       <MovieDialog
         dialogRef={dialogRef}
