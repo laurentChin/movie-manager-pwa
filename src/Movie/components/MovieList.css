@@ -11,6 +11,25 @@
   min-width: 0;
   content-visibility: auto;
   contain-intrinsic-size: auto 280px;
+  animation: movie-list__item-enter 0.25s ease both;
+}
+
+@keyframes movie-list__item-enter {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .movie-list__item {
+    animation: none;
+  }
+}
+
+.movie-list__spacer {
+  grid-column: 1 / -1;
+  height: var(--spacer-height, 0px);
+  list-style: none;
 }
 
 @media all and (min-width: 500px) {
